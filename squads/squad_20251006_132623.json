@@ -1,0 +1,211 @@
+{
+  "timestamp": "2025-10-06T13:26:23.677248",
+  "formation": "5-4-1",
+  "total_cost": 948,
+  "players": {
+    "GK": [
+      {
+        "name": "Vicario",
+        "cost": 5.1,
+        "predicted_points": 9.02,
+        "element_type": 1
+      },
+      {
+        "name": "Pope",
+        "cost": 5.0,
+        "predicted_points": 9.02,
+        "element_type": 1
+      }
+    ],
+    "DEF": [
+      {
+        "name": "Gu\u00e9hi",
+        "cost": 4.7,
+        "predicted_points": 43.01320974645964,
+        "element_type": 2
+      },
+      {
+        "name": "Senesi",
+        "cost": 4.8,
+        "predicted_points": 42.1181172078003,
+        "element_type": 2
+      },
+      {
+        "name": "Alderete",
+        "cost": 4.0,
+        "predicted_points": 39.965731893907844,
+        "element_type": 2
+      },
+      {
+        "name": "Rodon",
+        "cost": 4.0,
+        "predicted_points": 36.44364683481109,
+        "element_type": 2
+      },
+      {
+        "name": "Mitchell",
+        "cost": 5.0,
+        "predicted_points": 31.982339093288545,
+        "element_type": 2
+      }
+    ],
+    "MID": [
+      {
+        "name": "M.Salah",
+        "cost": 14.5,
+        "predicted_points": 29.48,
+        "element_type": 3
+      },
+      {
+        "name": "Anthony",
+        "cost": 5.6,
+        "predicted_points": 33.59848058000997,
+        "element_type": 3
+      },
+      {
+        "name": "Caicedo",
+        "cost": 5.6,
+        "predicted_points": 29.405497541382136,
+        "element_type": 3
+      },
+      {
+        "name": "Semenyo",
+        "cost": 7.7,
+        "predicted_points": 29.32926148613436,
+        "element_type": 3
+      },
+      {
+        "name": "Stach",
+        "cost": 5.0,
+        "predicted_points": 29.17069049121898,
+        "element_type": 3
+      }
+    ],
+    "FWD": [
+      {
+        "name": "Isidor",
+        "cost": 5.5,
+        "predicted_points": 23.23205921970738,
+        "element_type": 4
+      },
+      {
+        "name": "Isak",
+        "cost": 10.5,
+        "predicted_points": 21.08,
+        "element_type": 4
+      },
+      {
+        "name": "Jo\u00e3o Pedro",
+        "cost": 7.8,
+        "predicted_points": 22.450580537435066,
+        "element_type": 4
+      }
+    ]
+  },
+  "starting_xi": [
+    {
+      "name": "Vicario",
+      "cost": 5.1,
+      "predicted_points": 9.02,
+      "element_type": 1
+    },
+    {
+      "name": "Gu\u00e9hi",
+      "cost": 4.7,
+      "predicted_points": 43.01320974645964,
+      "element_type": 2
+    },
+    {
+      "name": "Senesi",
+      "cost": 4.8,
+      "predicted_points": 42.1181172078003,
+      "element_type": 2
+    },
+    {
+      "name": "Alderete",
+      "cost": 4.0,
+      "predicted_points": 39.965731893907844,
+      "element_type": 2
+    },
+    {
+      "name": "Rodon",
+      "cost": 4.0,
+      "predicted_points": 36.44364683481109,
+      "element_type": 2
+    },
+    {
+      "name": "Mitchell",
+      "cost": 5.0,
+      "predicted_points": 31.982339093288545,
+      "element_type": 2
+    },
+    {
+      "name": "M.Salah",
+      "cost": 14.5,
+      "predicted_points": 29.48,
+      "element_type": 3
+    },
+    {
+      "name": "Anthony",
+      "cost": 5.6,
+      "predicted_points": 33.59848058000997,
+      "element_type": 3
+    },
+    {
+      "name": "Caicedo",
+      "cost": 5.6,
+      "predicted_points": 29.405497541382136,
+      "element_type": 3
+    },
+    {
+      "name": "Semenyo",
+      "cost": 7.7,
+      "predicted_points": 29.32926148613436,
+      "element_type": 3
+    },
+    {
+      "name": "Isidor",
+      "cost": 5.5,
+      "predicted_points": 23.23205921970738,
+      "element_type": 4
+    }
+  ],
+  "bench": [
+    {
+      "name": "Pope",
+      "cost": 5.0,
+      "predicted_points": 9.02,
+      "element_type": 1
+    },
+    {
+      "name": "Stach",
+      "cost": 5.0,
+      "predicted_points": 29.17069049121898,
+      "element_type": 3
+    },
+    {
+      "name": "Isak",
+      "cost": 10.5,
+      "predicted_points": 21.08,
+      "element_type": 4
+    },
+    {
+      "name": "Jo\u00e3o Pedro",
+      "cost": 7.8,
+      "predicted_points": 22.450580537435066,
+      "element_type": 4
+    }
+  ],
+  "captain": {
+    "name": "Gu\u00e9hi",
+    "cost": 4.7,
+    "predicted_points": 43.01320974645964,
+    "element_type": 2
+  },
+  "vice_captain": {
+    "name": "Senesi",
+    "cost": 4.8,
+    "predicted_points": 42.1181172078003,
+    "element_type": 2
+  }
+}
