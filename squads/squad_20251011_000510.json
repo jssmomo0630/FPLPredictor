@@ -1,0 +1,211 @@
+{
+  "timestamp": "2025-10-11T00:05:10.876546",
+  "formation": "3-4-3",
+  "total_cost": 886,
+  "players": {
+    "GK": [
+      {
+        "name": "Lammens",
+        "cost": 5.0,
+        "predicted_points": 8.15,
+        "element_type": 1
+      },
+      {
+        "name": "Roefs",
+        "cost": 4.6,
+        "predicted_points": 5.999999999999996,
+        "element_type": 1
+      }
+    ],
+    "DEF": [
+      {
+        "name": "Ballard",
+        "cost": 4.6,
+        "predicted_points": 8.98,
+        "element_type": 2
+      },
+      {
+        "name": "J.Timber",
+        "cost": 5.9,
+        "predicted_points": 8.0,
+        "element_type": 2
+      },
+      {
+        "name": "Maguire",
+        "cost": 4.4,
+        "predicted_points": 8.0,
+        "element_type": 2
+      },
+      {
+        "name": "Lewis",
+        "cost": 5.0,
+        "predicted_points": 7.009999999999998,
+        "element_type": 2
+      },
+      {
+        "name": "Senesi",
+        "cost": 5.0,
+        "predicted_points": 6.000000000000021,
+        "element_type": 2
+      }
+    ],
+    "MID": [
+      {
+        "name": "Chiesa",
+        "cost": 6.4,
+        "predicted_points": 13.11,
+        "element_type": 3
+      },
+      {
+        "name": "Semenyo",
+        "cost": 7.9,
+        "predicted_points": 11.13,
+        "element_type": 3
+      },
+      {
+        "name": "Onyeka",
+        "cost": 4.9,
+        "predicted_points": 10.91,
+        "element_type": 3
+      },
+      {
+        "name": "Carvalho",
+        "cost": 4.9,
+        "predicted_points": 10.86,
+        "element_type": 3
+      },
+      {
+        "name": "Ngumoha",
+        "cost": 4.5,
+        "predicted_points": 9.12,
+        "element_type": 3
+      }
+    ],
+    "FWD": [
+      {
+        "name": "Ekitik\u00e9",
+        "cost": 8.7,
+        "predicted_points": 19.83,
+        "element_type": 4
+      },
+      {
+        "name": "Jo\u00e3o Pedro",
+        "cost": 7.7,
+        "predicted_points": 20.09,
+        "element_type": 4
+      },
+      {
+        "name": "Gy\u00f6keres",
+        "cost": 9.1,
+        "predicted_points": 18.37,
+        "element_type": 4
+      }
+    ]
+  },
+  "starting_xi": [
+    {
+      "name": "Lammens",
+      "cost": 5.0,
+      "predicted_points": 8.15,
+      "element_type": 1
+    },
+    {
+      "name": "Ballard",
+      "cost": 4.6,
+      "predicted_points": 8.98,
+      "element_type": 2
+    },
+    {
+      "name": "J.Timber",
+      "cost": 5.9,
+      "predicted_points": 8.0,
+      "element_type": 2
+    },
+    {
+      "name": "Maguire",
+      "cost": 4.4,
+      "predicted_points": 8.0,
+      "element_type": 2
+    },
+    {
+      "name": "Chiesa",
+      "cost": 6.4,
+      "predicted_points": 13.11,
+      "element_type": 3
+    },
+    {
+      "name": "Semenyo",
+      "cost": 7.9,
+      "predicted_points": 11.13,
+      "element_type": 3
+    },
+    {
+      "name": "Onyeka",
+      "cost": 4.9,
+      "predicted_points": 10.91,
+      "element_type": 3
+    },
+    {
+      "name": "Carvalho",
+      "cost": 4.9,
+      "predicted_points": 10.86,
+      "element_type": 3
+    },
+    {
+      "name": "Ekitik\u00e9",
+      "cost": 8.7,
+      "predicted_points": 19.83,
+      "element_type": 4
+    },
+    {
+      "name": "Jo\u00e3o Pedro",
+      "cost": 7.7,
+      "predicted_points": 20.09,
+      "element_type": 4
+    },
+    {
+      "name": "Gy\u00f6keres",
+      "cost": 9.1,
+      "predicted_points": 18.37,
+      "element_type": 4
+    }
+  ],
+  "bench": [
+    {
+      "name": "Roefs",
+      "cost": 4.6,
+      "predicted_points": 5.999999999999996,
+      "element_type": 1
+    },
+    {
+      "name": "Lewis",
+      "cost": 5.0,
+      "predicted_points": 7.009999999999998,
+      "element_type": 2
+    },
+    {
+      "name": "Senesi",
+      "cost": 5.0,
+      "predicted_points": 6.000000000000021,
+      "element_type": 2
+    },
+    {
+      "name": "Ngumoha",
+      "cost": 4.5,
+      "predicted_points": 9.12,
+      "element_type": 3
+    }
+  ],
+  "captain": {
+    "name": "Jo\u00e3o Pedro",
+    "cost": 7.7,
+    "predicted_points": 20.09,
+    "element_type": 4
+  },
+  "vice_captain": {
+    "name": "Ekitik\u00e9",
+    "cost": 8.7,
+    "predicted_points": 19.83,
+    "element_type": 4
+  }
+}

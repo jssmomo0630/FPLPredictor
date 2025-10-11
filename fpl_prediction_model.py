@@ -424,6 +424,18 @@ class FPLPredictionModel:
                     agg_home_away['home_points_avg'] = (home_points_sum / home_matches.replace(0, np.nan)).reindex(all_elements).fillna(0)
                     agg_home_away['away_points_avg'] = (away_points_sum / away_matches.replace(0, np.nan)).reindex(all_elements).fillna(0)
                     agg_home_away['clean_sheet_rate_from_gw'] = clean_sheet_rate.reindex(all_elements).fillna(0)
+
+                    # Recent form features (last 3 and 5 gameweeks) and recent minutes
+                    if 'gameweek' in gw_df.columns and 'total_points' in gw_df.columns:
+                        gw_sorted = gw_df.sort_values(['element', 'gameweek'])
+                        form_3 = gw_sorted.groupby('element')['total_points'].rolling(3, min_periods=1).mean().reset_index(level=0, drop=True)
+                        form_5 = gw_sorted.groupby('element')['total_points'].rolling(5, min_periods=1).mean().reset_index(level=0, drop=True)
+                        mins_5 = gw_sorted.groupby('element')['minutes'].rolling(5, min_periods=1).sum().reset_index(level=0, drop=True) if 'minutes' in gw_sorted.columns else pd.Series(0, index=gw_sorted.index)
+                        gw_sorted = gw_sorted.assign(form_3gw_calc=form_3, form_5gw_calc=form_5, minutes_5gw_calc=mins_5)
+                        last_rows = gw_sorted.groupby('element').tail(1)[['element', 'form_3gw_calc', 'form_5gw_calc', 'minutes_5gw_calc', 'gameweek']]
+                        last_rows = last_rows.set_index('element')
+                        # Attach rolling features to aggregates so we can merge once later
+                        agg_home_away = agg_home_away.join(last_rows, how='left')
         except Exception as e:
             print(f"[WARN] Unable to build home/away aggregates: {e}")
         
@@ -503,9 +515,17 @@ class FPLPredictionModel:
                 0
             )
             
-            # Add form features (use current stats as form)
-            position_data['form_3gw'] = position_data['total_points']
-            position_data['form_5gw'] = position_data['total_points']
+            # Add true recent form features if available from current season GW data
+            if 'form_3gw_calc' in position_data.columns:
+                position_data['form_3gw'] = position_data['form_3gw_calc']
+            else:
+                position_data['form_3gw'] = position_data.get('total_points', 0)
+            if 'form_5gw_calc' in position_data.columns:
+                position_data['form_5gw'] = position_data['form_5gw_calc']
+            else:
+                position_data['form_5gw'] = position_data.get('total_points', 0)
+            # Drop intermediate columns if present
+            position_data.drop(columns=[c for c in ['form_3gw_calc', 'form_5gw_calc'] if c in position_data.columns], inplace=True, errors='ignore')
             
             # Add team performance features (simplified)
             position_data['team_goals_scored'] = position_data['goals_scored']
@@ -548,30 +568,8 @@ class FPLPredictionModel:
             # Make predictions
             y_pred = self.models[position].predict(X_pred_scaled)
             
-            # Special handling for new players with limited historical data
-            for i, (idx, player) in enumerate(position_data.iterrows()):
-                player_cost = player['now_cost'] / 10
-                total_points = player['total_points']
-                predicted_points = y_pred[i]
-                
-                # If expensive player (GBP10m+) has very low total_points, they might be new
-                if player_cost >= 10.0 and total_points < 50:
-                    # Boost prediction based on cost and form
-                    form_bonus = player.get('form', 0) * 0.1  # 10% of form
-                    cost_bonus = player_cost * 2  # GBP1m = 2 points baseline
-                    boosted_prediction = max(predicted_points, cost_bonus + form_bonus)
-                    
-                    print(f"      Boosted {player['web_name']}: {predicted_points:.1f} -> {boosted_prediction:.1f} pts (new player)")
-                    y_pred[i] = boosted_prediction
-                
-                # Special handling for players with good performance but low form
-                elif player_cost >= 10.0 and total_points >= 150 and player.get('form', 0) < 5.0:
-                    # High-performing expensive player with low form - likely a premium player
-                    performance_bonus = total_points * 0.8  # Use 80% of their actual performance
-                    boosted_prediction = max(predicted_points, performance_bonus)
-                    
-                    print(f"      Boosted {player['web_name']}: {predicted_points:.1f} -> {boosted_prediction:.1f} pts (premium player)")
-                    y_pred[i] = boosted_prediction
+            # Remove cost-based boosting; rely on model features and recent form
+            # Optionally, future work: blend with historical baseline if recent minutes are extremely low
             
             # Create prediction dataframe (include team information)
             pred_df = position_data[['name', 'element_type', 'now_cost', 'team']].copy()
