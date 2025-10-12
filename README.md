@@ -2,6 +2,20 @@
 
 A comprehensive linear regression prediction model for Fantasy Premier League using historical performance data and advanced statistics.
 
+## Quick Start (Updated Scripts)
+
+- Historical data (vaastav):
+  - `python download_history_data.py --seasons 2020-21 2021-22 2022-23 2023-24 2024-25`
+  - Optional: `--per-gw` to fetch gw1.csv..gw38.csv; `--clean` to remove existing folders first
+- Current season (FPL API):
+  - `python download_current_season.py` (defaults to 2025-26)
+  - Optional: `--season 2025-26 --max-gw 10`
+- Run model and get squad: `python use_fpl_model.py`
+
+Outputs:
+- Current season merged file: `data/<season>/merged_gw_enhanced.csv`
+- Squad JSON: `squads/squad_<timestamp>.json`
+
 ## 🎯 Overview
 
 This project provides a data-driven approach to FPL player selection by:
@@ -65,6 +79,36 @@ pip install -r requirements.txt
 - **Understat**: Advanced statistics and xG data
 - **FBRef**: Comprehensive football statistics
 - **WhoScored**: Detailed player performance metrics
+
+## Usage
+
+### Step 1: Collect Data
+Option A — Historical data (vaastav):
+```bash
+python download_history_data.py --seasons 2020-21 2021-22 2022-23 2023-24 2024-25
+# Optional: also fetch per‑GW files
+python download_history_data.py --per-gw
+# Optional: clean existing season folders first
+python download_history_data.py --clean
+```
+
+Option B — Current season (FPL API):
+```bash
+python download_current_season.py            # defaults to season 2025-26
+# Or specify season / GW cap
+python download_current_season.py --season 2025-26 --max-gw 10
+```
+
+### Step 2: Run Prediction Model
+```bash
+python use_fpl_model.py
+```
+
+This will:
+- Load historical data and the latest current-season data
+- Train position-specific models
+- Generate predictions and select an optimal squad
+- Save the squad JSON under `squads/`
 
 ## 🚀 Usage
 
@@ -137,16 +181,15 @@ The system trains multiple models and selects the best performing one:
 ## 📁 Output Files
 
 ### **Data Files**
-- `data/elements.csv`: Current season player data
-- `data/players_enhanced.csv`: Enhanced player features
-- `data/bootstrap_static.json`: Raw API data
-- `data/collection_report.json`: Data collection summary
+- `data/<season>/players_raw.csv`: Current season player data from bootstrap
+- `data/<season>/events.csv`, `teams.csv`, `element_types.csv`: Bootstrap components
+- `data/<season>/gws/gwN.csv`: Flattened per‑GW stats (current season)
+- `data/<season>/merged_gw_enhanced.csv`: Merged current-season GW stats for modeling
+- `data/bootstrap_static.json`: Raw API data (top-level; optional)
+- `data/download_summary.json`: Historical download summary (optional)
 
 ### **Prediction Files**
-- `fpl_predictions.csv`: Player predictions for current season
-- `feature_importance.png`: Feature importance visualization
-- `actual_vs_predicted.png`: Model performance plot
-- `residuals.png`: Residuals analysis
+- `squads/squad_<timestamp>.json`: Optimal squad + captain/vice
 
 ## 🎯 Key Insights
 
