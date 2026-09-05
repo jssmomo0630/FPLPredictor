@@ -1,0 +1,51 @@
+name: FPL status POC
+
+on:
+  workflow_dispatch:
+    inputs:
+      entry_id:
+        description: Public FPL entry ID to inspect
+        required: false
+        default: "5440748"
+  push:
+    branches:
+      - codex/github-actions-poc
+    paths:
+      - .github/workflows/fpl-status-poc.yml
+      - check_fpl_status.py
+      - test_fpl_status.py
+
+permissions:
+  contents: read
+
+jobs:
+  status:
+    name: Read-only FPL status check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run deterministic tests
+        run: python -m unittest test_fpl_status.py
+
+      - name: Query public FPL data
+        env:
+          FPL_ENTRY_ID: ${{ inputs.entry_id || '5440748' }}
+          FPL_TIMEZONE: America/Los_Angeles
+        run: python check_fpl_status.py
+
+      - name: Upload status report
+        uses: actions/upload-artifact@v4
+        with:
+          name: fpl-status-report
+          path: artifacts/fpl_status.json
+          if-no-files-found: error
+          retention-days: 7
