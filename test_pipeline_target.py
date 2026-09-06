@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from run_fpl_pipeline import _target_gameweek_from_status
+from run_fpl_pipeline import _free_transfers_from_status, _target_gameweek_from_status
 
 
 class PipelineTargetTests(unittest.TestCase):
@@ -18,6 +18,14 @@ class PipelineTargetTests(unittest.TestCase):
             path = Path(directory) / "squad.json"
             path.write_text(json.dumps({"picks": []}), encoding="utf-8")
             self.assertIsNone(_target_gameweek_from_status(str(path)))
+
+    def test_reads_inferred_free_transfers_from_status(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "status.json"
+            path.write_text(json.dumps({
+                "squad": {"financial": {"free_transfers": 2}}
+            }), encoding="utf-8")
+            self.assertEqual(_free_transfers_from_status(str(path)), 2)
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 import unittest
 from datetime import datetime, timedelta, timezone
 
-from check_fpl_status import build_status
+from check_fpl_status import build_status, infer_free_transfers
 
 
 NOW = datetime(2026, 9, 5, 12, 0, tzinfo=timezone.utc)
@@ -75,6 +75,28 @@ class FplStatusTests(unittest.TestCase):
         self.assertEqual(report["squad"]["financial"]["bank_units"], 7)
         self.assertEqual(report["squad"]["financial"]["bank_millions"], 0.7)
         self.assertIsNone(report["squad"]["financial"]["free_transfers"])
+
+    def test_infers_rolled_free_transfers_from_public_history(self):
+        history = {
+            "current": [
+                {"event": 1, "event_transfers": 0},
+                {"event": 2, "event_transfers": 1},
+                {"event": 3, "event_transfers": 0},
+            ],
+            "chips": [],
+        }
+        self.assertEqual(infer_free_transfers(history), 2)
+
+    def test_wildcard_preserves_the_existing_balance(self):
+        history = {
+            "current": [
+                {"event": 1, "event_transfers": 0},
+                {"event": 2, "event_transfers": 0},
+                {"event": 3, "event_transfers": 8},
+            ],
+            "chips": [{"event": 3, "name": "wildcard"}],
+        }
+        self.assertEqual(infer_free_transfers(history), 2)
 
     def test_twenty_four_hour_window_uses_same_deduplicated_trigger(self):
         report = self.report(20, flagged=False)

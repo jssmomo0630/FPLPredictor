@@ -55,7 +55,7 @@ The public status JSON can drive a multi-gameweek transfer and lineup advisory:
 
 ```bash
 python run_fpl_pipeline.py --refresh --experimental-transfers \
-  --current-squad artifacts/fpl_status.json --free-transfers 1
+  --current-squad artifacts/fpl_status.json
 python build_fpl_advice.py
 python summarize_fpl_advice.py
 python send_fpl_email.py --advice artifacts/fpl_advice.json \
@@ -64,9 +64,11 @@ python send_fpl_email.py --advice artifacts/fpl_advice.json \
 
 The upcoming deadline gameweek is inferred from the status JSON, rather than
 assuming that the next target is immediately after the latest finalized week.
-The locked public bank is used automatically. Because the public API does not
-expose the live free-transfer count or true selling prices, both assumptions
-are recorded prominently in the output and email.
+The locked public bank is used automatically. The free-transfer balance is
+reconstructed from the entry's public transfer and chip history, including
+rollovers up to five; `--free-transfers` remains an explicit override. True
+selling prices and pending transfers remain unavailable without authentication,
+and those assumptions are recorded prominently in the output and email.
 
 `summarize_fpl_advice.py` always writes a deterministic fallback. If
 `GEMINI_API_KEY` is present it asks `gemini-3.5-flash-lite` to turn only the
@@ -89,9 +91,9 @@ email is sent for the first recommendation for a gameweek, when an owned
 player's availability changes, or when the newly calculated transfers, XI,
 captaincy, bench order, or chip advice differs. Gemini is only called for an
 email that will be delivered; unchanged reruns use deterministic output and do
-not send anything. Set the optional repository variables `FPL_ENTRY_ID` and
-`FPL_FREE_TRANSFERS`; defaults are `5440748` and `1`. Because FPL does not
-publish the free-transfer balance, update `FPL_FREE_TRANSFERS` when necessary.
+not send anything. Set the optional repository variable `FPL_ENTRY_ID`; it
+defaults to `5440748`. Scheduled runs infer free transfers automatically from
+the public entry history.
 
 GitHub runs scheduled workflows only from the repository's default branch, so
 the monitor does not become active merely by existing on a feature branch.

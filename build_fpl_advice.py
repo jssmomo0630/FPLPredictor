@@ -78,6 +78,24 @@ def build_advice(
         headline = "Roll the transfer; keep the published squad"
 
     bank_units = status.get("squad", {}).get("financial", {}).get("bank_units")
+    financial = status.get("squad", {}).get("financial", {})
+    inferred_free_transfers = financial.get("free_transfers")
+    planned_free_transfers = int(plan.get("initial_free_transfers", 1))
+    if inferred_free_transfers is not None and planned_free_transfers == int(inferred_free_transfers):
+        free_transfer_warning = (
+            f"The {planned_free_transfers} free transfers were inferred from public history at "
+            "the previous deadline. Transfers made after that deadline are not publicly visible."
+        )
+    elif inferred_free_transfers is not None:
+        free_transfer_warning = (
+            f"The planner used an override of {planned_free_transfers}; public history inferred "
+            f"{int(inferred_free_transfers)} before any pending transfers."
+        )
+    else:
+        free_transfer_warning = (
+            f"The planner assumed {planned_free_transfers} free transfers because no public-history "
+            "estimate was available."
+        )
     source_event = status.get("squad", {}).get("source_event_id")
     deterministic_summary = (
         f"{headline}. Start {', '.join(row['player_name'] for row in starters)}. "
@@ -119,7 +137,9 @@ def build_advice(
         },
         "deterministic_summary": deterministic_summary,
         "assumptions": {
-            "free_transfers_assumed": int(plan.get("initial_free_transfers", 1)),
+            "free_transfers_assumed": planned_free_transfers,
+            "free_transfers_status_estimate": inferred_free_transfers,
+            "free_transfers_source": financial.get("free_transfers_source"),
             "bank_from_locked_squad_millions": bank_units / 10 if isinstance(bank_units, (int, float)) else None,
             "selling_price_source": plan.get("selling_price_source"),
             "selling_price_warning": plan.get("selling_price_warning"),
@@ -127,10 +147,7 @@ def build_advice(
                 f"Based on the public squad locked at the GW{source_event} deadline; "
                 "transfers made afterward are not visible without authentication."
             ),
-            "free_transfer_warning": (
-                "The public API does not expose the current free-transfer balance. "
-                "Re-run with the actual value if it is not the stated assumption."
-            ),
+            "free_transfer_warning": free_transfer_warning,
             "forecast_warning": plan.get("forecast_note"),
             "opponent_conflict_method": (
                 "Each starting MID/FWD versus an opposing starting GK/DEF receives a "
@@ -167,7 +184,7 @@ def main() -> None:
         "target_gameweek": advice["target_gameweek"],
         "headline": advice["recommendation"]["headline"],
         "advisory_only": advice["advisory_only"],
-    }, indent=2, ensure_ascii=False))
+    }, indent=2))
 
 
 if __name__ == "__main__":

@@ -18,16 +18,17 @@ on:
         type: boolean
         default: false
       free_transfers:
-        description: Available free transfers (public API cannot determine this)
+        description: Optional manual override; scheduled runs infer the balance
         required: false
         type: choice
         options:
+          - "auto"
           - "1"
           - "2"
           - "3"
           - "4"
           - "5"
-        default: "1"
+        default: "auto"
       use_gemini:
         description: Use Gemini for commentary when GEMINI_API_KEY exists
         required: false
@@ -90,7 +91,6 @@ jobs:
     env:
       FPL_ENTRY_ID: ${{ inputs.entry_id || vars.FPL_ENTRY_ID || '5440748' }}
       FPL_TIMEZONE: America/Los_Angeles
-      FPL_FREE_TRANSFERS: ${{ inputs.free_transfers || vars.FPL_FREE_TRANSFERS || '1' }}
 
     steps:
       - name: Check out repository
@@ -149,10 +149,16 @@ jobs:
           (github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true')
         env:
           LOKY_MAX_CPU_COUNT: "2"
-        run: >-
-          python run_fpl_pipeline.py --refresh --experimental-transfers
-          --current-squad artifacts/fpl_status.json
-          --free-transfers "$FPL_FREE_TRANSFERS"
+        run: |
+          args=(
+            --refresh
+            --experimental-transfers
+            --current-squad artifacts/fpl_status.json
+          )
+          if [[ "${{ inputs.free_transfers || 'auto' }}" != "auto" ]]; then
+            args+=(--free-transfers "${{ inputs.free_transfers }}")
+          fi
+          python run_fpl_pipeline.py "${args[@]}"
 
       - name: Build deterministic advice
         if: >-

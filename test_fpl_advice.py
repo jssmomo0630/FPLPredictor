@@ -10,7 +10,11 @@ def sample_inputs():
         "read_only": True,
         "entry_id": 123,
         "gameweek": {"next": {"id": 4}, "deadline_time_local": "2026-09-12T05:30:00-07:00", "hours_to_deadline": 20},
-        "squad": {"source_event_id": 3, "financial": {"bank_units": 7}},
+        "squad": {"source_event_id": 3, "financial": {
+            "bank_units": 7,
+            "free_transfers": 1,
+            "free_transfers_source": "inferred_from_public_transfer_and_chip_history",
+        }},
     }
     plan = {
         "initial_free_transfers": 1,
@@ -60,6 +64,7 @@ class AdviceTests(unittest.TestCase):
         self.assertEqual(advice["recommendation"]["headline"], "Make 1 transfer(s): Old → New")
         self.assertEqual(advice["assumptions"]["bank_from_locked_squad_millions"], 0.7)
         self.assertEqual(advice["assumptions"]["free_transfers_assumed"], 1)
+        self.assertIn("inferred from public history", advice["assumptions"]["free_transfer_warning"])
         self.assertEqual(len(advice["recommendation"]["starting_xi"]), 11)
         self.assertEqual(advice["recommendation"]["opponent_conflict_penalty_points"], 0.15)
 

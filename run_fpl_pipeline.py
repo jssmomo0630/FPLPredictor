@@ -44,6 +44,17 @@ def _target_gameweek_from_status(path: str | None) -> int | None:
     return None
 
 
+def _free_transfers_from_status(path: str | None) -> int | None:
+    if not path or Path(path).suffix.lower() != ".json":
+        return None
+    try:
+        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+        value = payload.get("squad", {}).get("financial", {}).get("free_transfers")
+        return int(value) if value is not None else None
+    except (OSError, json.JSONDecodeError, TypeError, ValueError):
+        return None
+
+
 def _ensure_historical_data(
     root: Path,
     data: Path,
@@ -86,7 +97,10 @@ def main() -> None:
         help="Generate the not-yet-enabled multi-GW transfer advisory",
     )
     parser.add_argument("--current-squad", help="Current 15-player CSV or entry-snapshot JSON")
-    parser.add_argument("--free-transfers", type=int, default=1)
+    parser.add_argument(
+        "--free-transfers", type=int,
+        help="Override available free transfers; otherwise infer them from a status JSON",
+    )
     parser.add_argument("--bank", type=float, help="Current bank in millions")
     parser.add_argument(
         "--target-gameweek", type=int,
@@ -154,9 +168,14 @@ def main() -> None:
             root, "build_transfer_forecasts.py", "--predictions", predictions,
             "--season", args.season, "--start-gameweek", str(target_gameweek),
         )
+        free_transfers = (
+            args.free_transfers
+            if args.free_transfers is not None
+            else (_free_transfers_from_status(args.current_squad) or 1)
+        )
         transfer_args = [
             "plan_transfers.py", "--current-squad", args.current_squad,
-            "--free-transfers", str(args.free_transfers),
+            "--free-transfers", str(free_transfers),
             "--season", args.season,
         ]
         if args.bank is not None:

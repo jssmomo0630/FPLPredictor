@@ -85,6 +85,33 @@ def availability_state(player: dict[str, Any]) -> str:
     return "available"
 
 
+def infer_free_transfers(history_payload: dict[str, Any] | None) -> int | None:
+    """Infer the next-GW balance from public transfer and chip history."""
+    rows = sorted(
+        (history_payload or {}).get("current", []),
+        key=lambda row: int(row.get("event", 0)),
+    )
+    if not rows:
+        return None
+    chip_events = {
+        int(chip["event"])
+        for chip in (history_payload or {}).get("chips", [])
+        if chip.get("event") is not None and chip.get("name") in {"wildcard", "freehit"}
+    }
+    # The initial squad is unlimited. One FT becomes available after its first
+    # deadline. Each later normal GW consumes actual transfers, then adds one.
+    balance = 1
+    for row in rows[1:]:
+        event = int(row.get("event", 0))
+        if event in chip_events:
+            # The chip uses that GW's newly granted transfer while previously
+            # banked transfers survive, leaving the same balance next GW.
+            continue
+        transfers = max(0, int(row.get("event_transfers") or 0))
+        balance = min(5, max(0, balance - transfers) + 1)
+    return balance
+
+
 def _decision(hours_to_deadline: float | None, flagged_count: int, next_event_id: int | None) -> dict[str, Any]:
     if hours_to_deadline is None or next_event_id is None:
         return {
@@ -163,6 +190,7 @@ def build_status(
     bank_units = locked_history.get("bank")
     value_units = locked_history.get("value")
     used_chips = (history_payload or {}).get("chips", [])
+    inferred_free_transfers = infer_free_transfers(history_payload)
 
     return {
         "schema_version": 1,
@@ -191,7 +219,11 @@ def build_status(
                 "bank_millions": bank_units / 10 if isinstance(bank_units, (int, float)) else None,
                 "team_value_units": value_units,
                 "team_value_millions": value_units / 10 if isinstance(value_units, (int, float)) else None,
-                "free_transfers": None,
+                "free_transfers": inferred_free_transfers,
+                "free_transfers_source": (
+                    "inferred_from_public_transfer_and_chip_history"
+                    if inferred_free_transfers is not None else "unavailable"
+                ),
             },
             "active_chip_at_source_event": (picks_payload or {}).get("active_chip"),
             "used_chips": used_chips,
