@@ -1,4 +1,5 @@
 name: FPL status POC
+# One-time Gmail delivery retry after repository secret correction.
 
 on:
   workflow_dispatch:
