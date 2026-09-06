@@ -66,24 +66,24 @@ class FplStatusTests(unittest.TestCase):
             bootstrap(deadline_hours, flagged), PICKS, 123, 2, NOW, "America/Los_Angeles"
         )
 
-    def test_six_hour_window_runs_recommendation(self):
+    def test_inside_48_hour_window_runs_recommendation(self):
         report = self.report(5)
         self.assertTrue(report["read_only"])
         self.assertEqual(report["decision"]["action"], "run_recommendation")
-        self.assertEqual(report["decision"]["trigger_key"], "gw3:deadline_6h")
+        self.assertEqual(report["decision"]["trigger_key"], "gw3:deadline_48h")
         self.assertEqual(report["squad"]["availability_counts"]["doubtful"], 1)
         self.assertEqual(report["squad"]["financial"]["bank_units"], 7)
         self.assertEqual(report["squad"]["financial"]["bank_millions"], 0.7)
         self.assertIsNone(report["squad"]["financial"]["free_transfers"])
 
-    def test_twenty_four_hour_window_runs_preview(self):
+    def test_twenty_four_hour_window_uses_same_deduplicated_trigger(self):
         report = self.report(20, flagged=False)
-        self.assertEqual(report["decision"]["trigger_key"], "gw3:deadline_24h")
+        self.assertEqual(report["decision"]["trigger_key"], "gw3:deadline_48h")
         self.assertEqual(report["gameweek"]["deadline_time_local"], "2026-09-06T01:00:00-07:00")
 
     def test_far_deadline_reports_availability_only_when_flagged(self):
-        self.assertEqual(self.report(48, flagged=True)["decision"]["action"], "send_status_update")
-        self.assertEqual(self.report(48, flagged=False)["decision"]["action"], "no_action")
+        self.assertEqual(self.report(49, flagged=True)["decision"]["action"], "send_status_update")
+        self.assertEqual(self.report(49, flagged=False)["decision"]["action"], "no_action")
 
     def test_no_future_deadline_marks_season_complete(self):
         report = self.report(None)

@@ -36,18 +36,18 @@ python check_fpl_status.py --entry-id 1234567 --timezone America/Los_Angeles
 Alternatively, set `FPL_ENTRY_ID` and optionally `FPL_TIMEZONE`. The command
 writes `artifacts/fpl_status.json` and returns one of these advisory decisions:
 
-- `run_recommendation` inside the 24-hour and 6-hour deadline windows
-- `send_status_update` when a squad player is flagged outside those windows
+- `run_recommendation` inside the 48-hour deadline window
+- `send_status_update` when a squad player is flagged outside that window
 - `no_action` during normal monitoring
 - `season_complete` when no future gameweek remains
 
 This monitor is intentionally read-only. It does not authenticate with FPL and
 does not submit transfers, activate chips, change the captain, or alter the
 lineup. The public picks endpoint exposes the squad only after a gameweek's
-deadline, so pending private changes, current bank, exact selling prices, and
-the live free-transfer balance must come from a separate authenticated input
-before a recommendation can account for them. Later automation stages will
-email suggestions for the manager to review and apply manually.
+deadline, so pending private changes, exact selling prices, and the live
+free-transfer balance are unavailable. The locked bank at the published event
+is available and is used automatically. Email suggestions remain advisory for
+the manager to review and apply manually.
 
 ### Advisory pipeline and email
 
@@ -74,6 +74,27 @@ structured recommendation facts into concise commentary; an API failure never
 blocks the deterministic email. SMTP delivery occurs only with an explicit
 `--send` flag and the `SMTP_USERNAME`, `SMTP_APP_PASSWORD`, and `EMAIL_TO`
 secrets. All recommendations remain advisory and must be applied manually.
+
+### Scheduled monitoring and deduplication
+
+The GitHub Actions workflow polls the lightweight public status endpoint at
+minute 17 of every hour. It enters the recommendation window at 48 hours before
+the next deadline, then runs the full pipeline at most every six hours. An
+owned player's availability change bypasses the six-hour wait. The full rerun
+also catches a returning non-owned player because every selectable candidate is
+reconsidered with fresh availability data.
+
+Scheduled email is deduplicated using a small GitHub Actions cache record. An
+email is sent for the first recommendation for a gameweek, when an owned
+player's availability changes, or when the newly calculated transfers, XI,
+captaincy, bench order, or chip advice differs. Gemini is only called for an
+email that will be delivered; unchanged reruns use deterministic output and do
+not send anything. Set the optional repository variables `FPL_ENTRY_ID` and
+`FPL_FREE_TRANSFERS`; defaults are `5440748` and `1`. Because FPL does not
+publish the free-transfer balance, update `FPL_FREE_TRANSFERS` when necessary.
+
+GitHub runs scheduled workflows only from the repository's default branch, so
+the monitor does not become active merely by existing on a feature branch.
 
 Outputs:
 - Current season merged file: `data/<season>/merged_gw_enhanced.csv`

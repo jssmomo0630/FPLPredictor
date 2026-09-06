@@ -93,21 +93,13 @@ def _decision(hours_to_deadline: float | None, flagged_count: int, next_event_id
             "trigger_key": None,
             "reason": "No future gameweek deadline is published.",
         }
-    if hours_to_deadline <= 6:
-        window = "deadline_6h"
+    if hours_to_deadline <= 48:
+        window = "deadline_48h"
         return {
             "action": "run_recommendation",
             "window": window,
             "trigger_key": f"gw{next_event_id}:{window}",
-            "reason": "The next deadline is within 6 hours.",
-        }
-    if hours_to_deadline <= 24:
-        window = "deadline_24h"
-        return {
-            "action": "run_recommendation",
-            "window": window,
-            "trigger_key": f"gw{next_event_id}:{window}",
-            "reason": "The next deadline is within 24 hours.",
+            "reason": "The next deadline is within 48 hours.",
         }
     if flagged_count:
         return {
@@ -120,7 +112,7 @@ def _decision(hours_to_deadline: float | None, flagged_count: int, next_event_id
         "action": "no_action",
         "window": "monitoring",
         "trigger_key": None,
-        "reason": "The deadline is more than 24 hours away and no squad player is flagged.",
+        "reason": "The deadline is more than 48 hours away and no squad player is flagged.",
     }
 
 
