@@ -1,1 +1,12 @@
 __pycache__/
+
+# Rebuilt from pinned vaastav snapshots and the official FPL API.
+data/
+
+# Runtime reports and local clean-room verification directories.
+artifacts/
+.codex-cleanroom-*/
+
+# Entry snapshots are runtime inputs/outputs, not source files.
+squads/current_squad_*.json
+squads/squad_*.json

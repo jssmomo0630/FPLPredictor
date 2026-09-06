@@ -12,6 +12,27 @@ on:
         required: false
         type: boolean
         default: false
+      run_advice:
+        description: Run the forecast and transfer-advice pipeline
+        required: false
+        type: boolean
+        default: false
+      free_transfers:
+        description: Available free transfers (public API cannot determine this)
+        required: false
+        type: choice
+        options:
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+        default: "1"
+      use_gemini:
+        description: Use Gemini for commentary when GEMINI_API_KEY exists
+        required: false
+        type: boolean
+        default: false
   push:
     branches:
       - codex/github-actions-poc
@@ -21,6 +42,32 @@ on:
       - test_fpl_status.py
       - send_fpl_email.py
       - test_send_fpl_email.py
+      - requirements-actions.txt
+      - run_fpl_pipeline.py
+      - fpl_pipeline_config.py
+      - download_history_data.py
+      - download_current_season.py
+      - normalize_gameweeks.py
+      - normalize_fixtures.py
+      - build_gw1_dataset.py
+      - train_gw1_prior.py
+      - build_forecast_dataset.py
+      - build_fixture_features.py
+      - build_inseason_candidates.py
+      - train_inseason_model.py
+      - blend_forecasts.py
+      - optimize_squad.py
+      - evaluate_squad_optimizer.py
+      - evaluate_fixture_baseline.py
+      - build_transfer_forecasts.py
+      - plan_transfers.py
+      - build_fpl_advice.py
+      - summarize_fpl_advice.py
+      - test_fpl_advice.py
+      - test_pipeline_target.py
+      - test_minutes_risk.py
+      - test_transfer_planner.py
+      - test_data_bootstrap.py
 
 permissions:
   contents: read
@@ -29,7 +76,7 @@ jobs:
   status:
     name: Read-only FPL status check
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 30
 
     steps:
       - name: Check out repository
@@ -41,7 +88,7 @@ jobs:
           python-version: "3.12"
 
       - name: Run deterministic tests
-        run: python -m unittest test_fpl_status.py test_send_fpl_email.py
+        run: python -m unittest test_fpl_status.py test_fpl_advice.py test_send_fpl_email.py
 
       - name: Query public FPL data
         env:
@@ -52,8 +99,69 @@ jobs:
       - name: Render email preview
         run: python send_fpl_email.py
 
-      - name: Send email when explicitly requested
-        if: github.event_name == 'workflow_dispatch' && inputs.send_email
+      - name: Install forecast dependencies
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'push' && github.event.head_commit.message == 'Test FPL advice pipeline')
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+        run: python -m pip install --requirement requirements-actions.txt
+
+      - name: Run forecast and planner tests
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'push' && github.event.head_commit.message == 'Test FPL advice pipeline')
+        run: >-
+          python -m unittest test_pipeline_target.py test_minutes_risk.py
+          test_transfer_planner.py test_data_bootstrap.py
+
+      - name: Run forecast and transfer advice
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'push' && github.event.head_commit.message == 'Test FPL advice pipeline')
+        env:
+          LOKY_MAX_CPU_COUNT: "2"
+        run: >-
+          python run_fpl_pipeline.py --refresh --experimental-transfers
+          --current-squad artifacts/fpl_status.json
+          --free-transfers "${{ inputs.free_transfers || '1' }}"
+
+      - name: Build deterministic advice
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'push' && github.event.head_commit.message == 'Test FPL advice pipeline')
+        run: python build_fpl_advice.py
+
+      - name: Add optional Gemini commentary
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'push' && github.event.head_commit.message == 'Test FPL advice pipeline')
+        env:
+          GEMINI_API_KEY: ${{ inputs.use_gemini && secrets.GEMINI_API_KEY || '' }}
+        run: python summarize_fpl_advice.py
+
+      - name: Render advice email
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'push' && github.event.head_commit.message == 'Test FPL advice pipeline')
+        run: >-
+          python send_fpl_email.py --advice artifacts/fpl_advice.json
+          --summary artifacts/fpl_summary.json --preview-dir artifacts/advice_email_preview
+
+      - name: Send advice email when explicitly requested
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice && inputs.send_email) ||
+          (github.event_name == 'push' && github.event.head_commit.message == 'Test FPL advice pipeline')
+        env:
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_APP_PASSWORD: ${{ secrets.SMTP_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: >-
+          python send_fpl_email.py --advice artifacts/fpl_advice.json
+          --summary artifacts/fpl_summary.json --preview-dir artifacts/advice_email_preview --send
+
+      - name: Send status-only email when explicitly requested
+        if: github.event_name == 'workflow_dispatch' && inputs.send_email && inputs.run_advice == false
         env:
           SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
           SMTP_APP_PASSWORD: ${{ secrets.SMTP_APP_PASSWORD }}
@@ -61,11 +169,17 @@ jobs:
         run: python send_fpl_email.py --send
 
       - name: Upload status report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: fpl-status-report
           path: |
             artifacts/fpl_status.json
             artifacts/email_preview/
+            artifacts/fpl_advice.json
+            artifacts/fpl_summary.json
+            artifacts/advice_email_preview/
+            data/transfer_plan.json
+            data/transfer_plan.csv
           if-no-files-found: error
           retention-days: 7

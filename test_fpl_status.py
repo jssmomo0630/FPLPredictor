@@ -54,7 +54,7 @@ def bootstrap(deadline_hours: float | None, flagged: bool = True) -> dict:
     }
 
 
-PICKS = {"picks": [
+PICKS = {"entry_history": {"bank": 7, "value": 1008}, "picks": [
     {"element": 10, "position": 1, "is_captain": True, "is_vice_captain": False},
     {"element": 11, "position": 2, "is_captain": False, "is_vice_captain": True},
 ]}
@@ -72,6 +72,9 @@ class FplStatusTests(unittest.TestCase):
         self.assertEqual(report["decision"]["action"], "run_recommendation")
         self.assertEqual(report["decision"]["trigger_key"], "gw3:deadline_6h")
         self.assertEqual(report["squad"]["availability_counts"]["doubtful"], 1)
+        self.assertEqual(report["squad"]["financial"]["bank_units"], 7)
+        self.assertEqual(report["squad"]["financial"]["bank_millions"], 0.7)
+        self.assertIsNone(report["squad"]["financial"]["free_transfers"])
 
     def test_twenty_four_hour_window_runs_preview(self):
         report = self.report(20, flagged=False)

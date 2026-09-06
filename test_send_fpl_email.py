@@ -30,6 +30,40 @@ def sample_status():
 
 
 class EmailRenderTests(unittest.TestCase):
+    def test_renders_advice_when_present(self):
+        advice = {
+            "read_only": True,
+            "advisory_only": True,
+            "target_gameweek": 4,
+            "hours_to_deadline": 20,
+            "deadline_time_local": "2026-09-12T05:30:00-07:00",
+            "deterministic_summary": "Make the stated move.",
+            "recommendation": {
+                "headline": "Make 1 transfer(s): Old → New",
+                "hit_cost_points": 0,
+                "bank_after_millions": 0.5,
+                "transfers_out": [{"player_name": "Old"}],
+                "transfers_in": [{"player_name": "New"}],
+                "starting_xi": [{"player_name": f"Starter {index}", "position": "MID"} for index in range(1, 12)],
+                "captain": {"player_name": "Starter 1"},
+                "vice_captain": {"player_name": "Starter 2"},
+                "bench": [{"player_name": f"Bench {index}", "position": "DEF"} for index in range(1, 5)],
+                "chip_advice": {"recommendation": "Save all chips"},
+            },
+            "assumptions": {
+                "free_transfers_assumed": 1,
+                "public_squad_warning": "Locked squad only.",
+                "free_transfer_warning": "Free transfers unknown.",
+                "selling_price_warning": "Current prices used.",
+            },
+        }
+        summary = {"used_ai": True, "summary": "AI summary from fixed facts."}
+        subject, text_body, html_body = emailer.render_email(sample_status(), advice, summary)
+        self.assertEqual(subject, "[FPL] GW4 recommendations — 20h to deadline")
+        self.assertIn("Old → New", text_body)
+        self.assertIn("AI commentary", html_body)
+        self.assertIn("Advisory only", html_body)
+
     def test_render_includes_source_warning_and_escapes_html(self):
         subject, text_body, html_body = emailer.render_email(sample_status())
         self.assertEqual(subject, "[FPL] Email delivery test — GW4")

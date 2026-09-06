@@ -131,6 +131,7 @@ def build_status(
     squad_event_id: int | None,
     now: datetime,
     timezone_name: str,
+    history_payload: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if now.tzinfo is None:
         raise ValueError("now must be timezone-aware")
@@ -166,6 +167,10 @@ def build_status(
         for state in ("available", "doubtful", "unavailable")
     }
     flagged = counts["doubtful"] + counts["unavailable"]
+    locked_history = (picks_payload or {}).get("entry_history", {})
+    bank_units = locked_history.get("bank")
+    value_units = locked_history.get("value")
+    used_chips = (history_payload or {}).get("chips", [])
 
     return {
         "schema_version": 1,
@@ -188,6 +193,16 @@ def build_status(
             "source": "public_post_deadline_picks" if picks_payload else "unavailable",
             "source_event_id": squad_event_id,
             "player_count": len(squad_players),
+            "financial": {
+                "source": "public_locked_event",
+                "bank_units": bank_units,
+                "bank_millions": bank_units / 10 if isinstance(bank_units, (int, float)) else None,
+                "team_value_units": value_units,
+                "team_value_millions": value_units / 10 if isinstance(value_units, (int, float)) else None,
+                "free_transfers": None,
+            },
+            "active_chip_at_source_event": (picks_payload or {}).get("active_chip"),
+            "used_chips": used_chips,
             "availability_counts": counts,
             "flagged_count": flagged,
             "players": squad_players,
@@ -223,6 +238,11 @@ def main() -> None:
     except Exception as error:
         raise SystemExit(f"FPL status check failed: {error}") from error
 
+    try:
+        history_payload = fetch_json(f"entry/{args.entry_id}/history/")
+    except Exception:
+        history_payload = None
+
     report = build_status(
         bootstrap,
         picks_payload,
@@ -230,6 +250,7 @@ def main() -> None:
         int(squad_event["id"]) if squad_event else None,
         datetime.now(timezone.utc),
         args.timezone,
+        history_payload,
     )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
