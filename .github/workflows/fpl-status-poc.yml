@@ -7,6 +7,11 @@ on:
         description: Public FPL entry ID to inspect
         required: false
         default: "5440748"
+      send_email:
+        description: Send the rendered status email
+        required: false
+        type: boolean
+        default: false
   push:
     branches:
       - codex/github-actions-poc
@@ -14,6 +19,8 @@ on:
       - .github/workflows/fpl-status-poc.yml
       - check_fpl_status.py
       - test_fpl_status.py
+      - send_fpl_email.py
+      - test_send_fpl_email.py
 
 permissions:
   contents: read
@@ -34,7 +41,7 @@ jobs:
           python-version: "3.12"
 
       - name: Run deterministic tests
-        run: python -m unittest test_fpl_status.py
+        run: python -m unittest test_fpl_status.py test_send_fpl_email.py
 
       - name: Query public FPL data
         env:
@@ -42,10 +49,25 @@ jobs:
           FPL_TIMEZONE: America/Los_Angeles
         run: python check_fpl_status.py
 
+      - name: Render email preview
+        run: python send_fpl_email.py
+
+      - name: Send one test email
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.send_email) ||
+          (github.event_name == 'push' && github.event.head_commit.message == 'Test Gmail delivery')
+        env:
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_APP_PASSWORD: ${{ secrets.SMTP_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: python send_fpl_email.py --send
+
       - name: Upload status report
         uses: actions/upload-artifact@v4
         with:
           name: fpl-status-report
-          path: artifacts/fpl_status.json
+          path: |
+            artifacts/fpl_status.json
+            artifacts/email_preview/
           if-no-files-found: error
           retention-days: 7
