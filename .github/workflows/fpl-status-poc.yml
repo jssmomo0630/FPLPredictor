@@ -1,5 +1,4 @@
 name: FPL status POC
-# One-time Gmail delivery retry after repository secret correction.
 
 on:
   workflow_dispatch:
@@ -53,10 +52,8 @@ jobs:
       - name: Render email preview
         run: python send_fpl_email.py
 
-      - name: Send one test email
-        if: >-
-          (github.event_name == 'workflow_dispatch' && inputs.send_email) ||
-          (github.event_name == 'push' && github.event.head_commit.message == 'Test Gmail delivery')
+      - name: Send email when explicitly requested
+        if: github.event_name == 'workflow_dispatch' && inputs.send_email
         env:
           SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
           SMTP_APP_PASSWORD: ${{ secrets.SMTP_APP_PASSWORD }}
