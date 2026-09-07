@@ -1,0 +1,236 @@
+name: FPL advisory monitor
+
+on:
+  workflow_dispatch:
+    inputs:
+      entry_id:
+        description: Public FPL entry ID to inspect
+        required: false
+        default: "5440748"
+      send_email:
+        description: Send the rendered email
+        required: false
+        type: boolean
+        default: false
+      run_advice:
+        description: Run the forecast and transfer-advice pipeline
+        required: false
+        type: boolean
+        default: false
+      free_transfers:
+        description: Optional manual override; scheduled runs infer the balance
+        required: false
+        type: choice
+        options:
+          - "auto"
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+        default: "auto"
+      use_gemini:
+        description: Use Gemini for commentary when GEMINI_API_KEY exists
+        required: false
+        type: boolean
+        default: false
+  schedule:
+    # Poll near the 48-hour boundary; the heavy pipeline is gated to every six hours.
+    # Minute 17 avoids GitHub's highest-load period at the start of each hour.
+    - cron: "17 * * * *"
+  push:
+    branches:
+      - codex/github-actions-poc
+      - master
+    paths:
+      - .github/workflows/fpl-status-poc.yml
+      - check_fpl_status.py
+      - monitor_fpl_advice.py
+      - test_fpl_status.py
+      - test_monitor_fpl_advice.py
+      - send_fpl_email.py
+      - test_send_fpl_email.py
+      - requirements-actions.txt
+      - run_fpl_pipeline.py
+      - fpl_pipeline_config.py
+      - download_history_data.py
+      - download_current_season.py
+      - normalize_gameweeks.py
+      - normalize_fixtures.py
+      - build_gw1_dataset.py
+      - train_gw1_prior.py
+      - build_forecast_dataset.py
+      - build_fixture_features.py
+      - build_inseason_candidates.py
+      - train_inseason_model.py
+      - blend_forecasts.py
+      - optimize_squad.py
+      - evaluate_squad_optimizer.py
+      - evaluate_fixture_baseline.py
+      - build_transfer_forecasts.py
+      - plan_transfers.py
+      - build_fpl_advice.py
+      - summarize_fpl_advice.py
+      - test_fpl_advice.py
+      - test_pipeline_target.py
+      - test_minutes_risk.py
+      - test_blend_forecasts.py
+      - test_transfer_planner.py
+      - test_data_bootstrap.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fpl-advisory-monitor-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  status:
+    name: Read-only FPL advisory monitor
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      FPL_ENTRY_ID: ${{ inputs.entry_id || vars.FPL_ENTRY_ID || '5440748' }}
+      FPL_TIMEZONE: America/Los_Angeles
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Run deterministic monitor tests
+        run: >-
+          python -m unittest test_fpl_status.py test_monitor_fpl_advice.py
+          test_fpl_advice.py test_send_fpl_email.py
+
+      - name: Query public FPL data
+        run: python check_fpl_status.py
+
+      - name: Render status email preview
+        run: python send_fpl_email.py
+
+      - name: Restore the latest deduplication state
+        if: github.event_name == 'schedule'
+        uses: actions/cache/restore@v5
+        with:
+          path: .fpl-monitor
+          key: fpl-monitor-v1-${{ env.FPL_ENTRY_ID }}-${{ github.run_id }}
+          restore-keys: |
+            fpl-monitor-v1-${{ env.FPL_ENTRY_ID }}-
+
+      - name: Check the 48-hour and six-hour gates
+        id: gate
+        run: >-
+          python monitor_fpl_advice.py gate
+          --github-output "$GITHUB_OUTPUT"
+
+      - name: Install forecast dependencies
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true')
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+        run: python -m pip install --requirement requirements-actions.txt
+
+      - name: Run forecast and planner tests
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true')
+        run: >-
+          python -m unittest test_pipeline_target.py test_minutes_risk.py
+          test_blend_forecasts.py test_transfer_planner.py test_data_bootstrap.py
+
+      - name: Run forecast and transfer advice
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true')
+        env:
+          LOKY_MAX_CPU_COUNT: "2"
+        run: |
+          args=(
+            --refresh
+            --experimental-transfers
+            --current-squad artifacts/fpl_status.json
+          )
+          if [[ "${{ inputs.free_transfers || 'auto' }}" != "auto" ]]; then
+            args+=(--free-transfers "${{ inputs.free_transfers }}")
+          fi
+          python run_fpl_pipeline.py "${args[@]}"
+
+      - name: Build deterministic advice
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true')
+        run: python build_fpl_advice.py
+
+      - name: Compare with the last scheduled recommendation
+        id: compare
+        if: github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true'
+        run: >-
+          python monitor_fpl_advice.py compare
+          --github-output "$GITHUB_OUTPUT"
+
+      - name: Add commentary with deterministic fallback
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true')
+        env:
+          GEMINI_API_KEY: ${{ ((github.event_name == 'workflow_dispatch' && inputs.use_gemini) || (github.event_name == 'schedule' && steps.compare.outputs.should_email == 'true')) && secrets.GEMINI_API_KEY || '' }}
+        run: python summarize_fpl_advice.py
+
+      - name: Render advice email
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true')
+        run: >-
+          python send_fpl_email.py --advice artifacts/fpl_advice.json
+          --summary artifacts/fpl_summary.json --preview-dir artifacts/advice_email_preview
+
+      - name: Send new or changed scheduled advice
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.run_advice && inputs.send_email) ||
+          (github.event_name == 'schedule' && steps.compare.outputs.should_email == 'true')
+        env:
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_APP_PASSWORD: ${{ secrets.SMTP_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: >-
+          python send_fpl_email.py --advice artifacts/fpl_advice.json
+          --summary artifacts/fpl_summary.json --preview-dir artifacts/advice_email_preview --send
+
+      - name: Send a manually requested status-only email
+        if: github.event_name == 'workflow_dispatch' && inputs.send_email && inputs.run_advice == false
+        env:
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_APP_PASSWORD: ${{ secrets.SMTP_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: python send_fpl_email.py --send
+
+      - name: Save the updated deduplication state
+        if: github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: .fpl-monitor
+          key: fpl-monitor-v1-${{ env.FPL_ENTRY_ID }}-${{ github.run_id }}
+
+      - name: Upload monitor report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: fpl-status-report
+          path: |
+            artifacts/fpl_status.json
+            artifacts/email_preview/
+            artifacts/fpl_advice.json
+            artifacts/fpl_summary.json
+            artifacts/advice_email_preview/
+            data/transfer_plan.json
+            data/transfer_plan.csv
+            .fpl-monitor/state.json
+          if-no-files-found: error
+          retention-days: 7

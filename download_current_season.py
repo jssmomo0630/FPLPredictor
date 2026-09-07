@@ -14,8 +14,8 @@ Features:
 - Creates merged_gw_enhanced.csv from all downloaded GWs
 
 Usage:
-- python download_current_season.py               # defaults to season 2025-26
-- python download_current_season.py --season 2025-26 --max-gw 10
+- python download_current_season.py               # defaults to season 2026-27
+- python download_current_season.py --season 2026-27 --max-gw 10
 """
 
 import argparse
@@ -27,6 +27,10 @@ from typing import List
 import pandas as pd
 import requests
 
+from fpl_pipeline_config import CURRENT_SEASON
+
+REQUEST_HEADERS = {"User-Agent": "fpl-project/1.0", "Accept": "application/json"}
+
 
 def ensure_dir(path: str) -> None:
     os.makedirs(path, exist_ok=True)
@@ -34,9 +38,46 @@ def ensure_dir(path: str) -> None:
 
 def fetch_bootstrap() -> dict:
     url = "https://fantasy.premierleague.com/api/bootstrap-static/"
-    r = requests.get(url, timeout=30)
+    r = requests.get(url, headers=REQUEST_HEADERS, timeout=30)
     r.raise_for_status()
     return r.json()
+
+
+def fetch_fixtures() -> list:
+    """Fetch the official fixture feed, including unassigned and provisional games."""
+    url = "https://fantasy.premierleague.com/api/fixtures/"
+    r = requests.get(url, headers=REQUEST_HEADERS, timeout=30)
+    r.raise_for_status()
+    return r.json()
+
+
+def save_fixtures(fixtures: list, season_dir: str, season: str) -> None:
+    """Save raw fixtures and a canonical team-fixture table for model joins."""
+    raw = pd.DataFrame(fixtures)
+    raw.to_csv(os.path.join(season_dir, "fixtures_raw.csv"), index=False)
+
+    records = []
+    for fixture in fixtures:
+        common = {
+            "season": season,
+            "fixture": fixture.get("id"),
+            "gameweek": fixture.get("event"),
+            "kickoff_time": fixture.get("kickoff_time"),
+            "started": fixture.get("started"),
+            "finished": fixture.get("finished"),
+            "finished_provisional": fixture.get("finished_provisional"),
+            "provisional_start_time": fixture.get("provisional_start_time"),
+        }
+        records.extend([
+            {**common, "team": fixture.get("team_h"), "opponent_team": fixture.get("team_a"),
+             "was_home": True, "fixture_difficulty": fixture.get("team_h_difficulty")},
+            {**common, "team": fixture.get("team_a"), "opponent_team": fixture.get("team_h"),
+             "was_home": False, "fixture_difficulty": fixture.get("team_a_difficulty")},
+        ])
+    canonical = pd.DataFrame(records)
+    canonical.to_csv(os.path.join(season_dir, "fixtures_canonical.csv"), index=False)
+    print(f"Saved fixtures_raw.csv ({len(raw)} fixtures)")
+    print(f"Saved fixtures_canonical.csv ({len(canonical)} team-fixture rows)")
 
 
 def save_bootstrap_components(data: dict, season_dir: str) -> None:
@@ -47,7 +88,7 @@ def save_bootstrap_components(data: dict, season_dir: str) -> None:
     components = {
         "events": data.get("events", []),
         "teams": data.get("teams", []),
-        "elements": data.get("elements", []),
+        "players_raw": data.get("elements", []),
         "element_types": data.get("element_types", []),
         "phases": data.get("phases", []),
     }
@@ -59,11 +100,14 @@ def save_bootstrap_components(data: dict, season_dir: str) -> None:
             print(f"Saved {os.path.basename(csv)} ({len(df)} rows)")
 
 
-def detect_gameweeks(bootstrap: dict, max_gw: int = None) -> List[int]:
+def detect_gameweeks(bootstrap: dict, max_gw: int = None, include_provisional: bool = False) -> List[int]:
     events = bootstrap.get("events", [])
-    finished = [e.get("id") for e in events if e.get("finished")]
-    current = next((e.get("id") for e in events if e.get("is_current")), None)
-    gws = list(sorted(set([*finished, *( [current] if current else [] )])))
+    finalized = [e.get("id") for e in events if e.get("data_checked")]
+    provisional = [
+        e.get("id") for e in events
+        if include_provisional and e.get("finished") and not e.get("data_checked")
+    ]
+    gws = list(sorted(set([*finalized, *provisional])))
     if max_gw is not None:
         gws = [gw for gw in gws if gw <= max_gw]
     return gws
@@ -72,7 +116,7 @@ def detect_gameweeks(bootstrap: dict, max_gw: int = None) -> List[int]:
 def download_gw_live(gw: int, gws_dir: str) -> dict:
     ensure_dir(gws_dir)
     url = f"https://fantasy.premierleague.com/api/event/{gw}/live/"
-    r = requests.get(url, timeout=30)
+    r = requests.get(url, headers=REQUEST_HEADERS, timeout=30)
     r.raise_for_status()
     data = r.json()
     with open(os.path.join(gws_dir, f"gw{gw}_live.json"), "w") as f:
@@ -80,7 +124,7 @@ def download_gw_live(gw: int, gws_dir: str) -> dict:
     return data
 
 
-def flatten_gw(data: dict, gw: int, season: str) -> pd.DataFrame:
+def flatten_gw(data: dict, gw: int, season: str, finalized: bool = True) -> pd.DataFrame:
     elements = data.get("elements", [])
     rows = []
     for el in elements:
@@ -88,6 +132,7 @@ def flatten_gw(data: dict, gw: int, season: str) -> pd.DataFrame:
             "element": el.get("id"),
             "gameweek": gw,
             "season": season,
+            "data_finalized": finalized,
         }
         stats = el.get("stats", {})
         for k, v in stats.items():
@@ -102,12 +147,17 @@ def flatten_gw(data: dict, gw: int, season: str) -> pd.DataFrame:
 
 
 def build_merged_gw(gws_dir: str, out_path: str) -> None:
+    ensure_dir(gws_dir)
     frames = []
     for fn in sorted(os.listdir(gws_dir)):
         if fn.startswith("gw") and fn.endswith(".csv") and not fn.endswith("_enhanced.csv"):
             path = os.path.join(gws_dir, fn)
             try:
-                frames.append(pd.read_csv(path))
+                frame = pd.read_csv(path)
+                if "data_finalized" in frame:
+                    frame = frame[frame["data_finalized"].fillna(False).astype(bool)]
+                if not frame.empty:
+                    frames.append(frame)
             except Exception:
                 pass
     if not frames:
@@ -120,8 +170,12 @@ def build_merged_gw(gws_dir: str, out_path: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Download current-season FPL data and build merged GW file")
-    parser.add_argument("--season", default="2025-26", help="Season folder name, e.g. 2025-26")
+    parser.add_argument("--season", default=CURRENT_SEASON, help="Season folder name, e.g. 2026-27")
     parser.add_argument("--max-gw", type=int, default=None, help="Optional cap on gameweek number")
+    parser.add_argument(
+        "--include-provisional", action="store_true",
+        help="Also download finished GWs whose post-match data has not been finalized",
+    )
     args = parser.parse_args()
 
     season_dir = os.path.join("data", args.season)
@@ -136,15 +190,22 @@ def main():
     bootstrap = fetch_bootstrap()
     save_bootstrap_components(bootstrap, season_dir)
 
+    print("Fetching fixtures...")
+    fixtures = fetch_fixtures()
+    save_fixtures(fixtures, season_dir, args.season)
+
     # 2) Determine GWs to download
-    gws = detect_gameweeks(bootstrap, max_gw=args.max_gw)
+    gws = detect_gameweeks(
+        bootstrap, max_gw=args.max_gw, include_provisional=args.include_provisional
+    )
     print(f"Gameweeks to download: {gws}")
 
     # 3) Download GW live JSONs and write per-GW CSVs
     for gw in gws:
         print(f"\n-- GW{gw} --")
         data = download_gw_live(gw, gws_dir)
-        df = flatten_gw(data, gw, args.season)
+        event = next(e for e in bootstrap.get("events", []) if e.get("id") == gw)
+        df = flatten_gw(data, gw, args.season, finalized=bool(event.get("data_checked")))
         out_csv = os.path.join(gws_dir, f"gw{gw}.csv")
         df.to_csv(out_csv, index=False)
         print(f"Saved {os.path.basename(out_csv)} ({len(df)} rows)")
@@ -158,4 +219,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
