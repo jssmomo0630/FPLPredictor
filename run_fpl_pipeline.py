@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -19,7 +20,11 @@ from fpl_pipeline_config import (
 
 
 def _run(root: Path, *arguments: str) -> None:
-    subprocess.run([sys.executable, *arguments], cwd=root, check=True)
+    environment = os.environ.copy()
+    environment.setdefault("PYTHONUTF8", "1")
+    subprocess.run(
+        [sys.executable, *arguments], cwd=root, check=True, env=environment
+    )
 
 
 def _finalized_gameweeks(events_path: Path) -> list[int]:
@@ -61,6 +66,11 @@ def _chip_period_end(gameweek: int) -> int:
     if 20 <= gameweek <= 38:
         return 38
     raise ValueError(f"Gameweek {gameweek} is outside the supported FPL season")
+
+
+def _automated_planning_horizon(gameweek: int, maximum: int = 5) -> int:
+    """Use a short rolling horizon, truncated only at the active chip-set expiry."""
+    return min(maximum, _chip_period_end(gameweek) - gameweek + 1)
 
 
 def _ensure_historical_data(
@@ -172,7 +182,7 @@ def main() -> None:
         seasons = [*historical, args.season]
         _run(root, "normalize_fixtures.py", "--seasons", *seasons, "--output", "data/canonical_fixtures.csv")
         _run(root, "build_fixture_features.py")
-        planning_horizon = _chip_period_end(target_gameweek) - target_gameweek + 1
+        planning_horizon = _automated_planning_horizon(target_gameweek)
         _run(
             root, "build_transfer_forecasts.py", "--predictions", predictions,
             "--season", args.season, "--start-gameweek", str(target_gameweek),
@@ -187,7 +197,7 @@ def main() -> None:
             "plan_transfers.py", "--current-squad", args.current_squad,
             "--free-transfers", str(free_transfers),
             "--season", args.season,
-            "--horizon", str(min(5, planning_horizon)),
+            "--horizon", str(planning_horizon),
             "--chip-horizon", str(planning_horizon),
         ]
         if args.bank is not None:

@@ -53,6 +53,8 @@ class FPLPredictionModel:
         self.training_data = {}
         self.validation_data = {}
         self.transfer_manager = TransferManager()
+        self.position_calibration = {}
+        self.position_target_p95 = {}
         
     def load_data(self, data_path='data/'):
         """
@@ -251,6 +253,8 @@ class FPLPredictionModel:
         
         # Train models for each position
         positions = ['GK', 'DEF', 'MID', 'FWD']
+        # Reset calibration per training run
+        self.position_calibration = {}
         
         for position in positions:
             print(f"\n[TARGET] Training {position} model...")
@@ -321,6 +325,16 @@ class FPLPredictionModel:
                 'y_val': y_val,
                 'feature_names': X_train.columns.tolist()
             }
+
+            # Position-level mean calibration to correct skew (use validation set)
+            y_val_pred = best_model.predict(X_val_scaled)
+            actual_p95 = np.percentile(y_val, 95) if len(y_val) > 0 else 0
+            pred_p95 = np.percentile(y_val_pred, 95) if len(y_val_pred) > 0 else 0
+            if pred_p95 > 0:
+                self.position_calibration[position] = actual_p95 / pred_p95
+            else:
+                self.position_calibration[position] = 1.0
+            self.position_target_p95[position] = actual_p95
             
             # Feature importance
             if hasattr(best_model, 'feature_importances_'):
@@ -393,8 +407,26 @@ class FPLPredictionModel:
             return None
         
         print("[PRED] Predicting 2025-26 season performance...")
-        
         predictions = {}
+
+        # Build current-season position anchors from actual points_per_game (helps de-skew positions)
+        self.current_position_p95 = {}
+        try:
+            for pos_name, pos_code in {'GK': 1, 'DEF': 2, 'MID': 3, 'FWD': 4}.items():
+                pos_df = self.current_players[self.current_players['element_type'] == pos_code].copy()
+                if len(pos_df) == 0:
+                    continue
+                ppg = pd.to_numeric(pos_df.get('points_per_game', np.nan), errors='coerce')
+                if ppg.isna().all():
+                    # fallback: total_points per appearance proxy
+                    matches_est = (pos_df['minutes'] / 90).replace(0, np.nan)
+                    ppg = pos_df.get('total_points', 0) / matches_est.replace(0, np.nan)
+                ppg = ppg.replace([np.inf, -np.inf], np.nan).fillna(0)
+                anchor_p95 = np.percentile(ppg, 95) if len(ppg) > 0 else None
+                if anchor_p95 and anchor_p95 > 0:
+                    self.current_position_p95[pos_name] = anchor_p95
+        except Exception as e:
+            print(f"[WARN] Unable to compute current-season anchors: {e}")
         
         # Pre-compute home/away and clean sheet rates from current season gameweek data
         agg_home_away = pd.DataFrame()
@@ -470,23 +502,39 @@ class FPLPredictionModel:
             position_data['creativity'] = position_data.get('creativity', 0)
             position_data['threat'] = position_data.get('threat', 0)
             position_data['ict_index'] = position_data.get('ict_index', 0)
+
+            # Scale season aggregates to per-match to match per-GW training scale
+            matches_from_minutes = (position_data['minutes'] / 90).replace([np.inf, -np.inf], np.nan)
+            starts_series = position_data['starts'] if 'starts' in position_data.columns else pd.Series(0, index=position_data.index)
+            matches_est = pd.concat([matches_from_minutes, starts_series], axis=1).max(axis=1)
+            matches_est = matches_est.replace([np.inf, -np.inf], np.nan).fillna(1).clip(lower=1)
+
+            per_match_cols = [
+                'goals_scored', 'assists', 'clean_sheets', 'goals_conceded', 'saves',
+                'bonus', 'bps', 'influence', 'creativity', 'threat', 'ict_index'
+            ]
+            for col in per_match_cols:
+                if col in position_data.columns:
+                    position_data[col] = position_data[col] / matches_est
+
+            # Average minutes per match (cap at 90)
+            position_data['minutes'] = (position_data['minutes'] / matches_est).clip(upper=90)
+
+            # No per-match normalization here; keep season aggregates consistent with training scale
             
             # Create derived features
             minutes_safe = position_data['minutes'].replace(0, 1)
             position_data['goals_per_90'] = (position_data['goals_scored'] / minutes_safe * 90).fillna(0)
             position_data['assists_per_90'] = (position_data['assists'] / minutes_safe * 90).fillna(0)
-            position_data['points_per_90'] = (position_data['total_points'] / minutes_safe * 90).fillna(0)
+            # Use points_per_game directly for points_per_90 and avg_points_per_match to avoid inflating low-minute players
+            ppg_series = pd.to_numeric(position_data.get('points_per_game', np.nan), errors='coerce').fillna(0)
+            position_data['points_per_90'] = ppg_series
+            position_data['avg_points_per_match'] = ppg_series
             
             matches_est = (position_data['minutes'] / 90).replace(0, np.nan)
             if 'starts' in position_data.columns:
                 matches_est = matches_est.fillna(position_data['starts'])
             position_data['matches_played_est'] = matches_est.replace(0, np.nan)
-            
-            points_per_game = pd.to_numeric(position_data.get('points_per_game', np.nan), errors='coerce')
-            position_data['avg_points_per_match'] = points_per_game.fillna(
-                position_data['total_points'] / position_data['matches_played_est']
-            )
-            position_data['avg_points_per_match'] = position_data['avg_points_per_match'].replace([np.inf, -np.inf], 0).fillna(0)
             
             clean_sheet_rate_est = position_data['clean_sheets'] / position_data['matches_played_est']
             position_data['clean_sheet_rate'] = clean_sheet_rate_est.replace([np.inf, -np.inf], 0).fillna(0)
@@ -519,11 +567,12 @@ class FPLPredictionModel:
             if 'form_3gw_calc' in position_data.columns:
                 position_data['form_3gw'] = position_data['form_3gw_calc']
             else:
-                position_data['form_3gw'] = position_data.get('total_points', 0)
+                # Fallback to per-match average points (avoid using season totals which skew scale)
+                position_data['form_3gw'] = position_data.get('avg_points_per_match', 0)
             if 'form_5gw_calc' in position_data.columns:
                 position_data['form_5gw'] = position_data['form_5gw_calc']
             else:
-                position_data['form_5gw'] = position_data.get('total_points', 0)
+                position_data['form_5gw'] = position_data.get('avg_points_per_match', 0)
             # Drop intermediate columns if present
             position_data.drop(columns=[c for c in ['form_3gw_calc', 'form_5gw_calc'] if c in position_data.columns], inplace=True, errors='ignore')
             
@@ -574,9 +623,22 @@ class FPLPredictionModel:
             # Create prediction dataframe (include team information)
             pred_df = position_data[['name', 'element_type', 'now_cost', 'team']].copy()
             pred_df['predicted_points'] = y_pred
-            pred_df['predicted_points_per_90'] = (y_pred / position_data['minutes'] * 90).fillna(0)
+
+            # Floor predictions by actual form so premiums don't collapse (e.g., Haaland vs Watkins)
+            if 'avg_points_per_match' in position_data.columns:
+                form_ppg = position_data['avg_points_per_match'].fillna(0).values
+                pred_df['predicted_points'] = np.maximum(pred_df['predicted_points'].values, form_ppg)
+
+            # Minutes-volume damping to suppress tiny-sample spikes (all positions)
+            minutes_total = self.current_players[self.current_players['element_type'] == position_code]['minutes'].fillna(0)
+            minutes_total = minutes_total.reindex(position_data.index).fillna(0)
+            minutes_factor_total = (minutes_total / 900).clip(0.2, 1.0)  # need ~10 full games for full weight
+            pred_df['predicted_points'] = pred_df['predicted_points'] * minutes_factor_total
+
+            # Recompute per-90/value after form floor and minutes damping
+            pred_df['predicted_points_per_90'] = (pred_df['predicted_points'] / position_data['minutes'] * 90).fillna(0)
             pred_df['value_per_predicted_point'] = pred_df['predicted_points'] / (pred_df['now_cost'] / 10)
-            
+
             predictions[position] = pred_df.sort_values('predicted_points', ascending=False)
         
         return predictions

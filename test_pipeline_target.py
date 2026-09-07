@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from run_fpl_pipeline import (
+    _automated_planning_horizon,
     _chip_period_end,
     _free_transfers_from_status,
     _target_gameweek_from_status,
@@ -15,6 +16,14 @@ class PipelineTargetTests(unittest.TestCase):
         self.assertEqual(_chip_period_end(4), 19)
         self.assertEqual(_chip_period_end(19), 19)
         self.assertEqual(_chip_period_end(20), 38)
+
+    def test_automated_planning_horizon_is_rolling_and_stops_at_chip_expiry(self):
+        self.assertEqual(_automated_planning_horizon(4), 5)
+        self.assertEqual(_automated_planning_horizon(17), 3)
+        self.assertEqual(_automated_planning_horizon(19), 1)
+        self.assertEqual(_automated_planning_horizon(20), 5)
+        self.assertEqual(_automated_planning_horizon(36), 3)
+        self.assertEqual(_automated_planning_horizon(38), 1)
 
     def test_reads_upcoming_deadline_gameweek_from_status(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -28,6 +28,9 @@ DEFAULT_CHIP_RESERVE_VALUES = {
     "triple_captain": 12.0,
     "bench_boost": 12.0,
 }
+WILDCARD_MIN_SQUAD_CHANGES = 4
+WILDCARD_REACHABILITY_WEEKS = 3
+CHIP_MAX_CANDIDATES_PER_POSITION = 15
 BENCH_WEIGHTS = (0.15, 0.05, 0.02)
 CHIP_NAME_MAP = {
     "wildcard": "wildcard",
@@ -197,6 +200,48 @@ def _planned_week_value(rows: pd.DataFrame) -> float:
     return value
 
 
+def _wildcard_reachability(
+    gameweek: int,
+    gameweeks: list[int],
+    plan_rows: pd.DataFrame,
+    week_reports: dict[int, dict],
+    initial_squad: set[int],
+    wildcard_ids: set[int],
+    window: int = WILDCARD_REACHABILITY_WEEKS,
+) -> dict:
+    """Estimate whether a Wildcard target is reachable with ordinary transfers."""
+    index = gameweeks.index(gameweek)
+    if index == 0:
+        pre_deadline_squad = set(initial_squad)
+    else:
+        previous_gameweek = gameweeks[index - 1]
+        pre_deadline_squad = set(
+            plan_rows.loc[
+                plan_rows["gameweek"].eq(previous_gameweek), "element"
+            ].astype(int)
+        )
+    if len(pre_deadline_squad) != 15:
+        raise ValueError(
+            f"Cannot assess Wildcard reachability for GW{gameweek}: "
+            f"expected 15 pre-deadline players, got {len(pre_deadline_squad)}"
+        )
+
+    changes_required = len(wildcard_ids.difference(pre_deadline_squad))
+    deadline_count = min(window, len(gameweeks) - index)
+    free_transfers_now = int(week_reports[gameweek]["free_transfers_before"])
+    free_transfers_over_window = free_transfers_now + deadline_count - 1
+    return {
+        "squad_changes_required": changes_required,
+        "reachability_window_gameweeks": deadline_count,
+        "free_transfers_now": free_transfers_now,
+        "free_transfers_available_over_window": free_transfers_over_window,
+        "reachable_immediately_without_hits": changes_required <= free_transfers_now,
+        "reachable_within_window_without_hits": (
+            changes_required <= free_transfers_over_window
+        ),
+    }
+
+
 def _chip_week_values(rows: pd.DataFrame) -> dict[str, float]:
     captain_points = float(
         rows.loc[rows["is_captain"], "expected_points"].iloc[0]
@@ -290,6 +335,8 @@ def advise_chips(
     forecasts: pd.DataFrame,
     plan_rows: pd.DataFrame,
     plan_report: dict,
+    wildcard_plan_rows: pd.DataFrame | None = None,
+    wildcard_plan_report: dict | None = None,
     available_chips: set[str] | None = None,
     reserve_values: dict[str, float] | None = None,
     discount: float = 0.90,
@@ -297,6 +344,9 @@ def advise_chips(
     period_start_gameweek: int | None = None,
     period_end_gameweek: int | None = None,
     uncertainty_discount: float = 0.98,
+    wildcard_min_squad_changes: int = WILDCARD_MIN_SQUAD_CHANGES,
+    wildcard_reachability_weeks: int = WILDCARD_REACHABILITY_WEEKS,
+    wildcard_horizon: int = 5,
 ) -> dict:
     """Estimate gains and jointly allocate chips against the no-chip plan."""
     available = set(CHIPS if available_chips is None else available_chips)
@@ -315,6 +365,19 @@ def advise_chips(
     if not gameweeks:
         raise ValueError("No forecast gameweeks fall within the active chip period")
     week_reports = {int(row["gameweek"]): row for row in plan_report["weeks"]}
+    wildcard_plan_rows = (
+        plan_rows if wildcard_plan_rows is None else wildcard_plan_rows
+    )
+    wildcard_plan_report = (
+        plan_report if wildcard_plan_report is None else wildcard_plan_report
+    )
+    wildcard_week_reports = {
+        int(row["gameweek"]): row for row in wildcard_plan_report["weeks"]
+    }
+    wildcard_initial_squad = {
+        int(element)
+        for element in wildcard_plan_report.get("initial_squad", [])
+    }
     baseline_values = {
         gameweek: _planned_week_value(
             plan_rows[plan_rows["gameweek"].eq(gameweek)]
@@ -352,57 +415,105 @@ def advise_chips(
             })
 
     if "wildcard" in available:
-        for start_index, gameweek in enumerate(gameweeks):
-            remaining = gameweeks[start_index:]
-            aggregate = forecasts[forecasts["gameweek"].isin(remaining)].copy()
-            aggregate["_weight"] = aggregate["gameweek"].map({
-                value: discount ** offset for offset, value in enumerate(remaining)
-            })
-            aggregate["weighted_points"] = (
-                aggregate["expected_points"] * aggregate["_weight"]
+        # A Wildcard permanently changes the squad, so a distant tentative use is
+        # much less trustworthy than a one-week chip. Evaluate it only at the
+        # current deadline and only across the normal transfer-planning horizon.
+        gameweek = gameweeks[0]
+        remaining = gameweeks
+        valuation_gameweeks = gameweeks[:wildcard_horizon]
+        aggregate = forecasts[
+            forecasts["gameweek"].isin(valuation_gameweeks)
+        ].copy()
+        aggregate["_weight"] = aggregate["gameweek"].map({
+            value: discount ** offset
+            for offset, value in enumerate(valuation_gameweeks)
+        })
+        aggregate["weighted_points"] = (
+            aggregate["expected_points"] * aggregate["_weight"]
+        )
+        identity = [
+            "element", "player_name", "element_type", "team_id", "price"
+        ]
+        aggregate = aggregate.groupby(identity, as_index=False).agg(
+            expected_points=("weighted_points", "sum")
+        )
+        week_rows = wildcard_plan_rows[
+            wildcard_plan_rows["gameweek"].eq(gameweek)
+        ]
+        budget = int(week_rows["price"].sum()) + int(
+            wildcard_week_reports[gameweek]["bank_after"]
+        )
+        wildcard_squad, _ = _optimise_points_frame(
+            aggregate, budget, time_limit
+        )
+        wildcard_ids = set(wildcard_squad["element"].astype(int))
+        wildcard_value = 0.0
+        baseline_value = 0.0
+        near_term_wildcard_value = 0.0
+        near_term_baseline_value = 0.0
+        followup_values: dict[int, dict] = {}
+        for offset, future_gameweek in enumerate(remaining):
+            selected = forecasts[
+                forecasts["gameweek"].eq(future_gameweek)
+                & forecasts["element"].isin(wildcard_ids)
+            ].copy()
+            selected_lineup, selected_value = _optimise_points_frame(
+                selected, int(selected["price"].sum()), time_limit
             )
-            identity = [
-                "element", "player_name", "element_type", "team_id", "price"
+            followup_values[future_gameweek] = {
+                "planned_value": _planned_week_value(selected_lineup),
+                "chip_values": _chip_week_values(selected_lineup),
+            }
+            if future_gameweek not in valuation_gameweeks:
+                continue
+            baseline_rows = wildcard_plan_rows[
+                wildcard_plan_rows["gameweek"].eq(future_gameweek)
             ]
-            aggregate = aggregate.groupby(identity, as_index=False).agg(
-                expected_points=("weighted_points", "sum")
-            )
-            week_rows = plan_rows[plan_rows["gameweek"].eq(gameweek)]
-            budget = int(week_rows["price"].sum()) + int(
-                week_reports[gameweek]["bank_after"]
-            )
-            wildcard_squad, _ = _optimise_points_frame(
-                aggregate, budget, time_limit
-            )
-            wildcard_ids = set(wildcard_squad["element"].astype(int))
-            wildcard_value = 0.0
-            baseline_value = 0.0
-            followup_values: dict[int, dict] = {}
-            for offset, future_gameweek in enumerate(remaining):
-                selected = forecasts[
-                    forecasts["gameweek"].eq(future_gameweek)
-                    & forecasts["element"].isin(wildcard_ids)
-                ].copy()
-                selected_lineup, selected_value = _optimise_points_frame(
-                    selected, int(selected["price"].sum()), time_limit
+            if baseline_rows.empty or future_gameweek not in wildcard_week_reports:
+                raise ValueError(
+                    "Wildcard baseline does not cover its five-Gameweek horizon"
                 )
-                followup_values[future_gameweek] = {
-                    "planned_value": _planned_week_value(selected_lineup),
-                    "chip_values": _chip_week_values(selected_lineup),
-                }
-                weight = discount ** offset
-                wildcard_value += weight * selected_value["objective"]
-                baseline_value += weight * baseline_values[future_gameweek]
-                baseline_value -= weight * float(
-                    week_reports[future_gameweek]["hit_cost"]
+            weight = discount ** offset
+            future_baseline = _planned_week_value(baseline_rows)
+            wildcard_value += weight * selected_value["objective"]
+            baseline_value += weight * future_baseline
+            baseline_value -= weight * float(
+                wildcard_week_reports[future_gameweek]["hit_cost"]
+            )
+            if offset < wildcard_reachability_weeks:
+                near_term_wildcard_value += weight * selected_value["objective"]
+                near_term_baseline_value += weight * future_baseline
+                near_term_baseline_value -= weight * float(
+                    wildcard_week_reports[future_gameweek]["hit_cost"]
                 )
-            wildcard_followup_values[gameweek] = followup_values
-            gross = wildcard_value - baseline_value
-            options.append({
-                "chip": "wildcard",
-                "gameweek": gameweek,
-                "gross_gain": gross,
-            })
+        wildcard_followup_values[gameweek] = followup_values
+        option = {
+            "chip": "wildcard",
+            "gameweek": gameweek,
+            "gross_gain": wildcard_value - baseline_value,
+            "near_term_gain": (
+                near_term_wildcard_value - near_term_baseline_value
+            ),
+            "near_term_gameweeks": min(
+                wildcard_reachability_weeks, len(valuation_gameweeks)
+            ),
+            "valuation_gameweeks": valuation_gameweeks,
+        }
+        if wildcard_initial_squad:
+            option.update(_wildcard_reachability(
+                gameweek,
+                [
+                    int(value) for value in sorted(
+                        wildcard_plan_rows["gameweek"].astype(int).unique()
+                    )
+                ],
+                wildcard_plan_rows,
+                wildcard_week_reports,
+                wildcard_initial_squad,
+                wildcard_ids,
+                wildcard_reachability_weeks,
+            ))
+        options.append(option)
 
     reaches_expiry = (
         period_end_gameweek is not None
@@ -434,6 +545,38 @@ def advise_chips(
         decorated["reserve_value"] = (
             reserves[decorated["chip"]] * reserve_fraction
         )
+        decorated["eligible"] = True
+        if decorated["chip"] == "wildcard":
+            near_term_weighted_gain = (
+                float(decorated["near_term_gain"])
+                * decorated["forecast_confidence_weight"]
+            )
+            decorated["near_term_weighted_gain"] = near_term_weighted_gain
+            reasons = []
+            changes_required = decorated.get("squad_changes_required")
+            if (
+                changes_required is not None
+                and changes_required < wildcard_min_squad_changes
+            ):
+                reasons.append(
+                    f"target needs only {changes_required} squad changes"
+                )
+            if decorated.get("reachable_immediately_without_hits"):
+                reasons.append("target is reachable immediately with free transfers")
+            elif (
+                decorated.get("reachable_within_window_without_hits")
+                and near_term_weighted_gain <= decorated["reserve_value"]
+            ):
+                reasons.append(
+                    "target is reachable within the three-deadline window "
+                    "without hits"
+                )
+            if near_term_weighted_gain <= decorated["reserve_value"]:
+                reasons.append(
+                    "near-term gain does not clear the Wildcard option value"
+                )
+            decorated["eligible"] = not reasons
+            decorated["eligibility_reasons"] = reasons
         decorated["net_gain"] = (
             decorated["weighted_gain"] - decorated["reserve_value"]
         )
@@ -470,7 +613,7 @@ def advise_chips(
                 )
             adjusted_options.append(decorate_option(adjusted))
         candidate = _allocate_chip_schedule(
-            adjusted_options,
+            [row for row in adjusted_options if row.get("eligible", True)],
             available,
             gameweeks,
             require_maximum_uses=False,
@@ -496,9 +639,10 @@ def advise_chips(
         for key in (
             "gross_gain", "forecast_confidence_weight", "weighted_gain",
             "configured_reserve_value", "reserve_fraction", "reserve_value",
-            "net_gain",
+            "near_term_gain", "near_term_weighted_gain", "net_gain",
         ):
-            row[key] = round(float(row[key]), 3)
+            if key in row:
+                row[key] = round(float(row[key]), 3)
     for row in schedule:
         for key in (
             "gross_gain", "forecast_confidence_weight", "weighted_gain",
@@ -538,6 +682,13 @@ def advise_chips(
         },
         "uncertainty_discount": uncertainty_discount,
         "stateful_wildcard_adjustment": True,
+        "wildcard_guard": {
+            "minimum_squad_changes": wildcard_min_squad_changes,
+            "reachability_window_gameweeks": wildcard_reachability_weeks,
+            "valuation_horizon_gameweeks": wildcard_horizon,
+            "future_wildcards_re_evaluated_at_deadline": True,
+            "near_term_gain_must_clear_option_value": True,
+        },
         "reserve_values": reserves,
         "recommended": recommended,
         "next_planned": next_planned,
@@ -549,10 +700,14 @@ def advise_chips(
         "method_note": (
             "Triple Captain and Bench Boost use the planned lineup. Free Hit compares "
             "with the best one-week squad. Wildcard compares with the best persistent "
-            "squad over the remaining horizon. Chips are jointly assigned so only one "
+            "squad over the next five Gameweeks. Chips are jointly assigned so only one "
             "is used per Gameweek, and later chip gains are recalculated against the "
-            "post-Wildcard squad. Distant gains are uncertainty-discounted. Future "
-            "option value decays gradually to zero at the chip-set expiry."
+            "post-Wildcard squad. Wildcard is evaluated only for the current deadline "
+            "over the normal five-Gameweek transfer horizon; future Wildcards are "
+            "re-evaluated using fresh data. Distant gains are uncertainty-discounted. Future "
+            "option value decays gradually to zero at the chip-set expiry. A Wildcard "
+            "also requires a genuine squad overhaul and enough near-term gain to beat "
+            "its option value; ordinary-transfer reachability is reported explicitly."
         ),
     }
 
@@ -756,6 +911,7 @@ def plan(
         "opponent_conflict_penalty": opponent_conflict_penalty,
         "terminal_free_transfer_value": terminal_free_transfer_value,
         "initial_free_transfers": free_transfers,
+        "initial_squad": sorted(current),
         "initial_bank": bank,
         "max_free_transfers": max_free_transfers,
         "weeks": weeks,
@@ -788,7 +944,10 @@ def main() -> None:
     parser.add_argument("--season", default="2026-27")
     parser.add_argument("--terminal-free-transfer-value", type=float, default=0.50)
     parser.add_argument("--max-candidates-per-position", type=int, default=20)
-    parser.add_argument("--time-limit", type=float, default=30.0)
+    parser.add_argument(
+        "--time-limit", type=float, default=120.0,
+        help="Main transfer-plan solver limit in seconds (default: 120)",
+    )
     parser.add_argument(
         "--unavailable-chips", nargs="*", choices=CHIPS, default=[],
         help="Chips already used or otherwise unavailable",
@@ -837,9 +996,16 @@ def main() -> None:
         chip_forecasts = forecasts
         chip_result = result
         chip_report = report
+        chip_candidate_limit = args.max_candidates_per_position
     else:
+        chip_candidate_limit = min(
+            args.max_candidates_per_position,
+            CHIP_MAX_CANDIDATES_PER_POSITION,
+        )
         chip_forecasts = prepare_forecasts(
-            chip_raw, current, args.max_candidates_per_position
+            chip_raw,
+            current,
+            chip_candidate_limit,
         )
         chip_opponent_pairs = load_opponent_pairs(
             Path(args.fixtures), args.season, chip_selected_gws
@@ -866,6 +1032,8 @@ def main() -> None:
         chip_forecasts,
         chip_result,
         chip_report,
+        wildcard_plan_rows=result,
+        wildcard_plan_report=report,
         available_chips=set(CHIPS).difference(unavailable_chips),
         reserve_values=reserve_values,
         discount=args.discount,
@@ -882,6 +1050,7 @@ def main() -> None:
         "selling_price_warning": "Current prices were used where true selling prices were unavailable.",
         "candidate_count": int(forecasts["element"].nunique()),
         "chip_candidate_count": int(chip_forecasts["element"].nunique()),
+        "chip_max_candidates_per_position": chip_candidate_limit,
         "chip_baseline_gameweeks": chip_report["gameweeks"],
         "chip_baseline_solver_status": chip_report["solver_status"],
         "unavailable_chips": sorted(unavailable_chips),

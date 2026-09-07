@@ -11,6 +11,7 @@ import pandas as pd
 from plan_transfers import (
     _allocate_chip_schedule,
     _chip_week_values,
+    _wildcard_reachability,
     advise_chips,
     chip_period_for_gameweek,
     load_opponent_pairs,
@@ -21,6 +22,105 @@ from plan_transfers import (
 
 
 class TransferPlannerTests(unittest.TestCase):
+    def test_wildcard_is_evaluated_only_for_the_current_deadline(self):
+        rows = []
+        positions = [1, 1, *([2] * 5), *([3] * 5), *([4] * 3)]
+        for gameweek in (4, 5):
+            for index, position in enumerate(positions, start=1):
+                role = (
+                    "starting_xi" if index <= 11
+                    else ("bench_gk" if index == 12 else "bench")
+                )
+                rows.append({
+                    "gameweek": gameweek,
+                    "element": index,
+                    "player_name": f"Player {index}",
+                    "element_type": position,
+                    "team_id": (index - 1) // 3 + 1,
+                    "price": 50,
+                    "expected_points": 2.0,
+                    "role": role,
+                    "bench_order": max(0, index - 12),
+                    "is_captain": index == 1,
+                    "is_vice_captain": index == 2,
+                })
+        plan_rows = pd.DataFrame(rows)
+        report = {
+            "initial_squad": list(range(1, 16)),
+            "weeks": [
+                {
+                    "gameweek": gameweek,
+                    "bank_after": 0,
+                    "hit_cost": 0,
+                    "free_transfers_before": 2,
+                }
+                for gameweek in (4, 5)
+            ],
+        }
+        advice = advise_chips(
+            plan_rows,
+            plan_rows,
+            report,
+            available_chips={"wildcard"},
+            period_start_gameweek=1,
+            period_end_gameweek=19,
+            wildcard_horizon=2,
+        )
+        wildcard_options = [
+            row for row in advice["options"] if row["chip"] == "wildcard"
+        ]
+        self.assertEqual(len(wildcard_options), 1)
+        self.assertEqual(wildcard_options[0]["gameweek"], 4)
+        self.assertFalse(wildcard_options[0]["eligible"])
+        self.assertEqual(advice["tentative_schedule"], [])
+
+    def test_wildcard_target_reachable_with_rolled_free_transfers(self):
+        gameweeks = [4, 5, 6]
+        plan_rows = pd.DataFrame([
+            {"gameweek": gameweek, "element": element}
+            for gameweek in gameweeks
+            for element in range(1, 16)
+        ])
+        week_reports = {
+            gameweek: {"gameweek": gameweek, "free_transfers_before": 2}
+            for gameweek in gameweeks
+        }
+        assessment = _wildcard_reachability(
+            4,
+            gameweeks,
+            plan_rows,
+            week_reports,
+            set(range(1, 16)),
+            set(range(1, 12)) | {16, 17, 18, 19},
+        )
+        self.assertEqual(assessment["squad_changes_required"], 4)
+        self.assertEqual(assessment["free_transfers_available_over_window"], 4)
+        self.assertFalse(assessment["reachable_immediately_without_hits"])
+        self.assertTrue(assessment["reachable_within_window_without_hits"])
+
+    def test_wildcard_target_is_not_reachable_when_overhaul_is_large(self):
+        gameweeks = [4, 5, 6]
+        plan_rows = pd.DataFrame([
+            {"gameweek": gameweek, "element": element}
+            for gameweek in gameweeks
+            for element in range(1, 16)
+        ])
+        week_reports = {
+            gameweek: {"gameweek": gameweek, "free_transfers_before": 1}
+            for gameweek in gameweeks
+        }
+        assessment = _wildcard_reachability(
+            4,
+            gameweeks,
+            plan_rows,
+            week_reports,
+            set(range(1, 16)),
+            set(range(1, 10)) | {16, 17, 18, 19, 20, 21},
+        )
+        self.assertEqual(assessment["squad_changes_required"], 6)
+        self.assertEqual(assessment["free_transfers_available_over_window"], 3)
+        self.assertFalse(assessment["reachable_within_window_without_hits"])
+
     def test_joint_chip_schedule_uses_distinct_gameweeks(self):
         options = [
             {"chip": "triple_captain", "gameweek": 18, "net_gain": 5.0},

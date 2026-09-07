@@ -236,11 +236,27 @@ multi-week strategy versus 608 for the one-week baseline. It is therefore not
 run by default. True selling prices are used when present in the squad input;
 otherwise the report clearly records the current-price fallback. Chip advice is
 read-only and respects the separate GW1-19 and GW20-38 chip sets, including the
-GW19 expiry. Actionable transfers retain a five-Gameweek horizon, while a
-separate chip baseline runs through the active set's expiry. Remaining chips are
-jointly assigned to distinct Gameweeks, distant estimates receive a small
-uncertainty discount, and the schedule is recalculated rather than treated as a
-fixed commitment. Predicted price changes are not active yet.
+GW19 expiry. Automated transfer and chip analysis uses a rolling five-Gameweek
+horizon (shortened near an expiry) and is recalculated from fresh data on every
+run. This avoids treating distant fixture assumptions as reliable. Longer
+horizons remain available through the planner's manual `--chip-horizon` option.
+Remaining chips are jointly assigned to distinct Gameweeks within the available
+horizon, and the schedule is advisory rather than a fixed commitment. Predicted
+price changes are not active yet.
+
+The automated transfer planner allows its main solver up to 120 seconds. This
+longer search avoids the weaker, hit-taking plans observed with the previous
+30-second limit; a feasible result may still be returned if optimality cannot be
+proved within the limit.
+
+In-season blending treats scoring ability and playing opportunity separately.
+Ability retains a stable historical prior, while appearance, start, and 60-minute
+probabilities update from the latest five finalized Gameweeks. A club change
+reduces the weight of the old opportunity prior because a player's former role
+may not carry over. Expected points combine conditional ability with the updated
+appearance, starting, and 60-minute probabilities, so repeated cameos are not
+valued like full-role appearances. No fixed quota for non-playing bench players
+is imposed.
 
 ## 🚀 Usage
 

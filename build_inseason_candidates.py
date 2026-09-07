@@ -50,7 +50,13 @@ def build_candidates(
                 row[f"lag_{stat}_{window}"] = values.tail(window).mean()
         last_five = player.tail(5)
         appearances = int(last_five["minutes"].gt(0).sum())
+        starts = int(pd.to_numeric(last_five["starts"], errors="coerce").fillna(0).gt(0).sum())
+        played_60 = int(pd.to_numeric(last_five["minutes"], errors="coerce").fillna(0).ge(60).sum())
+        row["role_observation_gameweeks"] = int(len(last_five))
         row["lag_appearances_5"] = appearances
+        row["role_appearances"] = appearances
+        row["role_starts"] = starts
+        row["role_played_60"] = played_60
         row["lag_start_rate_5"] = pd.to_numeric(last_five["starts"], errors="coerce").mean()
         row["lag_minutes_per_appearance_5"] = (
             last_five["minutes"].sum() / appearances if appearances else np.nan

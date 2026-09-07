@@ -41,6 +41,7 @@ on:
   push:
     branches:
       - codex/github-actions-poc
+      - master
     paths:
       - .github/workflows/fpl-status-poc.yml
       - check_fpl_status.py
@@ -73,6 +74,7 @@ on:
       - test_fpl_advice.py
       - test_pipeline_target.py
       - test_minutes_risk.py
+      - test_blend_forecasts.py
       - test_transfer_planner.py
       - test_data_bootstrap.py
 
@@ -94,10 +96,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -114,7 +116,7 @@ jobs:
 
       - name: Restore the latest deduplication state
         if: github.event_name == 'schedule'
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: .fpl-monitor
           key: fpl-monitor-v1-${{ env.FPL_ENTRY_ID }}-${{ github.run_id }}
@@ -141,7 +143,7 @@ jobs:
           (github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true')
         run: >-
           python -m unittest test_pipeline_target.py test_minutes_risk.py
-          test_transfer_planner.py test_data_bootstrap.py
+          test_blend_forecasts.py test_transfer_planner.py test_data_bootstrap.py
 
       - name: Run forecast and transfer advice
         if: >-
@@ -211,14 +213,14 @@ jobs:
 
       - name: Save the updated deduplication state
         if: github.event_name == 'schedule' && steps.gate.outputs.should_run == 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: .fpl-monitor
           key: fpl-monitor-v1-${{ env.FPL_ENTRY_ID }}-${{ github.run_id }}
 
       - name: Upload monitor report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: fpl-status-report
           path: |
