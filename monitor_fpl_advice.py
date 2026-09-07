@@ -50,6 +50,16 @@ def owned_availability_snapshot(status: dict[str, Any]) -> list[dict[str, Any]]:
 
 def recommendation_snapshot(advice: dict[str, Any]) -> dict[str, Any]:
     recommendation = advice.get("recommendation", {})
+    chip_advice = recommendation.get("chip_advice") or {}
+
+    def chip_slot(value: Any) -> dict[str, Any] | None:
+        if not isinstance(value, dict):
+            return None
+        return {
+            "chip": value.get("chip"),
+            "gameweek": value.get("gameweek"),
+        }
+
     return {
         "target_gameweek": advice.get("target_gameweek"),
         "transfers_out": sorted(
@@ -68,7 +78,10 @@ def recommendation_snapshot(advice: dict[str, Any]) -> dict[str, Any]:
         "bench": [
             int(row["element"]) for row in recommendation.get("bench", [])
         ],
-        "chip": (recommendation.get("chip_advice") or {}).get("recommended"),
+        "chip": {
+            "recommended_now": chip_slot(chip_advice.get("recommended")),
+            "next_planned": chip_slot(chip_advice.get("next_planned")),
+        },
     }
 
 

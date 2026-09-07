@@ -3,10 +3,19 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from run_fpl_pipeline import _free_transfers_from_status, _target_gameweek_from_status
+from run_fpl_pipeline import (
+    _chip_period_end,
+    _free_transfers_from_status,
+    _target_gameweek_from_status,
+)
 
 
 class PipelineTargetTests(unittest.TestCase):
+    def test_chip_period_end_uses_the_active_half(self):
+        self.assertEqual(_chip_period_end(4), 19)
+        self.assertEqual(_chip_period_end(19), 19)
+        self.assertEqual(_chip_period_end(20), 38)
+
     def test_reads_upcoming_deadline_gameweek_from_status(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "status.json"

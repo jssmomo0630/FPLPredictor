@@ -128,6 +128,9 @@ def build_advice(
             "chip_advice": {
                 "recommendation": chip_advice.get("recommendation"),
                 "recommended": chip_advice.get("recommended"),
+                "next_planned": chip_advice.get("next_planned"),
+                "tentative_schedule": chip_advice.get("tentative_schedule", []),
+                "unscheduled_chips": chip_advice.get("unscheduled_chips", []),
                 "chip_period": chip_advice.get("chip_period"),
                 "method_note": chip_advice.get("method_note"),
             },

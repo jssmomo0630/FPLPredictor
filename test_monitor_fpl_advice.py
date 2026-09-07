@@ -17,7 +17,14 @@ def status(hours=47.5, checked="2026-09-10T06:00:00+00:00", player_status="a"):
     }
 
 
-def advice(captain=1):
+def advice(captain=1, next_chip_gameweek=None, next_chip_gain=5.0):
+    chip_advice = {"recommended": None, "next_planned": None}
+    if next_chip_gameweek is not None:
+        chip_advice["next_planned"] = {
+            "chip": "triple_captain",
+            "gameweek": next_chip_gameweek,
+            "net_gain": next_chip_gain,
+        }
     return {
         "target_gameweek": 4,
         "recommendation": {
@@ -25,7 +32,7 @@ def advice(captain=1):
             "hit_cost_points": 0, "starting_xi": [{"element": i} for i in range(1, 12)],
             "captain": {"element": captain}, "vice_captain": {"element": 2},
             "bench": [{"element": i} for i in range(12, 16)],
-            "chip_advice": {"recommended": None},
+            "chip_advice": chip_advice,
         },
     }
 
@@ -67,6 +74,24 @@ class MonitorTests(unittest.TestCase):
         changed_status, _ = compare_and_update(injured, advice(), state)
         self.assertTrue(changed_status["owned_availability_changed"])
         self.assertTrue(changed_status["should_email"])
+
+    def test_changed_next_chip_slot_is_a_material_recommendation_change(self):
+        _, state = compare_and_update(status(), advice(next_chip_gameweek=7), {})
+        changed, _ = compare_and_update(
+            status(), advice(next_chip_gameweek=10), state
+        )
+        self.assertTrue(changed["recommendation_changed"])
+        self.assertTrue(changed["should_email"])
+
+    def test_small_chip_value_change_does_not_send_a_duplicate(self):
+        _, state = compare_and_update(
+            status(), advice(next_chip_gameweek=7, next_chip_gain=5.0), {}
+        )
+        changed, _ = compare_and_update(
+            status(), advice(next_chip_gameweek=7, next_chip_gain=5.1), state
+        )
+        self.assertFalse(changed["recommendation_changed"])
+        self.assertFalse(changed["should_email"])
 
 
 if __name__ == "__main__":

@@ -236,7 +236,11 @@ multi-week strategy versus 608 for the one-week baseline. It is therefore not
 run by default. True selling prices are used when present in the squad input;
 otherwise the report clearly records the current-price fallback. Chip advice is
 read-only and respects the separate GW1-19 and GW20-38 chip sets, including the
-GW19 expiry; predicted price changes are not active yet.
+GW19 expiry. Actionable transfers retain a five-Gameweek horizon, while a
+separate chip baseline runs through the active set's expiry. Remaining chips are
+jointly assigned to distinct Gameweeks, distant estimates receive a small
+uncertainty discount, and the schedule is recalculated rather than treated as a
+fixed commitment. Predicted price changes are not active yet.
 
 ## 🚀 Usage
 

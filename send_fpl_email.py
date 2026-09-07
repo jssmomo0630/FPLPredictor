@@ -66,6 +66,11 @@ def _render_advice_email(
         and chip_period.get("end_gameweek") is not None
         else "Active chip-set period unavailable"
     )
+    chip_schedule = chip_advice.get("tentative_schedule", [])
+    chip_schedule_text = "; ".join(
+        f"{str(row.get('chip')).replace('_', ' ').title()} GW{row.get('gameweek')}"
+        for row in chip_schedule
+    ) or "No future chip slot currently clears the planning threshold"
     conflicts = recommendation.get("opponent_conflicts", [])
     flags = [
         player for player in status.get("squad", {}).get("players", [])
@@ -100,6 +105,7 @@ def _render_advice_email(
         f"Bench order: {', '.join(str(row.get('player_name')) for row in bench)}",
         f"Chip advice: {chip_advice.get('recommendation') or 'No chip recommendation available'}",
         chip_period_text,
+        f"Tentative chip schedule: {chip_schedule_text}",
         "",
         "Opposing-player overlaps:",
         *conflict_lines,
@@ -150,7 +156,8 @@ def _render_advice_email(
     <p><strong>Captain:</strong> {escaped(captain)}<br><strong>Vice-captain:</strong> {escaped(vice)}</p>
     <h2 style="font-size:18px">Bench order</h2><ol>{bench_html}</ol>
     <p><strong>Chip advice:</strong> {escaped(chip_advice.get('recommendation') or 'No chip recommendation available')}<br>
-       <strong>{escaped(chip_period_text)}</strong></p>
+       <strong>{escaped(chip_period_text)}</strong><br>
+       Tentative schedule: {escaped(chip_schedule_text)}</p>
     <h2 style="font-size:18px">Opposing-player overlaps</h2><ul>{conflicts_html}</ul>
     <h2 style="font-size:18px">Availability flags</h2><ul>{flags_html}</ul>
     <div style="padding:12px;background:#fff4ce">

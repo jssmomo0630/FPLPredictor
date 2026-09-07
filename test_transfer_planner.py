@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 from plan_transfers import (
+    _allocate_chip_schedule,
     _chip_week_values,
     advise_chips,
     chip_period_for_gameweek,
@@ -20,6 +21,24 @@ from plan_transfers import (
 
 
 class TransferPlannerTests(unittest.TestCase):
+    def test_joint_chip_schedule_uses_distinct_gameweeks(self):
+        options = [
+            {"chip": "triple_captain", "gameweek": 18, "net_gain": 5.0},
+            {"chip": "triple_captain", "gameweek": 19, "net_gain": 10.0},
+            {"chip": "bench_boost", "gameweek": 18, "net_gain": 4.0},
+            {"chip": "bench_boost", "gameweek": 19, "net_gain": 9.0},
+        ]
+        schedule = _allocate_chip_schedule(
+            options,
+            {"triple_captain", "bench_boost"},
+            [18, 19],
+            require_maximum_uses=True,
+        )
+        self.assertEqual({row["chip"] for row in schedule}, {
+            "triple_captain", "bench_boost",
+        })
+        self.assertEqual({row["gameweek"] for row in schedule}, {18, 19})
+
     def test_chip_period_changes_at_gameweek_20(self):
         self.assertEqual(chip_period_for_gameweek(19)["number"], 1)
         self.assertEqual(chip_period_for_gameweek(20)["number"], 2)
@@ -82,6 +101,9 @@ class TransferPlannerTests(unittest.TestCase):
         )
         self.assertEqual({row["gameweek"] for row in advice["options"]}, {19})
         self.assertTrue(advice["chip_period"]["forecast_reaches_expiry"])
+        self.assertEqual(len(advice["tentative_schedule"]), 1)
+        self.assertEqual(advice["tentative_schedule"][0]["reserve_value"], 0)
+        self.assertEqual(len(advice["unscheduled_chips"]), 1)
 
     def test_loads_unique_opponent_pairs_for_requested_season(self):
         with tempfile.TemporaryDirectory() as directory:

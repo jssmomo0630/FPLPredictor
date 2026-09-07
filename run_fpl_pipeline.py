@@ -55,6 +55,14 @@ def _free_transfers_from_status(path: str | None) -> int | None:
         return None
 
 
+def _chip_period_end(gameweek: int) -> int:
+    if 1 <= gameweek <= 19:
+        return 19
+    if 20 <= gameweek <= 38:
+        return 38
+    raise ValueError(f"Gameweek {gameweek} is outside the supported FPL season")
+
+
 def _ensure_historical_data(
     root: Path,
     data: Path,
@@ -164,9 +172,11 @@ def main() -> None:
         seasons = [*historical, args.season]
         _run(root, "normalize_fixtures.py", "--seasons", *seasons, "--output", "data/canonical_fixtures.csv")
         _run(root, "build_fixture_features.py")
+        planning_horizon = _chip_period_end(target_gameweek) - target_gameweek + 1
         _run(
             root, "build_transfer_forecasts.py", "--predictions", predictions,
             "--season", args.season, "--start-gameweek", str(target_gameweek),
+            "--horizon", str(planning_horizon),
         )
         free_transfers = (
             args.free_transfers
@@ -177,6 +187,8 @@ def main() -> None:
             "plan_transfers.py", "--current-squad", args.current_squad,
             "--free-transfers", str(free_transfers),
             "--season", args.season,
+            "--horizon", str(min(5, planning_horizon)),
+            "--chip-horizon", str(planning_horizon),
         ]
         if args.bank is not None:
             transfer_args.extend(["--bank", str(args.bank)])

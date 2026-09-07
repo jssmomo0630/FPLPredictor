@@ -39,6 +39,13 @@ def sample_inputs():
         "chip_advice": {
             "recommendation": "Save all chips",
             "recommended": None,
+            "next_planned": {
+                "chip": "triple_captain", "gameweek": 7, "net_gain": 8.0,
+            },
+            "tentative_schedule": [
+                {"chip": "triple_captain", "gameweek": 7, "net_gain": 8.0},
+            ],
+            "unscheduled_chips": [],
             "chip_period": {"start_gameweek": 1, "end_gameweek": 19},
             "method_note": "Method.",
         },
@@ -72,6 +79,10 @@ class AdviceTests(unittest.TestCase):
         self.assertEqual(
             advice["recommendation"]["chip_advice"]["chip_period"]["end_gameweek"],
             19,
+        )
+        self.assertEqual(
+            advice["recommendation"]["chip_advice"]["next_planned"]["gameweek"],
+            7,
         )
         self.assertIn("inferred from public history", advice["assumptions"]["free_transfer_warning"])
         self.assertEqual(len(advice["recommendation"]["starting_xi"]), 11)
