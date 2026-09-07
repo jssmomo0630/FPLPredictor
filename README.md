@@ -234,8 +234,9 @@ This feature is deliberately experimental: five chronological 2025/26 replay
 windows using a direct per-target Ridge forecast scored 605 points for the
 multi-week strategy versus 608 for the one-week baseline. It is therefore not
 run by default. True selling prices are used when present in the squad input;
-otherwise the report clearly records the current-price fallback. Chips and
-predicted price changes are not active yet.
+otherwise the report clearly records the current-price fallback. Chip advice is
+read-only and respects the separate GW1-19 and GW20-38 chip sets, including the
+GW19 expiry; predicted price changes are not active yet.
 
 ## 🚀 Usage
 

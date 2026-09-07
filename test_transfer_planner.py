@@ -8,10 +8,81 @@ from pathlib import Path
 
 import pandas as pd
 
-from plan_transfers import _chip_week_values, load_opponent_pairs, load_squad, plan
+from plan_transfers import (
+    _chip_week_values,
+    advise_chips,
+    chip_period_for_gameweek,
+    load_opponent_pairs,
+    load_squad,
+    plan,
+    snapshot_used_chips,
+)
 
 
 class TransferPlannerTests(unittest.TestCase):
+    def test_chip_period_changes_at_gameweek_20(self):
+        self.assertEqual(chip_period_for_gameweek(19)["number"], 1)
+        self.assertEqual(chip_period_for_gameweek(20)["number"], 2)
+
+    def test_used_chips_are_scoped_to_the_active_half(self):
+        payload = {
+            "squad": {
+                "used_chips": [
+                    {"name": "wildcard", "event": 6},
+                    {"name": "3xc", "event": 22},
+                ]
+            }
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "status.json"
+            path.write_text(json.dumps(payload), encoding="utf-8")
+            first_half = snapshot_used_chips(path, 10)
+            second_half = snapshot_used_chips(path, 25)
+        self.assertEqual(first_half, {"wildcard"})
+        self.assertEqual(second_half, {"triple_captain"})
+
+    def test_chip_advice_does_not_cross_the_active_period_expiry(self):
+        rows = []
+        for gameweek in (19, 20):
+            for index in range(15):
+                role = (
+                    "starting_xi" if index < 11
+                    else ("bench_gk" if index == 11 else "bench")
+                )
+                rows.append({
+                    "gameweek": gameweek,
+                    "element": index + 1,
+                    "player_name": f"Player {index + 1}",
+                    "element_type": (
+                        1 if index in (0, 11)
+                        else (2 if index < 7 else (3 if index < 12 else 4))
+                    ),
+                    "team_id": index // 3 + 1,
+                    "price": 50,
+                    "expected_points": 5.0 if gameweek == 20 else 2.0,
+                    "role": role,
+                    "bench_order": max(0, index - 11),
+                    "is_captain": index == 0,
+                    "is_vice_captain": index == 1,
+                })
+        plan_rows = pd.DataFrame(rows)
+        report = {
+            "weeks": [
+                {"gameweek": 19, "bank_after": 0, "hit_cost": 0},
+                {"gameweek": 20, "bank_after": 0, "hit_cost": 0},
+            ]
+        }
+        advice = advise_chips(
+            plan_rows,
+            plan_rows,
+            report,
+            available_chips={"triple_captain", "bench_boost"},
+            period_start_gameweek=1,
+            period_end_gameweek=19,
+        )
+        self.assertEqual({row["gameweek"] for row in advice["options"]}, {19})
+        self.assertTrue(advice["chip_period"]["forecast_reaches_expiry"])
+
     def test_loads_unique_opponent_pairs_for_requested_season(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "fixtures.csv"

@@ -56,6 +56,16 @@ def _render_advice_email(
     captain = recommendation.get("captain", {}).get("player_name")
     vice = recommendation.get("vice_captain", {}).get("player_name")
     bench = recommendation.get("bench", [])
+    chip_advice = recommendation.get("chip_advice", {})
+    chip_period = chip_advice.get("chip_period") or {}
+    chip_period_text = (
+        f"Active chip set: GW{chip_period.get('start_gameweek')}-"
+        f"GW{chip_period.get('end_gameweek')} (expires at the GW"
+        f"{chip_period.get('end_gameweek')} deadline)"
+        if chip_period.get("start_gameweek") is not None
+        and chip_period.get("end_gameweek") is not None
+        else "Active chip-set period unavailable"
+    )
     conflicts = recommendation.get("opponent_conflicts", [])
     flags = [
         player for player in status.get("squad", {}).get("players", [])
@@ -88,7 +98,8 @@ def _render_advice_email(
         f"Captain: {captain}",
         f"Vice-captain: {vice}",
         f"Bench order: {', '.join(str(row.get('player_name')) for row in bench)}",
-        f"Chip advice: {recommendation.get('chip_advice', {}).get('recommendation') or 'No chip recommendation available'}",
+        f"Chip advice: {chip_advice.get('recommendation') or 'No chip recommendation available'}",
+        chip_period_text,
         "",
         "Opposing-player overlaps:",
         *conflict_lines,
@@ -138,7 +149,8 @@ def _render_advice_email(
     <h2 style="font-size:18px">Starting XI</h2><ul>{starters_html}</ul>
     <p><strong>Captain:</strong> {escaped(captain)}<br><strong>Vice-captain:</strong> {escaped(vice)}</p>
     <h2 style="font-size:18px">Bench order</h2><ol>{bench_html}</ol>
-    <p><strong>Chip advice:</strong> {escaped(recommendation.get('chip_advice', {}).get('recommendation') or 'No chip recommendation available')}</p>
+    <p><strong>Chip advice:</strong> {escaped(chip_advice.get('recommendation') or 'No chip recommendation available')}<br>
+       <strong>{escaped(chip_period_text)}</strong></p>
     <h2 style="font-size:18px">Opposing-player overlaps</h2><ul>{conflicts_html}</ul>
     <h2 style="font-size:18px">Availability flags</h2><ul>{flags_html}</ul>
     <div style="padding:12px;background:#fff4ce">

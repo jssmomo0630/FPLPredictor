@@ -48,7 +48,10 @@ class EmailRenderTests(unittest.TestCase):
                 "captain": {"player_name": "Starter 1"},
                 "vice_captain": {"player_name": "Starter 2"},
                 "bench": [{"player_name": f"Bench {index}", "position": "DEF"} for index in range(1, 5)],
-                "chip_advice": {"recommendation": "Save all chips"},
+                "chip_advice": {
+                    "recommendation": "Save all chips",
+                    "chip_period": {"start_gameweek": 1, "end_gameweek": 19},
+                },
             },
             "assumptions": {
                 "free_transfers_assumed": 1,
@@ -61,6 +64,7 @@ class EmailRenderTests(unittest.TestCase):
         subject, text_body, html_body = emailer.render_email(sample_status(), advice, summary)
         self.assertEqual(subject, "[FPL] GW4 recommendations — 20h to deadline")
         self.assertIn("Old → New", text_body)
+        self.assertIn("expires at the GW19 deadline", text_body)
         self.assertIn("AI commentary", html_body)
         self.assertIn("Advisory only", html_body)
 

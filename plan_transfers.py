@@ -18,6 +18,10 @@ from optimize_squad import (
 
 
 CHIPS = ("wildcard", "free_hit", "triple_captain", "bench_boost")
+CHIP_PERIODS = (
+    {"number": 1, "start_gameweek": 1, "end_gameweek": 19},
+    {"number": 2, "start_gameweek": 20, "end_gameweek": 38},
+)
 DEFAULT_CHIP_RESERVE_VALUES = {
     "wildcard": 15.0,
     "free_hit": 12.0,
@@ -117,17 +121,42 @@ def load_squad(path: Path, forecasts: pd.DataFrame, bank_override: int | None) -
     return elements, selling_prices, int(bank or 0), source
 
 
-def snapshot_used_chips(path: Path) -> set[str]:
+def chip_period_for_gameweek(gameweek: int) -> dict[str, int]:
+    for period in CHIP_PERIODS:
+        if period["start_gameweek"] <= gameweek <= period["end_gameweek"]:
+            return dict(period)
+    raise ValueError(f"Gameweek {gameweek} is outside the supported FPL season")
+
+
+def snapshot_used_chips(path: Path, target_gameweek: int | None = None) -> set[str]:
+    """Return chips used in the target half-season.
+
+    Public entry history contains chip uses from the full season. A chip used in
+    the first half must not make its refreshed second-half copy unavailable.
+    Rows without an event remain conservatively unavailable because their period
+    cannot be identified.
+    """
     if path.suffix.lower() != ".json":
         return set()
     payload = json.loads(path.read_text(encoding="utf-8"))
     used = payload.get("metadata", {}).get("chips_used", [])
     if isinstance(payload.get("squad"), dict):
         used = payload["squad"].get("used_chips", used)
-    names = {
-        row.get("name") if isinstance(row, dict) else row
-        for row in used
-    }
+    period = (
+        chip_period_for_gameweek(target_gameweek)
+        if target_gameweek is not None else None
+    )
+    names = set()
+    for row in used:
+        if isinstance(row, dict):
+            event = row.get("event")
+            if period is not None and event is not None:
+                event = int(event)
+                if not period["start_gameweek"] <= event <= period["end_gameweek"]:
+                    continue
+            names.add(row.get("name"))
+        else:
+            names.add(row)
     return {CHIP_NAME_MAP[name] for name in names if name in CHIP_NAME_MAP}
 
 
@@ -211,6 +240,8 @@ def advise_chips(
     reserve_values: dict[str, float] | None = None,
     discount: float = 0.90,
     time_limit: float = 5.0,
+    period_start_gameweek: int | None = None,
+    period_end_gameweek: int | None = None,
 ) -> dict:
     """Estimate chip gains against the no-chip transfer plan."""
     available = set(CHIPS if available_chips is None else available_chips)
@@ -218,9 +249,16 @@ def advise_chips(
     if unknown:
         raise ValueError(f"Unknown chips: {sorted(unknown)}")
     reserves = {**DEFAULT_CHIP_RESERVE_VALUES, **(reserve_values or {})}
-    gameweeks = [
+    all_gameweeks = [
         int(value) for value in sorted(plan_rows["gameweek"].astype(int).unique())
     ]
+    gameweeks = [
+        gameweek for gameweek in all_gameweeks
+        if (period_start_gameweek is None or gameweek >= period_start_gameweek)
+        and (period_end_gameweek is None or gameweek <= period_end_gameweek)
+    ]
+    if not gameweeks:
+        raise ValueError("No forecast gameweeks fall within the active chip period")
     week_reports = {int(row["gameweek"]): row for row in plan_report["weeks"]}
     baseline_values = {
         gameweek: _planned_week_value(
@@ -319,6 +357,14 @@ def advise_chips(
     recommended = next((row for row in options if row["net_gain"] > 0), None)
     return {
         "available_chips": sorted(available),
+        "chip_period": {
+            "start_gameweek": period_start_gameweek,
+            "end_gameweek": period_end_gameweek,
+            "forecast_reaches_expiry": (
+                period_end_gameweek is not None
+                and max(gameweeks) >= period_end_gameweek
+            ),
+        },
         "reserve_values": reserves,
         "recommended": recommended,
         "recommendation": (
@@ -604,7 +650,10 @@ def main() -> None:
         "triple_captain": args.triple_captain_reserve_value,
         "bench_boost": args.bench_boost_reserve_value,
     }
-    unavailable_chips = set(args.unavailable_chips) | snapshot_used_chips(squad_path)
+    chip_period = chip_period_for_gameweek(selected_gws[0])
+    unavailable_chips = set(args.unavailable_chips) | snapshot_used_chips(
+        squad_path, selected_gws[0]
+    )
     report["chip_advice"] = advise_chips(
         forecasts,
         result,
@@ -613,6 +662,8 @@ def main() -> None:
         reserve_values=reserve_values,
         discount=args.discount,
         time_limit=args.chip_time_limit,
+        period_start_gameweek=chip_period["start_gameweek"],
+        period_end_gameweek=chip_period["end_gameweek"],
     )
     report.update({
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),

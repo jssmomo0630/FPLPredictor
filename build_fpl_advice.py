@@ -128,6 +128,7 @@ def build_advice(
             "chip_advice": {
                 "recommendation": chip_advice.get("recommendation"),
                 "recommended": chip_advice.get("recommended"),
+                "chip_period": chip_advice.get("chip_period"),
                 "method_note": chip_advice.get("method_note"),
             },
             "opponent_conflicts": week.get("opponent_conflicts", []),

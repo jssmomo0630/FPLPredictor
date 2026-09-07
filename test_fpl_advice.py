@@ -36,7 +36,12 @@ def sample_inputs():
             "opponent_conflict_penalty_points": 0.15,
         }],
         "opponent_conflict_penalty": 0.15,
-        "chip_advice": {"recommendation": "Save all chips", "recommended": None, "method_note": "Method."},
+        "chip_advice": {
+            "recommendation": "Save all chips",
+            "recommended": None,
+            "chip_period": {"start_gameweek": 1, "end_gameweek": 19},
+            "method_note": "Method.",
+        },
     }
     rows = []
     positions = ["GK", "DEF", "DEF", "DEF", "MID", "MID", "MID", "MID", "FWD", "FWD", "FWD"]
@@ -64,6 +69,10 @@ class AdviceTests(unittest.TestCase):
         self.assertEqual(advice["recommendation"]["headline"], "Make 1 transfer(s): Old → New")
         self.assertEqual(advice["assumptions"]["bank_from_locked_squad_millions"], 0.7)
         self.assertEqual(advice["assumptions"]["free_transfers_assumed"], 1)
+        self.assertEqual(
+            advice["recommendation"]["chip_advice"]["chip_period"]["end_gameweek"],
+            19,
+        )
         self.assertIn("inferred from public history", advice["assumptions"]["free_transfer_warning"])
         self.assertEqual(len(advice["recommendation"]["starting_xi"]), 11)
         self.assertEqual(advice["recommendation"]["opponent_conflict_penalty_points"], 0.15)
