@@ -31,6 +31,39 @@ def _deadline_label(status: Mapping[str, Any]) -> str:
     return gameweek.get("deadline_time_local") or gameweek.get("deadline_time_utc") or "not published"
 
 
+def _points_explanation(recommendation: Mapping[str, Any]) -> list[str]:
+    comparison = recommendation.get("points_comparison") or {}
+    if not comparison.get("available"):
+        return ["Projected gain versus keeping the squad is unavailable for this report."]
+    weeks = comparison["weeks"]
+    lines = ["Projected points: plan versus keeping your squad"]
+    for week in weeks:
+        lines.append(
+            f"GW{week['gameweek']}: plan {week['recommended_points']:.1f}, "
+            f"keep {week['keep_points']:.1f}; gross gain {week['gross_gain']:+.1f}, "
+            f"hit {week['hit_cost']:.1f}, net gain {week['net_gain']:+.1f}."
+        )
+    lines.append(
+        f"Whole plan GW{weeks[0]['gameweek']}-GW{weeks[-1]['gameweek']}: "
+        f"{comparison['horizon_net_gain']:+.1f} projected points after hits."
+    )
+    lines.append(comparison["method"])
+    lines.append(
+        f"Solver status: plan {comparison['plan_solver_status']}; "
+        f"keep-squad baseline {comparison['baseline_solver_status']}."
+    )
+    for direction, players in (("Sell", recommendation.get("transfers_out", [])),
+                               ("Buy", recommendation.get("transfers_in", []))):
+        for player in players:
+            if player.get("expected_points") is not None:
+                lines.append(
+                    f"{direction} {player['player_name']}: "
+                    f"{player['expected_points']:.1f} projected next-GW player points "
+                    "(before lineup/captain weighting)."
+                )
+    return lines
+
+
 def _render_advice_email(
     status: Mapping[str, Any],
     advice: Mapping[str, Any],
@@ -39,6 +72,17 @@ def _render_advice_email(
     if advice.get("read_only") is not True or advice.get("advisory_only") is not True:
         raise ValueError("Refusing to email advice not marked read_only and advisory_only")
     recommendation = advice.get("recommendation", {})
+    points_lines = _points_explanation(recommendation)
+    notification = advice.get("notification_context") or {}
+    reason_labels = {
+        "first_recommendation_for_gameweek": "First recommendation for this gameweek",
+        "owned_availability_changed": "An owned player's availability changed",
+        "recommendation_changed": "The recalculated transfer, lineup, or chip advice changed",
+    }
+    update_lines = [reason_labels[reason] for reason in notification.get("reasons", [])
+                    if reason in reason_labels]
+    if update_lines:
+        points_lines.insert(0, "Why this email: " + "; ".join(update_lines) + ".")
     assumptions = advice.get("assumptions", {})
     gameweek = advice.get("target_gameweek")
     hours = advice.get("hours_to_deadline")
@@ -99,6 +143,8 @@ def _render_advice_email(
         "Transfers:",
         *transfer_lines,
         "",
+        *points_lines,
+        "",
         f"Starting XI: {', '.join(str(row.get('player_name')) for row in starters)}",
         f"Captain: {captain}",
         f"Vice-captain: {vice}",
@@ -128,6 +174,7 @@ def _render_advice_email(
         f"<li>{escaped(outgoing.get('player_name'))} → {escaped(incoming.get('player_name'))}</li>"
         for outgoing, incoming in zip(transfers_out, transfers_in)
     ) or "<li>No transfer; roll if the stated assumptions match your team.</li>"
+    points_html = "".join(f"<p>{escaped(line)}</p>" for line in points_lines)
     flags_html = "".join(
         f"<li><strong>{escaped(player.get('player_name'))}</strong>: {escaped(player.get('availability'))}"
         f"{' — ' + escaped(player.get('news')) if player.get('news') else ''}</li>"
@@ -152,6 +199,7 @@ def _render_advice_email(
        <strong>Transfer hit:</strong> {escaped(recommendation.get('hit_cost_points', 0))} points<br>
        <strong>Projected bank:</strong> £{escaped(f"{recommendation.get('bank_after_millions', 0):.1f}")}m</p>
     <h2 style="font-size:18px">Transfers</h2><ul>{transfers_html}</ul>
+    <h2 style="font-size:18px">What could these moves gain?</h2>{points_html}
     <h2 style="font-size:18px">Starting XI</h2><ul>{starters_html}</ul>
     <p><strong>Captain:</strong> {escaped(captain)}<br><strong>Vice-captain:</strong> {escaped(vice)}</p>
     <h2 style="font-size:18px">Bench order</h2><ol>{bench_html}</ol>

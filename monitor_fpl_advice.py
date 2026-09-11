@@ -237,6 +237,13 @@ def main() -> None:
     else:
         advice = json.loads(Path(args.advice).read_text(encoding="utf-8"))
         result, updated_state = compare_and_update(status, advice, state)
+        advice["notification_context"] = {
+            "reasons": result["reasons"],
+            "previous_email_at_utc": state.get("last_email_at_utc"),
+        }
+        Path(args.advice).write_text(
+            json.dumps(advice, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
         state_path.parent.mkdir(parents=True, exist_ok=True)
         state_path.write_text(
             json.dumps(updated_state, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"

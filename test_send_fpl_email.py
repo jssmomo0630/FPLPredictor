@@ -30,6 +30,26 @@ def sample_status():
 
 
 class EmailRenderTests(unittest.TestCase):
+    def test_points_comparison_reaches_both_email_formats(self):
+        from test_fpl_advice import sample_inputs
+        from build_fpl_advice import build_advice
+        status, plan, rows = sample_inputs()
+        plan["points_comparison"] = {
+            "available": True,
+            "weeks": [{"gameweek": 4, "recommended_points": 60, "keep_points": 54,
+                       "gross_gain": 6, "hit_cost": 4, "net_gain": 2}],
+            "horizon_net_gain": 2, "plan_solver_status": "FEASIBLE",
+            "baseline_solver_status": "OPTIMAL", "method": "No chips <included>.",
+        }
+        advice = build_advice(status, plan, rows)
+        advice["notification_context"] = {"reasons": ["recommendation_changed"]}
+        _, plain, html = emailer.render_email(status, advice)
+        self.assertIn("net gain +2.0", plain)
+        self.assertIn("net gain +2.0", html)
+        self.assertIn("No chips &lt;included&gt;", html)
+        self.assertIn("Why this email", plain)
+        self.assertIn("FEASIBLE", plain)
+
     def test_renders_advice_when_present(self):
         advice = {
             "read_only": True,

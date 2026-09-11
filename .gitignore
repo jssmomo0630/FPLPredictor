@@ -11,3 +11,8 @@ artifacts/
 # Entry snapshots are runtime inputs/outputs, not source files.
 squads/current_squad_*.json
 squads/squad_*.json
+
+# Superseded generated reports.
+current_available_players.csv
+data_format_comparison.json
+player_consistency_results.json

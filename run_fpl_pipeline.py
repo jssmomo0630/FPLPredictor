@@ -112,7 +112,7 @@ def main() -> None:
     parser.add_argument("--refresh", action="store_true", help="Refresh official data before forecasting")
     parser.add_argument(
         "--experimental-transfers", action="store_true",
-        help="Generate the not-yet-enabled multi-GW transfer advisory",
+        help="Generate the experimental multi-GW transfer advisory (used by Actions)",
     )
     parser.add_argument("--current-squad", help="Current 15-player CSV or entry-snapshot JSON")
     parser.add_argument(
