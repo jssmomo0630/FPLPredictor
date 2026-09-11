@@ -17,11 +17,34 @@ from plan_transfers import (
     load_opponent_pairs,
     load_squad,
     plan,
+    explain_plan,
     snapshot_used_chips,
 )
 
 
 class TransferPlannerTests(unittest.TestCase):
+    def test_points_comparison_uses_fixed_squad_and_subtracts_hits(self):
+        positions = [1, 1, *([2] * 5), *([3] * 5), *([4] * 3)]
+        forecasts = pd.DataFrame([
+            {"gameweek": gw, "element": i, "player_name": f"P{i}",
+             "element_type": pos, "team_id": (i - 1) // 3 + 1,
+             "price": 50, "expected_points": 2.0}
+            for gw in (4, 5) for i, pos in enumerate(positions, 1)
+        ])
+        current = set(range(1, 16))
+        rows, report = plan(forecasts, current, {}, 0, 1, time_limit=5)
+        comparison = explain_plan(forecasts, current, rows, report)
+        self.assertTrue(comparison["available"])
+        self.assertAlmostEqual(comparison["horizon_net_gain"], 0)
+        # A charged hit must reduce net gain even if lineup projections are identical.
+        report["weeks"][0]["hit_cost"] = 4
+        report["weeks"][0]["transfers_in"] = [{"element": 3, "player_name": "P3"}]
+        comparison = explain_plan(forecasts, current, rows, report)
+        self.assertAlmostEqual(comparison["weeks"][0]["gross_gain"], 0)
+        self.assertAlmostEqual(comparison["weeks"][0]["net_gain"], -4)
+        self.assertAlmostEqual(comparison["horizon_net_gain"], -4)
+        self.assertEqual(report["weeks"][0]["transfers_in"][0]["expected_points"], 2)
+
     def test_wildcard_is_evaluated_only_for_the_current_deadline(self):
         rows = []
         positions = [1, 1, *([2] * 5), *([3] * 5), *([4] * 3)]

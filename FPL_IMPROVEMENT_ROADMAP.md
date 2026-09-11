@@ -1,5 +1,9 @@
 # FPL Improvement Roadmap
 
+This document retains historical validation results from development snapshots.
+Player counts, scores, and trial configurations below are not current live
+results. See [README.md](README.md) for the supported workflow and setup.
+
 ## Goal
 
 Produce opening-squad, weekly lineup, captain, and transfer recommendations
@@ -22,7 +26,7 @@ whose estimates use only information available before the relevant deadline.
 
 - `normalize_gameweeks.py`: canonical player-gameweek table from vaastav and
   official FPL sources.
-- `fixtures_canonical.csv`: one row per team per fixture from the official API.
+- `data/canonical_fixtures.csv`: one row per team per fixture from the official API.
 
 **Acceptance criteria**
 
@@ -179,9 +183,10 @@ whose estimates use only information available before the relevant deadline.
   goalkeeper, minimum 3/2/1 DEF/MID/FWD, 11 starters, and no more than three
   players from one club.
 - Starting-XI and captain value use availability-adjusted expected points.
-  Bench slots are weighted only by documented autosub-use assumptions of 15%,
-  5%, and 2%; reserve-goalkeeper and vice-captain fallback use 5% each. All
-  assumptions and the prediction-input SHA-256 are saved with the result.
+  Bench-use probabilities now derive from selected starters' nonappearance
+  risks when available, with fixed probabilities retained as a fallback or
+  explicit override. Assumptions and the prediction-input SHA-256 are saved
+  with the result. The numerical GW1 experiment below predates this update.
 - On the 2026/27 GW1 prediction snapshot, CP-SAT proved the £100.0m, 5-3-2
   solution optimal with objective 59.6675. The same-input deterministic greedy
   upgrade benchmark scored 52.8898, so the exact optimiser improved the stated
@@ -222,18 +227,21 @@ whose estimates use only information available before the relevant deadline.
   scaling with a separately fitted chronological Ridge forecast for each target
   improved the result to 605 realized points versus 608 for a repeatedly
   replanned one-week baseline.
-- Because the multi-week method is still three points behind the baseline,
-  automated
-  recommendations remain gated behind `--experimental-transfers`. The result
-  is available as an advisory, not enabled as the default strategy.
-- Chip activation and price-change forecasts are not implemented yet; adding
-  them before the underlying multi-GW point forecast passes validation would
-  add complexity without fixing the measured weakness.
+- The CLI retains `--experimental-transfers` because validation remains limited.
+  GitHub Actions explicitly enables it for advisory runs. Automation now uses
+  public squad status, inferred free transfers, a rolling five-GW horizon,
+  guarded chip recommendations, and a 120-second main solver limit.
+- Chip recommendations respect half-season sets and expiry; actual activation
+  remains manual. Price-change forecasts are not implemented.
+- Deadline monitoring, email previews/delivery, optional Gemini commentary,
+  and cached recommendation deduplication are implemented. Live Gemini API
+  verification remains pending key setup.
 
 ## Current execution order
 
 1. Improve multi-GW calibration and transfer-value uncertainty beyond the
    current direct chronological Ridge forecasts.
-2. Expand the replay sample and enable recommendations only if they beat the
-   one-week baseline on untouched validation windows.
-3. After that gate passes, add price-change forecasts and the two chip sets.
+2. Expand replay coverage to assess the current advisory against the one-week
+   baseline on untouched validation windows.
+3. Evaluate the existing chip recommendations and consider price-change
+   forecasts only when the underlying forecast quality supports them.

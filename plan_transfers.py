@@ -919,6 +919,56 @@ def plan(
     return pd.DataFrame(rows), report
 
 
+def explain_plan(forecasts, current, result, report, opponent_pairs=None):
+    """Compare the no-chip plan to holding the original 15 with fresh lineups."""
+    for week in report["weeks"]:
+        for player in [*week["transfers_in"], *week["transfers_out"]]:
+            forecast = forecasts.loc[
+                forecasts["element"].eq(player["element"])
+                & forecasts["gameweek"].eq(week["gameweek"]), "expected_points"
+            ]
+            player["expected_points"] = float(forecast.iloc[0])
+    held = forecasts[forecasts["element"].isin(current)].copy()
+    try:
+        baseline, baseline_report = plan(
+            held, current, {}, report["initial_bank"], report["initial_free_transfers"],
+            discount=report["discount"], max_free_transfers=report["max_free_transfers"],
+            hit_cost=report["hit_cost"], transfer_friction=report["transfer_friction"],
+            opponent_conflict_penalty=report["opponent_conflict_penalty"],
+            opponent_pairs=opponent_pairs,
+            terminal_free_transfer_value=report["terminal_free_transfer_value"],
+            time_limit=5.0,
+        )
+    except RuntimeError as exc:
+        return {"available": False, "reason": str(exc)}
+    weeks = []
+    for week in report["weeks"]:
+        gw = week["gameweek"]
+        recommended = _planned_week_value(result[result["gameweek"].eq(gw)])
+        keep = _planned_week_value(baseline[baseline["gameweek"].eq(gw)])
+        hit = float(week["hit_cost"])
+        weeks.append({
+            "gameweek": gw, "recommended_points": recommended,
+            "keep_points": keep, "gross_gain": recommended - keep,
+            "hit_cost": hit, "net_gain": recommended - keep - hit,
+        })
+    return {
+        "available": True, "weeks": weeks,
+        "horizon_net_gain": sum(week["net_gain"] for week in weeks),
+        "plan_solver_status": report["solver_status"],
+        "baseline_solver_status": baseline_report["solver_status"],
+        "method": (
+            "Same forecasts; keep the original 15 with reoptimized lineups and captains each week. "
+            "Points include captain and approximate bench/vice-captain fallback contributions. "
+            "Net gain subtracts transfer hits, excludes chips, and is not time-discounted. "
+            "The horizon gain includes ALL planned future transfers, not just today's moves. "
+            "Transfer friction, opponent-overlap penalties, and saved-transfer option value "
+            "affect selection but are not FPL points and are excluded here. "
+            "Estimates are not guaranteed returns; FEASIBLE solutions are not proven optimal."
+        ),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Plan free-transfer-aware multi-GW FPL moves")
     parser.add_argument("--forecasts", default="data/transfer_forecasts.csv")
@@ -1059,6 +1109,9 @@ def main() -> None:
             "chips are evaluated as recommendations and are never activated automatically."
         ),
     })
+    report["points_comparison"] = explain_plan(
+        forecasts, current, result, report, opponent_pairs
+    )
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     result.to_csv(args.output, index=False)
     Path(args.report).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

@@ -120,6 +120,7 @@ def build_advice(
             "hit_cost_points": float(week.get("hit_cost", 0)),
             "transfers_out": transfers_out,
             "transfers_in": transfers_in,
+            "points_comparison": plan.get("points_comparison"),
             "bank_after_millions": int(week.get("bank_after", 0)) / 10,
             "starting_xi": starters,
             "captain": captain,

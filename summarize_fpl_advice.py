@@ -26,6 +26,7 @@ def _facts(advice: dict[str, Any]) -> dict[str, Any]:
         "transfers_out": recommendation["transfers_out"],
         "transfers_in": recommendation["transfers_in"],
         "hit_cost_points": recommendation["hit_cost_points"],
+        "points_comparison": recommendation.get("points_comparison"),
         "captain": recommendation["captain"]["player_name"],
         "vice_captain": recommendation["vice_captain"]["player_name"],
         "bench_order": [row["player_name"] for row in recommendation["bench"]],
@@ -38,6 +39,8 @@ def gemini_summary(advice: dict[str, Any], api_key: str, model: str) -> str:
     prompt = (
         "Write a concise FPL manager briefing of at most 140 words from the JSON facts below. "
         "Do not introduce players, prices, points, injuries, fixtures, or claims absent from the JSON. "
+        "Explain projected net gains when provided, distinguishing next week from the whole plan. "
+        "Do not attribute the whole horizon gain to today's transfers or invent causal explanations. "
         "Clearly label the public-squad and free-transfer limitations. Use plain text, not markdown.\n\n"
         + json.dumps(_facts(advice), ensure_ascii=False)
     )
