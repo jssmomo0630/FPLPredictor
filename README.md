@@ -169,6 +169,57 @@ feature definitions from `evaluate_fixture_baseline.py`, and the pipeline runs
 milestones and historical experiments. Superseded model, desktop, and one-off
 analysis tools remain available in Git history.
 
+## Independent weekly recommendations
+
+Generate a one-gameweek £100m squad, XI, captain/vice, ranked players by position,
+and points-per-£m value picks without an entry ID or existing squad:
+
+```sh
+python weekly_recommendations.py generate
+```
+
+This refreshes official data, selects the next future deadline (even during an
+ongoing gameweek), and runs the existing forecast/optimizer pipeline. Each run
+saves an immutable timestamped directory under
+`artifacts/weekly/<season>/gwNN/` with `recommendation.json` and a Markdown report.
+JSON includes every candidate's forecast, selected lineup, input hash, budget,
+solver status, and assumptions for future dashboard use. Multiple pre-deadline
+versions are preserved; choose the last pre-deadline snapshot for the primary
+weekly review. Generation refuses to publish after the target deadline.
+
+After the event is finalized, refresh results and review that same snapshot:
+
+```sh
+python download_current_season.py --season 2026-27
+python weekly_recommendations.py review --snapshot artifacts/weekly/2026-27/gw06/TIMESTAMP/recommendation.json
+```
+
+Replace `TIMESTAMP` with the saved directory name. Reviews require the official
+`data_checked` flag, reject missing player outcomes, and preserve the original
+forecast. They report player errors/minutes, overall MAE, top-ten realized
+points, and a fixed starting-XI score with double captain points. That benchmark
+deliberately excludes autosubs/vice fallback and chips, and is labelled separately
+from official FPL team scoring. No post-deadline recommendation can be treated
+as a genuine pre-deadline forecast. JSON reviews are timestamped alongside picks.
+
+The personal-advice workflow remains separate and manager-specific. The
+`Weekly FPL dashboard` workflow archives these public, manager-independent
+snapshots on the `weekly-dashboard-data` branch and publishes a GitHub Pages
+site. It checks every six hours, but only runs the expensive forecast pipeline
+during the 48 hours before the next deadline. When FPL finalizes a gameweek, it
+adds a review to each previously frozen forecast.
+
+Build the dependency-free dashboard locally with:
+
+```sh
+python build_weekly_dashboard.py --snapshot-root artifacts/weekly
+```
+
+The output is written to `artifacts/weekly-dashboard/`. Serve that directory
+with any local HTTP server for previewing because the page loads its data with
+`fetch`. The published data contains forecasts and public FPL results only; it
+does not contain email credentials, API keys, or manager-specific squad data.
+
 ## Tests
 
 ```sh

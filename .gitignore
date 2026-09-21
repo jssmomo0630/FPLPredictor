@@ -7,6 +7,7 @@ data/
 artifacts/
 .codex-cleanroom-*/
 .fpl-monitor/
+.weekly-dashboard-data/
 
 # Entry snapshots are runtime inputs/outputs, not source files.
 squads/current_squad_*.json

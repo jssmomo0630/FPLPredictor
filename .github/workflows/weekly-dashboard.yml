@@ -1,0 +1,182 @@
+name: Weekly FPL dashboard
+
+on:
+  workflow_dispatch:
+    inputs:
+      generate_forecast:
+        description: Generate a fresh forecast before publishing
+        required: false
+        type: boolean
+        default: true
+  schedule:
+    # Four checks per day. The expensive pipeline only runs within 48 hours of a deadline.
+    - cron: "17 */6 * * *"
+  push:
+    branches: [master]
+    paths:
+      - .github/workflows/weekly-dashboard.yml
+      - weekly_recommendations.py
+      - check_weekly_dashboard.py
+      - build_weekly_dashboard.py
+      - dashboard/**
+      - run_fpl_pipeline.py
+      - train_gw1_prior.py
+      - train_inseason_model.py
+      - blend_forecasts.py
+      - optimize_squad.py
+      - requirements-actions.txt
+  pull_request:
+    paths:
+      - .github/workflows/weekly-dashboard.yml
+      - weekly_recommendations.py
+      - check_weekly_dashboard.py
+      - build_weekly_dashboard.py
+      - dashboard/**
+      - test_weekly_recommendations.py
+      - test_weekly_dashboard.py
+      - test_weekly_dashboard_gate.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-fpl-dashboard
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --requirement requirements-actions.txt
+      - name: Test weekly forecasting and publishing
+        run: >-
+          python -m unittest test_weekly_recommendations.py
+          test_weekly_dashboard.py test_weekly_dashboard_gate.py
+
+  publish:
+    if: github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out forecast code
+        uses: actions/checkout@v6
+
+      - name: Check out durable forecast history
+        uses: actions/checkout@v6
+        with:
+          ref: weekly-dashboard-data
+          path: .weekly-dashboard-data
+
+      - name: Check deadline and review gates
+        id: gate
+        run: >-
+          python check_weekly_dashboard.py
+          --snapshot-root .weekly-dashboard-data/snapshots
+          --github-output "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.generate_forecast) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_generate == 'true') ||
+          steps.gate.outputs.should_review == 'true'
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install forecast dependencies
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.generate_forecast) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_generate == 'true') ||
+          steps.gate.outputs.should_review == 'true'
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+        run: python -m pip install --requirement requirements-actions.txt
+
+      - name: Generate immutable weekly forecast
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.generate_forecast) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_generate == 'true')
+        env:
+          LOKY_MAX_CPU_COUNT: "2"
+        run: python weekly_recommendations.py generate --output-root artifacts/weekly
+
+      - name: Refresh results for pending reviews
+        if: >-
+          steps.gate.outputs.should_review == 'true' &&
+          !((github.event_name == 'workflow_dispatch' && inputs.generate_forecast) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_generate == 'true'))
+        run: python download_current_season.py
+
+      - name: Review finalized forecasts
+        if: steps.gate.outputs.should_review == 'true'
+        run: >-
+          python weekly_recommendations.py review-pending
+          --snapshot-root .weekly-dashboard-data/snapshots
+
+      - name: Add new forecasts to durable history
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.generate_forecast) ||
+          (github.event_name == 'schedule' && steps.gate.outputs.should_generate == 'true')
+        run: |
+          mkdir -p .weekly-dashboard-data/snapshots
+          cp -a artifacts/weekly/. .weekly-dashboard-data/snapshots/
+
+      - name: Save forecast history
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.generate_forecast) ||
+          (github.event_name == 'schedule' && (steps.gate.outputs.should_generate == 'true' || steps.gate.outputs.should_review == 'true'))
+        working-directory: .weekly-dashboard-data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add snapshots
+          if ! git diff --cached --quiet; then
+            git commit -m "Archive weekly FPL forecast data"
+            git push origin HEAD:weekly-dashboard-data
+          fi
+
+      - name: Build static dashboard
+        if: >-
+          github.event_name != 'schedule' ||
+          steps.gate.outputs.should_generate == 'true' ||
+          steps.gate.outputs.should_review == 'true'
+        run: >-
+          python build_weekly_dashboard.py
+          --snapshot-root .weekly-dashboard-data/snapshots
+          --output artifacts/weekly-dashboard
+
+      - name: Configure GitHub Pages
+        if: >-
+          github.event_name != 'schedule' ||
+          steps.gate.outputs.should_generate == 'true' ||
+          steps.gate.outputs.should_review == 'true'
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        if: >-
+          github.event_name != 'schedule' ||
+          steps.gate.outputs.should_generate == 'true' ||
+          steps.gate.outputs.should_review == 'true'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: artifacts/weekly-dashboard
+
+      - name: Deploy GitHub Pages
+        if: >-
+          github.event_name != 'schedule' ||
+          steps.gate.outputs.should_generate == 'true' ||
+          steps.gate.outputs.should_review == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v5
