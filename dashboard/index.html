@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Independent weekly Fantasy Premier League forecasts and reviews.">
+  <title>FPL Weekly Forecast</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">FPL PREDICTOR · WEEKLY LAB</p>
+      <h1>A squad for this week,<br><span>judged after the whistle.</span></h1>
+      <p class="lede">Independent one-gameweek picks, frozen before the deadline and reviewed against the final result.</p>
+    </div>
+    <div class="week-picker">
+      <label for="snapshot">Published forecast</label>
+      <select id="snapshot" disabled><option>Loading…</option></select>
+      <p id="version-note"></p>
+    </div>
+  </header>
+
+  <main id="dashboard" hidden>
+    <section class="metrics" aria-label="Forecast summary">
+      <article><span>Projected XI</span><strong id="projected"></strong><small>captain included</small></article>
+      <article><span>Squad cost</span><strong id="cost"></strong><small>£100m budget</small></article>
+      <article><span>Top forecast</span><strong id="top-score"></strong><small id="top-name"></small></article>
+      <article><span>Solver</span><strong id="solver"></strong><small>best solution found</small></article>
+    </section>
+
+    <section class="panel squad-panel">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE XV</p><h2>Recommended squad</h2></div>
+        <p id="deadline"></p>
+      </div>
+      <div id="pitch" class="pitch"></div>
+      <div><h3>Bench</h3><div id="bench" class="bench"></div></div>
+    </section>
+
+    <section class="split">
+      <article class="panel">
+        <div class="section-heading"><div><p class="eyebrow">RANKING</p><h2>Top players</h2></div></div>
+        <div class="tabs" id="position-tabs"></div>
+        <div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos</th><th>£m</th><th>xPts</th></tr></thead><tbody id="rankings"></tbody></table></div>
+      </article>
+      <article class="panel review-panel" id="review-panel">
+        <div class="section-heading"><div><p class="eyebrow">POST-GAMEWEEK</p><h2>Forecast review</h2></div></div>
+        <div id="review"></div>
+      </article>
+    </section>
+
+    <section class="panel methodology">
+      <p class="eyebrow">HOW TO READ THIS</p>
+      <h2>A benchmark, not transfer advice</h2>
+      <p id="method"></p>
+      <p id="review-method"></p>
+    </section>
+  </main>
+
+  <section id="empty" class="empty" hidden>
+    <p class="eyebrow">NO FORECAST YET</p>
+    <h2>The first report will appear inside the 48-hour deadline window.</h2>
+  </section>
+
+  <footer>Public FPL data · Forecasts are probabilistic, not promises.</footer>
+  <script src="app.js" defer></script>
+</body>
+</html>

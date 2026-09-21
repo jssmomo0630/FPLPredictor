@@ -170,7 +170,8 @@ def main() -> None:
             "--season", args.season, "--target-gw", str(target_gameweek),
         )
         _run(root, "train_inseason_model.py")
-        _run(root, "blend_forecasts.py", "--current", "data/inseason_predictions.csv")
+        _run(root, "blend_forecasts.py", "--prior", gw1_predictions,
+             "--current", "data/inseason_predictions.csv")
         predictions = "data/blended_next_gw_predictions.csv"
         print(f"Current forecast: {predictions}")
     _run(root, "optimize_squad.py", "--predictions", predictions)
