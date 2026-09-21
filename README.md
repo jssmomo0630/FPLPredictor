@@ -205,9 +205,10 @@ as a genuine pre-deadline forecast. JSON reviews are timestamped alongside picks
 The personal-advice workflow remains separate and manager-specific. The
 `Weekly FPL dashboard` workflow archives these public, manager-independent
 snapshots on the `weekly-dashboard-data` branch and publishes a GitHub Pages
-site. It checks every six hours, but only runs the expensive forecast pipeline
-during the 48 hours before the next deadline. When FPL finalizes a gameweek, it
-adds a review to each previously frozen forecast.
+site. It performs a lightweight check every six hours, but runs the expensive
+forecast pipeline only once per target gameweek: the previous gameweek must be
+officially finalized and the next deadline must be within 48 hours. When FPL
+finalizes a gameweek, it adds a review to each previously frozen forecast.
 
 Build the dependency-free dashboard locally with:
 

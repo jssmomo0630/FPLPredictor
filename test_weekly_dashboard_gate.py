@@ -24,13 +24,27 @@ class WeeklyDashboardGateTests(unittest.TestCase):
         if reviewed:
             (folder / 'review-test.json').write_text('{}', encoding='utf-8')
 
-    def test_generation_window_and_recent_snapshot(self):
+    def test_generates_once_in_window_after_previous_gameweek_closes(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             result = evaluate(self.bootstrap, root, self.now)
             self.assertTrue(result['should_generate'])
+            self.assertTrue(result['previous_gameweek_closed'])
             self._snapshot(root, 6, '2026-09-24T10:00:00+00:00')
             self.assertFalse(evaluate(self.bootstrap, root, self.now)['should_generate'])
+
+    def test_waits_for_previous_gameweek_and_ignores_early_snapshot(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            self.bootstrap['events'][0]['data_checked'] = False
+            result = evaluate(self.bootstrap, root, self.now)
+            self.assertFalse(result['should_generate'])
+            self.assertFalse(result['previous_gameweek_closed'])
+            self._snapshot(root, 6, '2026-09-21T10:00:00+00:00')
+            self.bootstrap['events'][0]['data_checked'] = True
+            result = evaluate(self.bootstrap, root, self.now)
+            self.assertTrue(result['should_generate'])
+            self.assertFalse(result['has_window_snapshot'])
 
     def test_finalized_unreviewed_snapshot(self):
         with tempfile.TemporaryDirectory() as folder:
