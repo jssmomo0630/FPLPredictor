@@ -101,6 +101,33 @@ def _render_advice_email(
     vice = recommendation.get("vice_captain", {}).get("player_name")
     bench = recommendation.get("bench", [])
     chip_advice = recommendation.get("chip_advice", {})
+    wildcard = chip_advice.get("recommended") or {}
+    wildcard_lines = []
+    if wildcard.get("chip") == "wildcard" and wildcard.get("gameweek") == gameweek:
+        valuation = wildcard.get("valuation_gameweeks") or []
+        span = f"GW{valuation[0]}–GW{valuation[-1]}" if valuation else "the modeled horizon"
+        wildcard_lines = [
+            f"Why Wildcard: {float(wildcard['gross_gain']):+.1f} projected points over {span} "
+            "versus the ordinary-transfer plan; "
+            f"{float(wildcard['near_term_gain']):+.1f} in the first "
+            f"{wildcard['near_term_gameweeks']} Gameweeks. "
+            f"Saving the chip is valued at {float(wildcard['reserve_value']):.1f} points, "
+            f"leaving {float(wildcard['net_gain']):+.1f} net in the planner's comparison.",
+            f"The modeled target changes {wildcard.get('squad_changes_required', 'unknown')} "
+            f"of 15 players; {wildcard.get('free_transfers_now', 'unknown')} free transfer(s) "
+            "are assumed available now.",
+            "The transfers listed above are the ordinary-transfer fallback, not the Wildcard moves.",
+        ]
+        target = wildcard.get("target_squad") or []
+        if target:
+            ordered = sorted(target, key=lambda row: (row.get('role') != 'starting_xi', row.get('bench_order', 0), row['player_name']))
+            wildcard_lines.append("Modeled Wildcard squad: " + ", ".join(
+                row['player_name'] + (" (C)" if row.get('is_captain') else " (VC)" if row.get('is_vice_captain') else "")
+                for row in ordered
+            ))
+        else:
+            wildcard_lines.append("This report does not include the 15-player Wildcard target; do not treat it as a complete Wildcard plan.")
+        wildcard_lines.append("Five-week forecasts and chip reserve values are estimates; reassess before activation.")
     chip_period = chip_advice.get("chip_period") or {}
     chip_period_text = (
         f"Active chip set: GW{chip_period.get('start_gameweek')}-"
@@ -140,7 +167,7 @@ def _render_advice_email(
         f"Transfer hit: {recommendation.get('hit_cost_points', 0):g} points",
         f"Projected bank after moves: £{recommendation.get('bank_after_millions', 0):.1f}m",
         "",
-        "Transfers:",
+        "Ordinary-transfer fallback:" if wildcard_lines else "Transfers:",
         *transfer_lines,
         "",
         *points_lines,
@@ -150,6 +177,7 @@ def _render_advice_email(
         f"Vice-captain: {vice}",
         f"Bench order: {', '.join(str(row.get('player_name')) for row in bench)}",
         f"Chip advice: {chip_advice.get('recommendation') or 'No chip recommendation available'}",
+        *wildcard_lines,
         chip_period_text,
         f"Tentative chip schedule: {chip_schedule_text}",
         "",
@@ -198,7 +226,7 @@ def _render_advice_email(
        <strong>Primary advice:</strong> {escaped(recommendation.get('headline'))}<br>
        <strong>Transfer hit:</strong> {escaped(recommendation.get('hit_cost_points', 0))} points<br>
        <strong>Projected bank:</strong> £{escaped(f"{recommendation.get('bank_after_millions', 0):.1f}")}m</p>
-    <h2 style="font-size:18px">Transfers</h2><ul>{transfers_html}</ul>
+    <h2 style="font-size:18px">{'Ordinary-transfer fallback' if wildcard_lines else 'Transfers'}</h2><ul>{transfers_html}</ul>
     <h2 style="font-size:18px">What could these moves gain?</h2>{points_html}
     <h2 style="font-size:18px">Starting XI</h2><ul>{starters_html}</ul>
     <p><strong>Captain:</strong> {escaped(captain)}<br><strong>Vice-captain:</strong> {escaped(vice)}</p>
@@ -206,6 +234,7 @@ def _render_advice_email(
     <p><strong>Chip advice:</strong> {escaped(chip_advice.get('recommendation') or 'No chip recommendation available')}<br>
        <strong>{escaped(chip_period_text)}</strong><br>
        Tentative schedule: {escaped(chip_schedule_text)}</p>
+    {''.join(f'<p>{escaped(line)}</p>' for line in wildcard_lines)}
     <h2 style="font-size:18px">Opposing-player overlaps</h2><ul>{conflicts_html}</ul>
     <h2 style="font-size:18px">Availability flags</h2><ul>{flags_html}</ul>
     <div style="padding:12px;background:#fff4ce">
