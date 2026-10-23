@@ -99,6 +99,29 @@ class EmailRenderTests(unittest.TestCase):
         self.assertIn("Risk &amp; Co", html_body)
         self.assertIn("Knock &lt;25%&gt;", html_body)
 
+    def test_wildcard_email_explains_gain_and_fallback(self):
+        status = sample_status()
+        advice = {
+            'read_only': True, 'advisory_only': True, 'target_gameweek': 8,
+            'recommendation': {
+                'headline': 'Make 1 transfer', 'transfers_out': [], 'transfers_in': [],
+                'chip_advice': {'recommendation': 'Use wildcard in GW8', 'recommended': {
+                    'chip': 'wildcard', 'gameweek': 8, 'gross_gain': 19.425,
+                    'near_term_gain': 16.989, 'near_term_gameweeks': 3,
+                    'valuation_gameweeks': [8, 9, 10, 11, 12],
+                    'reserve_value': 15.0, 'net_gain': 4.425,
+                    'squad_changes_required': 11, 'free_transfers_now': 1,
+                    'target_squad': [{'player_name': 'Haaland', 'role': 'starting_xi',
+                                      'bench_order': 0, 'is_captain': True}],
+                }},
+            }, 'assumptions': {},
+        }
+        _, plain, html = emailer.render_email(status, advice)
+        self.assertIn('+19.4 projected points over GW8–GW12', plain)
+        self.assertIn('+4.4 net', plain)
+        self.assertIn('ordinary-transfer fallback', plain)
+        self.assertIn('Haaland (C)', html)
+
     def test_rejects_payload_without_read_only_marker(self):
         with self.assertRaisesRegex(ValueError, "read_only"):
             emailer.render_email({"read_only": False})

@@ -490,6 +490,18 @@ def advise_chips(
         option = {
             "chip": "wildcard",
             "gameweek": gameweek,
+            "target_squad": [
+                {
+                    "element": int(row["element"]),
+                    "player_name": str(row["player_name"]),
+                    "position": str(row["position"]),
+                    "role": str(row["role"]),
+                    "bench_order": int(row["bench_order"]),
+                    "is_captain": bool(row["is_captain"]),
+                    "is_vice_captain": bool(row["is_vice_captain"]),
+                }
+                for row in wildcard_squad.to_dict("records")
+            ],
             "gross_gain": wildcard_value - baseline_value,
             "near_term_gain": (
                 near_term_wildcard_value - near_term_baseline_value
