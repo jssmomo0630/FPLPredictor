@@ -1,0 +1,6336 @@
+{
+  "schema_version": 1,
+  "season": "2026-27",
+  "gameweek": 10,
+  "generated_at_utc": "2026-11-04T23:41:15.104539+00:00",
+  "deadline_time": "2026-11-06T18:30:00Z",
+  "forecast_sha256": "4d07de93dc88e1de42796cd77054a091ddb2fe4fd94091607fed78153554f21e",
+  "point_column": "blended_points_next_gw",
+  "budget_millions": 100.0,
+  "cost_millions": 99.9,
+  "solver": {
+    "starting_xi_points": 56.827675232391634,
+    "captain_bonus": 7.355018273929301,
+    "vice_captain_fallback_value": 0.30647071536076953,
+    "bench_gk_expected_value": 0.21646500392522866,
+    "outfield_bench_expected_value": 3.8985332693553487,
+    "autosub_probability_mode": "player_nonappearance_risk_iterative",
+    "outfield_bench_use_probabilities_by_order": [
+      0.621466955083996,
+      0.2537403075003859,
+      0.07512593134587287
+    ],
+    "bench_goalkeeper_use_probability": 0.058423628850771236,
+    "objective": 68.60416249496228,
+    "solver_status": "FEASIBLE",
+    "solver_objective_units": 686041,
+    "total_cost": 999,
+    "formation": "3-4-3",
+    "autosub_iterations": 3
+  },
+  "assumptions": {
+    "autosub_probability_mode": "player_nonappearance_risk_iterative",
+    "outfield_bench_use_probabilities_by_order": [
+      0.621466955083996,
+      0.2537403075003859,
+      0.07512593134587287
+    ],
+    "bench_goalkeeper_use_probability": 0.058423628850771236,
+    "vice_captain_fallback_probability": 0.05,
+    "note": "Risk-driven autosub probabilities use selected starters' nonappearance probabilities; expected points already include player appearance risk."
+  },
+  "fixed_xi_expected_points": 64.18269350632093,
+  "squad": [
+    {
+      "element": 112,
+      "name": "Van Hecke",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 5.0,
+      "expected_points": 4.216317912958142,
+      "points_per_million": 0.8432635825916284,
+      "appearance_probability": 0.979454699883648,
+      "role": "bench",
+      "bench_order": 1,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 183,
+      "name": "Rudoni",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.9,
+      "expected_points": 4.063736019442591,
+      "points_per_million": 0.8293338815188961,
+      "appearance_probability": 0.832770616262611,
+      "role": "bench",
+      "bench_order": 2,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 305,
+      "name": "Davis",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 4.0,
+      "expected_points": 3.289109136122024,
+      "points_per_million": 0.822277284030506,
+      "appearance_probability": 0.7963919932682545,
+      "role": "bench",
+      "bench_order": 3,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 109,
+      "name": "Verbruggen",
+      "position": "GK",
+      "team": "BHA",
+      "price_millions": 4.6,
+      "expected_points": 3.7050934387888703,
+      "points_per_million": 0.8054550953888849,
+      "appearance_probability": 0.9109993204334182,
+      "role": "bench_gk",
+      "bench_order": 4,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 1,
+      "name": "Raya",
+      "position": "GK",
+      "team": "ARS",
+      "price_millions": 6.2,
+      "expected_points": 4.601224121743692,
+      "points_per_million": 0.7421329228618857,
+      "appearance_probability": 0.9415763711492288,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 4,
+      "name": "Gabriel",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 8.0,
+      "expected_points": 5.428860570759703,
+      "points_per_million": 0.6786075713449629,
+      "appearance_probability": 0.9725670055353289,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 31,
+      "name": "Konsa",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 4.8,
+      "expected_points": 4.237016430777915,
+      "points_per_million": 0.8827117564120657,
+      "appearance_probability": 0.9677710331265398,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 53,
+      "name": "Manzambi",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 6.1,
+      "expected_points": 4.435543149833381,
+      "points_per_million": 0.727138221284161,
+      "appearance_probability": 0.8309875596018585,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 166,
+      "name": "N.Jackson",
+      "position": "FWD",
+      "team": "AVL",
+      "price_millions": 7.0,
+      "expected_points": 6.12941430721539,
+      "points_per_million": 0.8756306153164842,
+      "appearance_probability": 0.9247494558948656,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": true
+    },
+    {
+      "element": 379,
+      "name": "Isak",
+      "position": "FWD",
+      "team": "LIV",
+      "price_millions": 9.2,
+      "expected_points": 5.845289191339893,
+      "points_per_million": 0.6353575207978146,
+      "appearance_probability": 0.7810842382258011,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 411,
+      "name": "Haaland",
+      "position": "FWD",
+      "team": "MCI",
+      "price_millions": 15.8,
+      "expected_points": 7.355018273929301,
+      "points_per_million": 0.4655074856917279,
+      "appearance_probability": 0.9995276823729903,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": true,
+      "is_vice_captain": false
+    },
+    {
+      "element": 486,
+      "name": "McAtee",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 5.5,
+      "expected_points": 4.350889574632374,
+      "points_per_million": 0.7910708317513407,
+      "appearance_probability": 0.790116627149359,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 504,
+      "name": "Vuskovic",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 5.2,
+      "expected_points": 4.725037434499049,
+      "points_per_million": 0.9086610450959709,
+      "appearance_probability": 0.9207360783511139,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 591,
+      "name": "Enciso",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.5,
+      "expected_points": 4.820808199811718,
+      "points_per_million": 0.8765105817839487,
+      "appearance_probability": 0.9271680278145866,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    },
+    {
+      "element": 627,
+      "name": "Barcola",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 8.1,
+      "expected_points": 4.898573977849218,
+      "points_per_million": 0.6047622194875578,
+      "appearance_probability": 0.9138403869420665,
+      "role": "starting_xi",
+      "bench_order": 0,
+      "is_captain": false,
+      "is_vice_captain": false
+    }
+  ],
+  "players": [
+    {
+      "element": 411,
+      "name": "Haaland",
+      "position": "FWD",
+      "team": "MCI",
+      "price_millions": 15.8,
+      "expected_points": 7.355018273929301,
+      "points_per_million": 0.4655074856917279,
+      "appearance_probability": 0.9995276823729903
+    },
+    {
+      "element": 166,
+      "name": "N.Jackson",
+      "position": "FWD",
+      "team": "AVL",
+      "price_millions": 7.0,
+      "expected_points": 6.12941430721539,
+      "points_per_million": 0.8756306153164842,
+      "appearance_probability": 0.9247494558948656
+    },
+    {
+      "element": 379,
+      "name": "Isak",
+      "position": "FWD",
+      "team": "LIV",
+      "price_millions": 9.2,
+      "expected_points": 5.845289191339893,
+      "points_per_million": 0.6353575207978146,
+      "appearance_probability": 0.7810842382258011
+    },
+    {
+      "element": 4,
+      "name": "Gabriel",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 8.0,
+      "expected_points": 5.428860570759703,
+      "points_per_million": 0.6786075713449629,
+      "appearance_probability": 0.9725670055353289
+    },
+    {
+      "element": 627,
+      "name": "Barcola",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 8.1,
+      "expected_points": 4.898573977849218,
+      "points_per_million": 0.6047622194875578,
+      "appearance_probability": 0.9138403869420665
+    },
+    {
+      "element": 154,
+      "name": "Palmer",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 9.8,
+      "expected_points": 4.892789076514096,
+      "points_per_million": 0.4992641914810302,
+      "appearance_probability": 0.9851192151983538
+    },
+    {
+      "element": 106,
+      "name": "Thiago",
+      "position": "FWD",
+      "team": "BRE",
+      "price_millions": 7.8,
+      "expected_points": 4.878409297331262,
+      "points_per_million": 0.6254370894014439,
+      "appearance_probability": 0.9672787912387444
+    },
+    {
+      "element": 591,
+      "name": "Enciso",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.5,
+      "expected_points": 4.820808199811718,
+      "points_per_million": 0.8765105817839487,
+      "appearance_probability": 0.9271680278145866
+    },
+    {
+      "element": 295,
+      "name": "McBurnie",
+      "position": "FWD",
+      "team": "HUL",
+      "price_millions": 5.5,
+      "expected_points": 4.815548297061331,
+      "points_per_million": 0.8755542358293329,
+      "appearance_probability": 0.8291060089915533
+    },
+    {
+      "element": 79,
+      "name": "Evanilson",
+      "position": "FWD",
+      "team": "BOU",
+      "price_millions": 6.4,
+      "expected_points": 4.757642088305724,
+      "points_per_million": 0.7433815762977694,
+      "appearance_probability": 0.9396619175221469
+    },
+    {
+      "element": 427,
+      "name": "Mbeumo",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 7.9,
+      "expected_points": 4.731533359920179,
+      "points_per_million": 0.5989282734076176,
+      "appearance_probability": 0.961447785494172
+    },
+    {
+      "element": 504,
+      "name": "Vuskovic",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 5.2,
+      "expected_points": 4.725037434499049,
+      "points_per_million": 0.9086610450959709,
+      "appearance_probability": 0.9207360783511139
+    },
+    {
+      "element": 13,
+      "name": "Rice",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 7.4,
+      "expected_points": 4.720657149786388,
+      "points_per_million": 0.6379266418630254,
+      "appearance_probability": 0.9538860981343392
+    },
+    {
+      "element": 40,
+      "name": "Rogers",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 8.2,
+      "expected_points": 4.7142853556126205,
+      "points_per_million": 0.5749128482454415,
+      "appearance_probability": 0.9937020035513665
+    },
+    {
+      "element": 569,
+      "name": "Gonzalo",
+      "position": "FWD",
+      "team": "FUL",
+      "price_millions": 5.9,
+      "expected_points": 4.703051305271724,
+      "points_per_million": 0.7971273398765633,
+      "appearance_probability": 0.7961563667573284
+    },
+    {
+      "element": 138,
+      "name": "Kostoulas",
+      "position": "FWD",
+      "team": "BHA",
+      "price_millions": 5.8,
+      "expected_points": 4.6585525320978585,
+      "points_per_million": 0.8031987124306653,
+      "appearance_probability": 0.770363767204999
+    },
+    {
+      "element": 249,
+      "name": "Barry",
+      "position": "FWD",
+      "team": "EVE",
+      "price_millions": 5.6,
+      "expected_points": 4.628581550292537,
+      "points_per_million": 0.826532419695096,
+      "appearance_probability": 0.8802902395319615
+    },
+    {
+      "element": 1,
+      "name": "Raya",
+      "position": "GK",
+      "team": "ARS",
+      "price_millions": 6.2,
+      "expected_points": 4.601224121743692,
+      "points_per_million": 0.7421329228618857,
+      "appearance_probability": 0.9415763711492288
+    },
+    {
+      "element": 167,
+      "name": "Delap",
+      "position": "FWD",
+      "team": "NFO",
+      "price_millions": 5.4,
+      "expected_points": 4.5782836621060286,
+      "points_per_million": 0.8478303077974126,
+      "appearance_probability": 0.9446211414232185
+    },
+    {
+      "element": 53,
+      "name": "Manzambi",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 6.1,
+      "expected_points": 4.435543149833381,
+      "points_per_million": 0.727138221284161,
+      "appearance_probability": 0.8309875596018585
+    },
+    {
+      "element": 356,
+      "name": "Virgil",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 6.4,
+      "expected_points": 4.355669730380274,
+      "points_per_million": 0.6805733953719179,
+      "appearance_probability": 0.9673579682655885
+    },
+    {
+      "element": 486,
+      "name": "McAtee",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 5.5,
+      "expected_points": 4.350889574632374,
+      "points_per_million": 0.7910708317513407,
+      "appearance_probability": 0.790116627149359
+    },
+    {
+      "element": 68,
+      "name": "Tavernier",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 6.6,
+      "expected_points": 4.2585372509100985,
+      "points_per_million": 0.6452329168045604,
+      "appearance_probability": 0.9445988866732655
+    },
+    {
+      "element": 156,
+      "name": "Neto",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 6.6,
+      "expected_points": 4.243187555757379,
+      "points_per_million": 0.6429072054177847,
+      "appearance_probability": 0.9353945049787052
+    },
+    {
+      "element": 31,
+      "name": "Konsa",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 4.8,
+      "expected_points": 4.237016430777915,
+      "points_per_million": 0.8827117564120657,
+      "appearance_probability": 0.9677710331265398
+    },
+    {
+      "element": 401,
+      "name": "Marmoush",
+      "position": "FWD",
+      "team": "TOT",
+      "price_millions": 7.0,
+      "expected_points": 4.232307459952919,
+      "points_per_million": 0.6046153514218455,
+      "appearance_probability": 0.9534805923925366
+    },
+    {
+      "element": 15,
+      "name": "\u00d8degaard",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 6.7,
+      "expected_points": 4.22935111873959,
+      "points_per_million": 0.6312464356327746,
+      "appearance_probability": 0.8666052583705798
+    },
+    {
+      "element": 112,
+      "name": "Van Hecke",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 5.0,
+      "expected_points": 4.216317912958142,
+      "points_per_million": 0.8432635825916284,
+      "appearance_probability": 0.979454699883648
+    },
+    {
+      "element": 124,
+      "name": "Gro\u00df",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 6.2,
+      "expected_points": 4.165017408806692,
+      "points_per_million": 0.6717770014204342,
+      "appearance_probability": 0.9433346543427966
+    },
+    {
+      "element": 346,
+      "name": "Calvert-Lewin",
+      "position": "FWD",
+      "team": "LEE",
+      "price_millions": 6.1,
+      "expected_points": 4.094186436167403,
+      "points_per_million": 0.6711781042897382,
+      "appearance_probability": 0.9111080951348564
+    },
+    {
+      "element": 426,
+      "name": "B.Fernandes",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 11.7,
+      "expected_points": 4.082298936209243,
+      "points_per_million": 0.34891443899224306,
+      "appearance_probability": 0.8502738694392137
+    },
+    {
+      "element": 129,
+      "name": "Ayari",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 5.4,
+      "expected_points": 4.0668917614286215,
+      "points_per_million": 0.7531281039682632,
+      "appearance_probability": 0.8863868507859455
+    },
+    {
+      "element": 183,
+      "name": "Rudoni",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.9,
+      "expected_points": 4.063736019442591,
+      "points_per_million": 0.8293338815188961,
+      "appearance_probability": 0.832770616262611
+    },
+    {
+      "element": 453,
+      "name": "Barnes",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 6.1,
+      "expected_points": 4.05905122675459,
+      "points_per_million": 0.6654182338941952,
+      "appearance_probability": 0.9085719577067272
+    },
+    {
+      "element": 229,
+      "name": "Tarkowski",
+      "position": "DEF",
+      "team": "EVE",
+      "price_millions": 6.2,
+      "expected_points": 4.022093375508798,
+      "points_per_million": 0.6487247379852901,
+      "appearance_probability": 0.9647305732908935
+    },
+    {
+      "element": 384,
+      "name": "Donnarumma",
+      "position": "GK",
+      "team": "MCI",
+      "price_millions": 5.5,
+      "expected_points": 3.997050114387318,
+      "points_per_million": 0.7267363844340579,
+      "appearance_probability": 0.9159720263621666
+    },
+    {
+      "element": 261,
+      "name": "Iwobi",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.4,
+      "expected_points": 3.9848699422571414,
+      "points_per_million": 0.7379388781957669,
+      "appearance_probability": 0.8714957500717784
+    },
+    {
+      "element": 362,
+      "name": "Jacquet",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 5.1,
+      "expected_points": 3.983267587654452,
+      "points_per_million": 0.7810328603244023,
+      "appearance_probability": 0.7932570791610694
+    },
+    {
+      "element": 268,
+      "name": "King",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.5,
+      "expected_points": 3.9550707942808185,
+      "points_per_million": 0.7191037807783306,
+      "appearance_probability": 0.8935691489751146
+    },
+    {
+      "element": 286,
+      "name": "Belloumi",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 5.3,
+      "expected_points": 3.931932859976616,
+      "points_per_million": 0.7418741245238898,
+      "appearance_probability": 0.8571681406418323
+    },
+    {
+      "element": 366,
+      "name": "Wirtz",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 7.2,
+      "expected_points": 3.8841939873374027,
+      "points_per_million": 0.5394713871301948,
+      "appearance_probability": 0.935777314563657
+    },
+    {
+      "element": 390,
+      "name": "R\u00faben",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 5.5,
+      "expected_points": 3.8812716908374174,
+      "points_per_million": 0.7056857619704395,
+      "appearance_probability": 0.8969017751257145
+    },
+    {
+      "element": 237,
+      "name": "Ndiaye",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 5.8,
+      "expected_points": 3.8750468595634784,
+      "points_per_million": 0.6681115275109446,
+      "appearance_probability": 0.9612907965367078
+    },
+    {
+      "element": 67,
+      "name": "Rayan",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 6.3,
+      "expected_points": 3.8681917908672627,
+      "points_per_million": 0.6139986969630576,
+      "appearance_probability": 0.9528016164478919
+    },
+    {
+      "element": 480,
+      "name": "Gibbs-White",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 7.9,
+      "expected_points": 3.848336216404544,
+      "points_per_million": 0.48713116663348655,
+      "appearance_probability": 0.8384155167878807
+    },
+    {
+      "element": 334,
+      "name": "Muharemovi\u0107",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 5.1,
+      "expected_points": 3.8123424028076154,
+      "points_per_million": 0.7475181181975717,
+      "appearance_probability": 0.8071664531040962
+    },
+    {
+      "element": 542,
+      "name": "E.Le F\u00e9e",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 5.7,
+      "expected_points": 3.7877954391356905,
+      "points_per_million": 0.6645255156378405,
+      "appearance_probability": 0.920617650348656
+    },
+    {
+      "element": 236,
+      "name": "Dewsbury-Hall",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 6.6,
+      "expected_points": 3.7790271692688315,
+      "points_per_million": 0.5725798741316411,
+      "appearance_probability": 0.9233649093471017
+    },
+    {
+      "element": 60,
+      "name": "Hill",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 5.5,
+      "expected_points": 3.7642989253760164,
+      "points_per_million": 0.684417986432003,
+      "appearance_probability": 0.9150743867527197
+    },
+    {
+      "element": 350,
+      "name": "A.Becker",
+      "position": "GK",
+      "team": "LIV",
+      "price_millions": 5.5,
+      "expected_points": 3.735146941348027,
+      "points_per_million": 0.6791176256996413,
+      "appearance_probability": 0.8637244656600309
+    },
+    {
+      "element": 26,
+      "name": "Havertz",
+      "position": "FWD",
+      "team": "ARS",
+      "price_millions": 7.4,
+      "expected_points": 3.7331051877638806,
+      "points_per_million": 0.504473674022146,
+      "appearance_probability": 0.8374069438401438
+    },
+    {
+      "element": 566,
+      "name": "Silva",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 5.1,
+      "expected_points": 3.7200565257602225,
+      "points_per_million": 0.729422848188279,
+      "appearance_probability": 0.8034133050508382
+    },
+    {
+      "element": 372,
+      "name": "Mac Allister",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 5.4,
+      "expected_points": 3.71763330235389,
+      "points_per_million": 0.6884506115470166,
+      "appearance_probability": 0.9121078021782398
+    },
+    {
+      "element": 455,
+      "name": "Tonali",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.3,
+      "expected_points": 3.7075717741912513,
+      "points_per_million": 0.6995418441870286,
+      "appearance_probability": 0.9732955378820409
+    },
+    {
+      "element": 109,
+      "name": "Verbruggen",
+      "position": "GK",
+      "team": "BHA",
+      "price_millions": 4.6,
+      "expected_points": 3.7050934387888703,
+      "points_per_million": 0.8054550953888849,
+      "appearance_probability": 0.9109993204334182
+    },
+    {
+      "element": 580,
+      "name": "Charles",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.0,
+      "expected_points": 3.6884087156749907,
+      "points_per_million": 0.7376817431349981,
+      "appearance_probability": 0.7918553205687777
+    },
+    {
+      "element": 115,
+      "name": "De Cuyper",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 5.4,
+      "expected_points": 3.6851952777434818,
+      "points_per_million": 0.6824435699524966,
+      "appearance_probability": 0.8446441152392399
+    },
+    {
+      "element": 47,
+      "name": "Kamara",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 5.0,
+      "expected_points": 3.6816495275255785,
+      "points_per_million": 0.7363299055051157,
+      "appearance_probability": 0.8145924076179015
+    },
+    {
+      "element": 472,
+      "name": "Murillo",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 5.5,
+      "expected_points": 3.6383637872887338,
+      "points_per_million": 0.6615206885979515,
+      "appearance_probability": 0.9158211045921509
+    },
+    {
+      "element": 330,
+      "name": "Bogle",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 4.8,
+      "expected_points": 3.6274608896365295,
+      "points_per_million": 0.755721018674277,
+      "appearance_probability": 0.9142835536223426
+    },
+    {
+      "element": 316,
+      "name": "Emersonn",
+      "position": "FWD",
+      "team": "IPS",
+      "price_millions": 5.5,
+      "expected_points": 3.623219414000959,
+      "points_per_million": 0.6587671661819926,
+      "appearance_probability": 0.8121319431812382
+    },
+    {
+      "element": 61,
+      "name": "Truffert",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 5.4,
+      "expected_points": 3.589587615573623,
+      "points_per_million": 0.6647384473284487,
+      "appearance_probability": 0.9416204690508606
+    },
+    {
+      "element": 127,
+      "name": "Gomez",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 5.0,
+      "expected_points": 3.5800402388341164,
+      "points_per_million": 0.7160080477668233,
+      "appearance_probability": 0.8853207896332407
+    },
+    {
+      "element": 597,
+      "name": "Suzuki",
+      "position": "GK",
+      "team": "AVL",
+      "price_millions": 5.0,
+      "expected_points": 3.575753602839121,
+      "points_per_million": 0.7151507205678242,
+      "appearance_probability": 0.7624427729091124
+    },
+    {
+      "element": 449,
+      "name": "Hall",
+      "position": "DEF",
+      "team": "NEW",
+      "price_millions": 5.3,
+      "expected_points": 3.5666631685070733,
+      "points_per_million": 0.6729553148126554,
+      "appearance_probability": 0.8895245389087005
+    },
+    {
+      "element": 544,
+      "name": "Xhaka",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 5.4,
+      "expected_points": 3.5633076203442724,
+      "points_per_million": 0.6598717815452356,
+      "appearance_probability": 0.922245974771762
+    },
+    {
+      "element": 469,
+      "name": "N.Williams",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 4.9,
+      "expected_points": 3.55962903234334,
+      "points_per_million": 0.7264549045598653,
+      "appearance_probability": 0.9211651444040233
+    },
+    {
+      "element": 8,
+      "name": "Calafiori",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 5.9,
+      "expected_points": 3.5553874999137576,
+      "points_per_million": 0.6026080508328402,
+      "appearance_probability": 0.9103100402689195
+    },
+    {
+      "element": 244,
+      "name": "Armstrong",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 5.0,
+      "expected_points": 3.5303558964036386,
+      "points_per_million": 0.7060711792807277,
+      "appearance_probability": 0.7872817193503744
+    },
+    {
+      "element": 239,
+      "name": "Garner",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 6.0,
+      "expected_points": 3.5176095405436363,
+      "points_per_million": 0.5862682567572727,
+      "appearance_probability": 0.9436374027529741
+    },
+    {
+      "element": 264,
+      "name": "Bobb",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.5,
+      "expected_points": 3.4955040436959193,
+      "points_per_million": 0.6355461897628945,
+      "appearance_probability": 0.8411762766372796
+    },
+    {
+      "element": 250,
+      "name": "Leno",
+      "position": "GK",
+      "team": "FUL",
+      "price_millions": 4.5,
+      "expected_points": 3.48836401235567,
+      "points_per_million": 0.7751920027457044,
+      "appearance_probability": 0.9025879782818828
+    },
+    {
+      "element": 358,
+      "name": "Kerkez",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 5.3,
+      "expected_points": 3.4676048705548497,
+      "points_per_million": 0.6542650699160094,
+      "appearance_probability": 0.9141875610301474
+    },
+    {
+      "element": 257,
+      "name": "Bassey",
+      "position": "DEF",
+      "team": "FUL",
+      "price_millions": 4.5,
+      "expected_points": 3.458348452391443,
+      "points_per_million": 0.7685218783092096,
+      "appearance_probability": 0.8879233250041055
+    },
+    {
+      "element": 37,
+      "name": "Lindel\u00f6f",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.5,
+      "expected_points": 3.447378058740804,
+      "points_per_million": 0.7660840130535119,
+      "appearance_probability": 0.8064206745931444
+    },
+    {
+      "element": 650,
+      "name": "Affengruber",
+      "position": "DEF",
+      "team": "FUL",
+      "price_millions": 4.5,
+      "expected_points": 3.417889902553207,
+      "points_per_million": 0.7595310894562682,
+      "appearance_probability": 0.7856132855777961
+    },
+    {
+      "element": 149,
+      "name": "Colwill",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 4.8,
+      "expected_points": 3.4151616029772582,
+      "points_per_million": 0.7114920006202622,
+      "appearance_probability": 0.7583552572739214
+    },
+    {
+      "element": 226,
+      "name": "Pickford",
+      "position": "GK",
+      "team": "EVE",
+      "price_millions": 5.5,
+      "expected_points": 3.4116394288588694,
+      "points_per_million": 0.6202980779743399,
+      "appearance_probability": 0.9334978216778742
+    },
+    {
+      "element": 87,
+      "name": "Ajer",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.5,
+      "expected_points": 3.4069778321133666,
+      "points_per_million": 0.7571061849140814,
+      "appearance_probability": 0.8548276556136251
+    },
+    {
+      "element": 202,
+      "name": "Richards",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.9,
+      "expected_points": 3.4009598387199014,
+      "points_per_million": 0.6940734364734492,
+      "appearance_probability": 0.919980998543844
+    },
+    {
+      "element": 481,
+      "name": "Anderson",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 6.3,
+      "expected_points": 3.400400395482871,
+      "points_per_million": 0.5397460945210907,
+      "appearance_probability": 0.9744878805106496
+    },
+    {
+      "element": 572,
+      "name": "Tzolakis",
+      "position": "GK",
+      "team": "HUL",
+      "price_millions": 4.7,
+      "expected_points": 3.3938609502540498,
+      "points_per_million": 0.7220980745221383,
+      "appearance_probability": 0.7976092286849867
+    },
+    {
+      "element": 91,
+      "name": "Pinnock",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 4.5,
+      "expected_points": 3.375507438392417,
+      "points_per_million": 0.7501127640872037,
+      "appearance_probability": 0.9328766951666624
+    },
+    {
+      "element": 300,
+      "name": "Walton",
+      "position": "GK",
+      "team": "IPS",
+      "price_millions": 4.4,
+      "expected_points": 3.351939174420974,
+      "points_per_million": 0.7618043578229485,
+      "appearance_probability": 0.7733492048318572
+    },
+    {
+      "element": 338,
+      "name": "Ampadu",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 5.3,
+      "expected_points": 3.3497903965796647,
+      "points_per_million": 0.6320359238829556,
+      "appearance_probability": 0.9259878265878321
+    },
+    {
+      "element": 579,
+      "name": "Araujo",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 5.4,
+      "expected_points": 3.3429390227269984,
+      "points_per_million": 0.6190627819864811,
+      "appearance_probability": 0.8053442309099944
+    },
+    {
+      "element": 86,
+      "name": "Lewis-Potter",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 5.5,
+      "expected_points": 3.33460831206928,
+      "points_per_million": 0.6062924203762328,
+      "appearance_probability": 0.8994532328709092
+    },
+    {
+      "element": 332,
+      "name": "Justin",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 4.5,
+      "expected_points": 3.3198895113968003,
+      "points_per_million": 0.7377532247548445,
+      "appearance_probability": 0.8614642886887569
+    },
+    {
+      "element": 571,
+      "name": "Florentino",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 4.8,
+      "expected_points": 3.313214975396894,
+      "points_per_million": 0.6902531198743529,
+      "appearance_probability": 0.9749110664512202
+    },
+    {
+      "element": 258,
+      "name": "Castagne",
+      "position": "DEF",
+      "team": "FUL",
+      "price_millions": 4.5,
+      "expected_points": 3.3091620010313223,
+      "points_per_million": 0.7353693335625161,
+      "appearance_probability": 0.7167461214335022
+    },
+    {
+      "element": 619,
+      "name": "Palacios",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.0,
+      "expected_points": 3.2900548788141544,
+      "points_per_million": 0.6580109757628309,
+      "appearance_probability": 0.8250582632246487
+    },
+    {
+      "element": 305,
+      "name": "Davis",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 4.0,
+      "expected_points": 3.289109136122024,
+      "points_per_million": 0.822277284030506,
+      "appearance_probability": 0.7963919932682545
+    },
+    {
+      "element": 400,
+      "name": "Doku",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 7.5,
+      "expected_points": 3.2864226512020696,
+      "points_per_million": 0.4381896868269426,
+      "appearance_probability": 0.8899942978904231
+    },
+    {
+      "element": 214,
+      "name": "Kamada",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 5.0,
+      "expected_points": 3.2778436601985277,
+      "points_per_million": 0.6555687320397056,
+      "appearance_probability": 0.8571425604818499
+    },
+    {
+      "element": 204,
+      "name": "Mitchell",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.5,
+      "expected_points": 3.270447468265117,
+      "points_per_million": 0.7267661040589148,
+      "appearance_probability": 0.9211485086399575
+    },
+    {
+      "element": 155,
+      "name": "Enzo",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 6.9,
+      "expected_points": 3.2696328014957174,
+      "points_per_million": 0.47385982630372714,
+      "appearance_probability": 0.9744623947088318
+    },
+    {
+      "element": 418,
+      "name": "Maguire",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.7,
+      "expected_points": 3.244756245927434,
+      "points_per_million": 0.6903736693462625,
+      "appearance_probability": 0.842497286152138
+    },
+    {
+      "element": 558,
+      "name": "Schlager",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 5.0,
+      "expected_points": 3.2446433639742107,
+      "points_per_million": 0.6489286727948421,
+      "appearance_probability": 0.7923932741060733
+    },
+    {
+      "element": 82,
+      "name": "Kelleher",
+      "position": "GK",
+      "team": "BRE",
+      "price_millions": 5.0,
+      "expected_points": 3.2419443813640405,
+      "points_per_million": 0.6483888762728081,
+      "appearance_probability": 0.9058589815015429
+    },
+    {
+      "element": 389,
+      "name": "Matheus N.",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 5.9,
+      "expected_points": 3.241589024556648,
+      "points_per_million": 0.5494218685689234,
+      "appearance_probability": 0.7791884789723029
+    },
+    {
+      "element": 412,
+      "name": "Lammens",
+      "position": "GK",
+      "team": "MUN",
+      "price_millions": 4.8,
+      "expected_points": 3.2393954289992686,
+      "points_per_million": 0.6748740477081809,
+      "appearance_probability": 0.8753062503278363
+    },
+    {
+      "element": 496,
+      "name": "Kinsky",
+      "position": "GK",
+      "team": "TOT",
+      "price_millions": 4.4,
+      "expected_points": 3.2353095861077805,
+      "points_per_million": 0.7352976332063137,
+      "appearance_probability": 0.7564559469894482
+    },
+    {
+      "element": 73,
+      "name": "Adams",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 5.0,
+      "expected_points": 3.2341406236531016,
+      "points_per_million": 0.6468281247306203,
+      "appearance_probability": 0.8633654237459976
+    },
+    {
+      "element": 159,
+      "name": "Caicedo",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 5.3,
+      "expected_points": 3.2018084653868937,
+      "points_per_million": 0.6041148047899799,
+      "appearance_probability": 0.7602878513497721
+    },
+    {
+      "element": 45,
+      "name": "McGinn",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 5.4,
+      "expected_points": 3.1844675263064968,
+      "points_per_million": 0.5897162085752772,
+      "appearance_probability": 0.8764992137813048
+    },
+    {
+      "element": 512,
+      "name": "Kudus",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 6.6,
+      "expected_points": 3.1835045229606522,
+      "points_per_million": 0.4823491701455534,
+      "appearance_probability": 0.903158329440331
+    },
+    {
+      "element": 526,
+      "name": "Solanke",
+      "position": "FWD",
+      "team": "TOT",
+      "price_millions": 5.8,
+      "expected_points": 3.176647925195355,
+      "points_per_million": 0.5476979181371302,
+      "appearance_probability": 0.797471822915384
+    },
+    {
+      "element": 210,
+      "name": "Wharton",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 5.4,
+      "expected_points": 3.170577296695507,
+      "points_per_million": 0.5871439438325012,
+      "appearance_probability": 0.8809862027537552
+    },
+    {
+      "element": 110,
+      "name": "Rushworth",
+      "position": "GK",
+      "team": "COV",
+      "price_millions": 4.5,
+      "expected_points": 3.1605736550757513,
+      "points_per_million": 0.7023497011279447,
+      "appearance_probability": 0.9168512929076307
+    },
+    {
+      "element": 592,
+      "name": "Ouattara",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 4.0,
+      "expected_points": 3.155435400754567,
+      "points_per_million": 0.7888588501886418,
+      "appearance_probability": 0.7963919932682545
+    },
+    {
+      "element": 254,
+      "name": "Robinson",
+      "position": "DEF",
+      "team": "FUL",
+      "price_millions": 4.4,
+      "expected_points": 3.154240847693789,
+      "points_per_million": 0.7168729199304066,
+      "appearance_probability": 0.6684024427332461
+    },
+    {
+      "element": 64,
+      "name": "Smith",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 4.5,
+      "expected_points": 3.148852941995346,
+      "points_per_million": 0.699745098221188,
+      "appearance_probability": 0.8311522804247327
+    },
+    {
+      "element": 259,
+      "name": "Diop",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 3.9,
+      "expected_points": 3.141364602476418,
+      "points_per_million": 0.8054781031990815,
+      "appearance_probability": 0.9311228846262707
+    },
+    {
+      "element": 567,
+      "name": "Horn\u00ed\u010dek",
+      "position": "GK",
+      "team": "NEW",
+      "price_millions": 5.0,
+      "expected_points": 3.1298047746705966,
+      "points_per_million": 0.6259609549341193,
+      "appearance_probability": 0.7619741272958412
+    },
+    {
+      "element": 529,
+      "name": "Roefs",
+      "position": "GK",
+      "team": "SUN",
+      "price_millions": 4.9,
+      "expected_points": 3.1264207386250713,
+      "points_per_million": 0.6380450486989941,
+      "appearance_probability": 0.9052463186267156
+    },
+    {
+      "element": 405,
+      "name": "N.Gonzalez",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 5.5,
+      "expected_points": 3.1227230417200453,
+      "points_per_million": 0.567767825767281,
+      "appearance_probability": 0.7762382981684127
+    },
+    {
+      "element": 57,
+      "name": "Petrovi\u0107",
+      "position": "GK",
+      "team": "BOU",
+      "price_millions": 4.5,
+      "expected_points": 3.1020050804005197,
+      "points_per_million": 0.6893344623112266,
+      "appearance_probability": 0.9049598550262073
+    },
+    {
+      "element": 290,
+      "name": "Slater",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.5,
+      "expected_points": 3.095505645044909,
+      "points_per_million": 0.6878901433433131,
+      "appearance_probability": 0.8194772629803192
+    },
+    {
+      "element": 367,
+      "name": "Gakpo",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 7.1,
+      "expected_points": 3.083819577102345,
+      "points_per_million": 0.4343407855073726,
+      "appearance_probability": 0.6742429929656559
+    },
+    {
+      "element": 88,
+      "name": "Kayode",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.5,
+      "expected_points": 3.076837007378388,
+      "points_per_million": 0.6837415571951974,
+      "appearance_probability": 0.9106283342476701
+    },
+    {
+      "element": 552,
+      "name": "Brobbey",
+      "position": "FWD",
+      "team": "SUN",
+      "price_millions": 5.7,
+      "expected_points": 3.0711658318163852,
+      "points_per_million": 0.5388010231256816,
+      "appearance_probability": 0.5945814033007569
+    },
+    {
+      "element": 483,
+      "name": "Ndoye",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 5.5,
+      "expected_points": 3.0645580587379704,
+      "points_per_million": 0.5571923743159947,
+      "appearance_probability": 0.84024977958702
+    },
+    {
+      "element": 391,
+      "name": "Gvardiol",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 5.7,
+      "expected_points": 3.062518243594015,
+      "points_per_million": 0.5372839023849149,
+      "appearance_probability": 0.8507874686410295
+    },
+    {
+      "element": 304,
+      "name": "O'Shea",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 4.0,
+      "expected_points": 3.053730372850341,
+      "points_per_million": 0.7634325932125853,
+      "appearance_probability": 0.7963919932682545
+    },
+    {
+      "element": 176,
+      "name": "Dasilva",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 4.0,
+      "expected_points": 3.0517601977949136,
+      "points_per_million": 0.7629400494487284,
+      "appearance_probability": 0.8073091561174429
+    },
+    {
+      "element": 345,
+      "name": "Tanaka",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 4.9,
+      "expected_points": 3.044524083567265,
+      "points_per_million": 0.6213314456259724,
+      "appearance_probability": 0.8303494581913478
+    },
+    {
+      "element": 503,
+      "name": "Van de Ven",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 5.0,
+      "expected_points": 3.0372260244780374,
+      "points_per_million": 0.6074452048956075,
+      "appearance_probability": 0.9389574535184659
+    },
+    {
+      "element": 467,
+      "name": "Sels",
+      "position": "GK",
+      "team": "NFO",
+      "price_millions": 5.0,
+      "expected_points": 3.030756391761874,
+      "points_per_million": 0.6061512783523748,
+      "appearance_probability": 0.8921234630268672
+    },
+    {
+      "element": 233,
+      "name": "Mykolenko",
+      "position": "DEF",
+      "team": "EVE",
+      "price_millions": 4.6,
+      "expected_points": 3.011260600196573,
+      "points_per_million": 0.6546218696079507,
+      "appearance_probability": 0.7640493466302273
+    },
+    {
+      "element": 151,
+      "name": "Acheampong",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 4.5,
+      "expected_points": 2.9980240082127683,
+      "points_per_million": 0.6662275573806151,
+      "appearance_probability": 0.7780306781021784
+    },
+    {
+      "element": 639,
+      "name": "Andr\u00e9s",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 5.5,
+      "expected_points": 2.9968990142292373,
+      "points_per_million": 0.5448907298598613,
+      "appearance_probability": 0.8113028083326109
+    },
+    {
+      "element": 385,
+      "name": "Trafford",
+      "position": "GK",
+      "team": "LEE",
+      "price_millions": 5.0,
+      "expected_points": 2.9919618032351956,
+      "points_per_million": 0.5983923606470392,
+      "appearance_probability": 0.9235349365101218
+    },
+    {
+      "element": 388,
+      "name": "Gu\u00e9hi",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 6.0,
+      "expected_points": 2.9901096517966748,
+      "points_per_million": 0.4983516086327791,
+      "appearance_probability": 0.7943978624347229
+    },
+    {
+      "element": 279,
+      "name": "Ajayi",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 4.2,
+      "expected_points": 2.9799777964560126,
+      "points_per_million": 0.7095185229657173,
+      "appearance_probability": 0.820921331626427
+    },
+    {
+      "element": 94,
+      "name": "Schade",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 6.2,
+      "expected_points": 2.9747963152671875,
+      "points_per_million": 0.47980585730115927,
+      "appearance_probability": 0.9497885491257099
+    },
+    {
+      "element": 502,
+      "name": "Robertson",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 4.3,
+      "expected_points": 2.9607424139620337,
+      "points_per_million": 0.6885447474330312,
+      "appearance_probability": 0.7547555430768064
+    },
+    {
+      "element": 428,
+      "name": "Cunha",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 7.8,
+      "expected_points": 2.9199779336005016,
+      "points_per_million": 0.37435614533339767,
+      "appearance_probability": 0.9625425394059558
+    },
+    {
+      "element": 203,
+      "name": "Canvot",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.8,
+      "expected_points": 2.915017285134927,
+      "points_per_million": 0.6072952677364432,
+      "appearance_probability": 0.8337473281681669
+    },
+    {
+      "element": 420,
+      "name": "Yoro",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.8,
+      "expected_points": 2.905577984493985,
+      "points_per_million": 0.6053287467695803,
+      "appearance_probability": 0.7242832966629204
+    },
+    {
+      "element": 162,
+      "name": "Andrey Santos",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 4.7,
+      "expected_points": 2.9000865946172536,
+      "points_per_million": 0.6170397009823944,
+      "appearance_probability": 0.571941690324487
+    },
+    {
+      "element": 417,
+      "name": "Dalot",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.8,
+      "expected_points": 2.889802427970698,
+      "points_per_million": 0.6020421724938955,
+      "appearance_probability": 0.8838586227428793
+    },
+    {
+      "element": 199,
+      "name": "Benitez",
+      "position": "GK",
+      "team": "CRY",
+      "price_millions": 4.5,
+      "expected_points": 2.8393586970809745,
+      "points_per_million": 0.6309685993513277,
+      "appearance_probability": 0.6542586579481513
+    },
+    {
+      "element": 545,
+      "name": "Sadiki",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 4.8,
+      "expected_points": 2.824935218721541,
+      "points_per_million": 0.5885281705669877,
+      "appearance_probability": 0.9180130861351431
+    },
+    {
+      "element": 54,
+      "name": "Gomes",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 5.5,
+      "expected_points": 2.8162544492044654,
+      "points_per_million": 0.512046263491721,
+      "appearance_probability": 0.9734653120623694
+    },
+    {
+      "element": 230,
+      "name": "Branthwaite",
+      "position": "DEF",
+      "team": "EVE",
+      "price_millions": 5.5,
+      "expected_points": 2.8058400813784665,
+      "points_per_million": 0.5101527420688121,
+      "appearance_probability": 0.6840737076530871
+    },
+    {
+      "element": 116,
+      "name": "Dunk",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 4.5,
+      "expected_points": 2.80004944046276,
+      "points_per_million": 0.6222332089917244,
+      "appearance_probability": 0.7688131876878083
+    },
+    {
+      "element": 277,
+      "name": "Egan",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 4.1,
+      "expected_points": 2.782823245597615,
+      "points_per_million": 0.6787373769750281,
+      "appearance_probability": 0.8164463153973301
+    },
+    {
+      "element": 194,
+      "name": "Thomas-Asante",
+      "position": "FWD",
+      "team": "COV",
+      "price_millions": 5.0,
+      "expected_points": 2.7644320777510014,
+      "points_per_million": 0.5528864155502002,
+      "appearance_probability": 0.80224447333515
+    },
+    {
+      "element": 575,
+      "name": "Yirenkyi",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.8,
+      "expected_points": 2.7387013610765765,
+      "points_per_million": 0.5705627835576201,
+      "appearance_probability": 0.8281144155928616
+    },
+    {
+      "element": 175,
+      "name": "van Ewijk",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 3.9,
+      "expected_points": 2.734761777879571,
+      "points_per_million": 0.7012209686870695,
+      "appearance_probability": 0.6602648604958568
+    },
+    {
+      "element": 85,
+      "name": "Van den Berg",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.9,
+      "expected_points": 2.6720862853196663,
+      "points_per_million": 0.5453237316978911,
+      "appearance_probability": 0.6247326285972774
+    },
+    {
+      "element": 101,
+      "name": "Henderson",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 4.9,
+      "expected_points": 2.660798107346438,
+      "points_per_million": 0.5430200219074364,
+      "appearance_probability": 0.5771117486832483
+    },
+    {
+      "element": 10,
+      "name": "White",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 5.4,
+      "expected_points": 2.6606055982358248,
+      "points_per_million": 0.4927047404140416,
+      "appearance_probability": 0.5253634282153744
+    },
+    {
+      "element": 431,
+      "name": "Amad",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 5.7,
+      "expected_points": 2.658842837981894,
+      "points_per_million": 0.46646365578629717,
+      "appearance_probability": 0.7404617258103717
+    },
+    {
+      "element": 114,
+      "name": "Boscagli",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 4.5,
+      "expected_points": 2.628113542120506,
+      "points_per_million": 0.5840252315823347,
+      "appearance_probability": 0.7860549050105358
+    },
+    {
+      "element": 536,
+      "name": "Reinildo",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 4.4,
+      "expected_points": 2.622051088837465,
+      "points_per_million": 0.5959207020085147,
+      "appearance_probability": 0.7149676906342333
+    },
+    {
+      "element": 211,
+      "name": "Yeremy",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 5.5,
+      "expected_points": 2.6146323469189325,
+      "points_per_million": 0.4753876994398059,
+      "appearance_probability": 0.8950268416479447
+    },
+    {
+      "element": 246,
+      "name": "R\u00f6hl",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 4.9,
+      "expected_points": 2.611870097536536,
+      "points_per_million": 0.5330347137829665,
+      "appearance_probability": 0.5072290160730083
+    },
+    {
+      "element": 98,
+      "name": "Janelt",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 5.0,
+      "expected_points": 2.6061171342042893,
+      "points_per_million": 0.5212234268408579,
+      "appearance_probability": 0.6734258909171649
+    },
+    {
+      "element": 265,
+      "name": "Berge",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 4.9,
+      "expected_points": 2.5852647147544596,
+      "points_per_million": 0.5276050438274407,
+      "appearance_probability": 0.9201517691047221
+    },
+    {
+      "element": 16,
+      "name": "Madueke",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 6.2,
+      "expected_points": 2.5775369785779065,
+      "points_per_million": 0.41573177073837203,
+      "appearance_probability": 0.6962280444870217
+    },
+    {
+      "element": 588,
+      "name": "Khalaili",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 5.0,
+      "expected_points": 2.5768545976333144,
+      "points_per_million": 0.5153709195266629,
+      "appearance_probability": 0.8000620999364761
+    },
+    {
+      "element": 464,
+      "name": "Wissa",
+      "position": "FWD",
+      "team": "NEW",
+      "price_millions": 6.0,
+      "expected_points": 2.5765275079204484,
+      "points_per_million": 0.42942125132007475,
+      "appearance_probability": 0.7995475897261244
+    },
+    {
+      "element": 474,
+      "name": "Jair Cunha",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 4.4,
+      "expected_points": 2.57636348849956,
+      "points_per_million": 0.5855371564771727,
+      "appearance_probability": 0.6257672494107097
+    },
+    {
+      "element": 331,
+      "name": "Gudmundsson",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 4.5,
+      "expected_points": 2.559951090671704,
+      "points_per_million": 0.5688780201492675,
+      "appearance_probability": 0.8815198647578316
+    },
+    {
+      "element": 201,
+      "name": "Mu\u00f1oz",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 5.3,
+      "expected_points": 2.553410115448162,
+      "points_per_million": 0.4817754934807853,
+      "appearance_probability": 0.966489010436537
+    },
+    {
+      "element": 534,
+      "name": "Hume",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 4.2,
+      "expected_points": 2.509041485459174,
+      "points_per_million": 0.5973908298712319,
+      "appearance_probability": 0.9123112826589056
+    },
+    {
+      "element": 280,
+      "name": "Coyle",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 4.0,
+      "expected_points": 2.4782704254304955,
+      "points_per_million": 0.6195676063576239,
+      "appearance_probability": 0.8120565650700339
+    },
+    {
+      "element": 533,
+      "name": "Mukiele",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 5.4,
+      "expected_points": 2.4485952488224605,
+      "points_per_million": 0.4534435645967519,
+      "appearance_probability": 0.5918700885878648
+    },
+    {
+      "element": 41,
+      "name": "Buend\u00eda",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 5.9,
+      "expected_points": 2.4472602518140762,
+      "points_per_million": 0.41478987318882643,
+      "appearance_probability": 0.891100886521075
+    },
+    {
+      "element": 222,
+      "name": "Strand Larsen",
+      "position": "FWD",
+      "team": "CRY",
+      "price_millions": 6.0,
+      "expected_points": 2.441094623741478,
+      "points_per_million": 0.40684910395691304,
+      "appearance_probability": 0.47031382330822974
+    },
+    {
+      "element": 452,
+      "name": "Bruno G.",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 6.7,
+      "expected_points": 2.4356207294468057,
+      "points_per_million": 0.3635254820069859,
+      "appearance_probability": 0.9615140680379229
+    },
+    {
+      "element": 184,
+      "name": "Grimes",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.8,
+      "expected_points": 2.4343276961345715,
+      "points_per_million": 0.5071516033613691,
+      "appearance_probability": 0.8281144155928616
+    },
+    {
+      "element": 460,
+      "name": "Willock",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 5.0,
+      "expected_points": 2.422589905773782,
+      "points_per_million": 0.4845179811547564,
+      "appearance_probability": 0.8208811664467904
+    },
+    {
+      "element": 522,
+      "name": "Gray",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 4.9,
+      "expected_points": 2.421894213526485,
+      "points_per_million": 0.4942641252094867,
+      "appearance_probability": 0.8373704483285503
+    },
+    {
+      "element": 185,
+      "name": "Sakamoto",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.8,
+      "expected_points": 2.4036699270025355,
+      "points_per_million": 0.5007645681255283,
+      "appearance_probability": 0.6852572727357187
+    },
+    {
+      "element": 458,
+      "name": "Joelinton",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 5.4,
+      "expected_points": 2.389380901101815,
+      "points_per_million": 0.4424779446484842,
+      "appearance_probability": 0.7376082411497557
+    },
+    {
+      "element": 387,
+      "name": "O'Reilly",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 6.2,
+      "expected_points": 2.388877395148052,
+      "points_per_million": 0.3853028056690406,
+      "appearance_probability": 0.7909803088409856
+    },
+    {
+      "element": 75,
+      "name": "Christie",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 5.0,
+      "expected_points": 2.3851283394650737,
+      "points_per_million": 0.47702566789301476,
+      "appearance_probability": 0.8243126101191472
+    },
+    {
+      "element": 315,
+      "name": "Fatawu",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.4,
+      "expected_points": 2.360797123635663,
+      "points_per_million": 0.43718465252512273,
+      "appearance_probability": 0.700984344941079
+    },
+    {
+      "element": 95,
+      "name": "O.Dango",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 6.2,
+      "expected_points": 2.3319788536565076,
+      "points_per_million": 0.37612562155750123,
+      "appearance_probability": 0.8973492800792816
+    },
+    {
+      "element": 5,
+      "name": "J.Timber",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 6.5,
+      "expected_points": 2.293193296922316,
+      "points_per_million": 0.3527989687572794,
+      "appearance_probability": 0.8011941844249506
+    },
+    {
+      "element": 318,
+      "name": "Philogene",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.4,
+      "expected_points": 2.2786110208346972,
+      "points_per_million": 0.42196500385827723,
+      "appearance_probability": 0.700984344941079
+    },
+    {
+      "element": 399,
+      "name": "Cherki",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 7.9,
+      "expected_points": 2.242102439520017,
+      "points_per_million": 0.2838104353822806,
+      "appearance_probability": 0.7437396808233817
+    },
+    {
+      "element": 105,
+      "name": "Anthony",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 5.9,
+      "expected_points": 2.2256763958495904,
+      "points_per_million": 0.37723328743213397,
+      "appearance_probability": 0.976094586361313
+    },
+    {
+      "element": 471,
+      "name": "Milenkovi\u0107",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 5.4,
+      "expected_points": 2.2075858073478556,
+      "points_per_million": 0.4088121865458992,
+      "appearance_probability": 0.5335090976943441
+    },
+    {
+      "element": 393,
+      "name": "Khusanov",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 5.3,
+      "expected_points": 2.197898382382321,
+      "points_per_million": 0.41469780799666434,
+      "appearance_probability": 0.5456960338025468
+    },
+    {
+      "element": 599,
+      "name": "Cherif",
+      "position": "FWD",
+      "team": "COV",
+      "price_millions": 5.0,
+      "expected_points": 2.1652523052084534,
+      "points_per_million": 0.43305046104169065,
+      "appearance_probability": 0.6593873304780072
+    },
+    {
+      "element": 598,
+      "name": "Elvedi",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 4.5,
+      "expected_points": 2.1597067169977247,
+      "points_per_million": 0.4799348259994944,
+      "appearance_probability": 0.6408818440667304
+    },
+    {
+      "element": 282,
+      "name": "Giles",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 4.0,
+      "expected_points": 2.1300542940499083,
+      "points_per_million": 0.5325135735124771,
+      "appearance_probability": 0.8120565650700339
+    },
+    {
+      "element": 642,
+      "name": "Thomas",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 5.5,
+      "expected_points": 2.116313300300768,
+      "points_per_million": 0.3847842364183215,
+      "appearance_probability": 0.5810895818575866
+    },
+    {
+      "element": 25,
+      "name": "Gy\u00f6keres",
+      "position": "FWD",
+      "team": "ARS",
+      "price_millions": 7.0,
+      "expected_points": 2.1066377321496805,
+      "points_per_million": 0.30094824744995435,
+      "appearance_probability": 0.9126339556485393
+    },
+    {
+      "element": 43,
+      "name": "Tielemans",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 5.7,
+      "expected_points": 2.08400805794195,
+      "points_per_million": 0.3656154487617456,
+      "appearance_probability": 0.7688295874347587
+    },
+    {
+      "element": 36,
+      "name": "Maatsen",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.4,
+      "expected_points": 2.014078667562556,
+      "points_per_million": 0.4577451517187627,
+      "appearance_probability": 0.4001841278013726
+    },
+    {
+      "element": 465,
+      "name": "Osula",
+      "position": "FWD",
+      "team": "NEW",
+      "price_millions": 5.8,
+      "expected_points": 2.009968176435942,
+      "points_per_million": 0.34654623731654177,
+      "appearance_probability": 0.625448684232782
+    },
+    {
+      "element": 557,
+      "name": "Tzolis",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 6.1,
+      "expected_points": 2.007335039943782,
+      "points_per_million": 0.3290713180235708,
+      "appearance_probability": 0.38249001775684327
+    },
+    {
+      "element": 525,
+      "name": "Fernandes",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.6,
+      "expected_points": 1.9957112190498056,
+      "points_per_million": 0.35637700340175105,
+      "appearance_probability": 0.9810913020587706
+    },
+    {
+      "element": 232,
+      "name": "O'Brien",
+      "position": "DEF",
+      "team": "EVE",
+      "price_millions": 4.8,
+      "expected_points": 1.9900805731915003,
+      "points_per_million": 0.41460011941489594,
+      "appearance_probability": 0.7922960249959197
+    },
+    {
+      "element": 514,
+      "name": "Tel",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.6,
+      "expected_points": 1.979937081929521,
+      "points_per_million": 0.3535601932017002,
+      "appearance_probability": 0.5709758364224122
+    },
+    {
+      "element": 335,
+      "name": "Stach",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 6.0,
+      "expected_points": 1.973928240796141,
+      "points_per_million": 0.3289880401326902,
+      "appearance_probability": 0.9017386684575461
+    },
+    {
+      "element": 377,
+      "name": "Munoz",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 6.5,
+      "expected_points": 1.957397257881323,
+      "points_per_million": 0.3011380396740497,
+      "appearance_probability": 0.6971564637684979
+    },
+    {
+      "element": 448,
+      "name": "Burn",
+      "position": "DEF",
+      "team": "NEW",
+      "price_millions": 4.8,
+      "expected_points": 1.9482955565048685,
+      "points_per_million": 0.40589490760518093,
+      "appearance_probability": 0.7423955466595004
+    },
+    {
+      "element": 113,
+      "name": "F.Kad\u0131o\u011flu",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 4.4,
+      "expected_points": 1.947636461781281,
+      "points_per_million": 0.4426446504048365,
+      "appearance_probability": 0.5761970278987953
+    },
+    {
+      "element": 336,
+      "name": "Okafor",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 5.8,
+      "expected_points": 1.9341290510134281,
+      "points_per_million": 0.33347052603679794,
+      "appearance_probability": 0.5539007060881402
+    },
+    {
+      "element": 145,
+      "name": "Fofana",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 5.0,
+      "expected_points": 1.8700257558958457,
+      "points_per_million": 0.37400515117916916,
+      "appearance_probability": 0.4378298983541552
+    },
+    {
+      "element": 551,
+      "name": "N.Angulo",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 5.0,
+      "expected_points": 1.8698395459669077,
+      "points_per_million": 0.3739679091933815,
+      "appearance_probability": 0.6998071751384923
+    },
+    {
+      "element": 398,
+      "name": "Foden",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 6.8,
+      "expected_points": 1.8554576756175691,
+      "points_per_million": 0.27286142288493664,
+      "appearance_probability": 0.6175453039332977
+    },
+    {
+      "element": 240,
+      "name": "Iroegbunam",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 5.0,
+      "expected_points": 1.8546231003988811,
+      "points_per_million": 0.3709246200797762,
+      "appearance_probability": 0.9748536093275356
+    },
+    {
+      "element": 447,
+      "name": "Botman",
+      "position": "DEF",
+      "team": "NEW",
+      "price_millions": 5.0,
+      "expected_points": 1.8401292973755419,
+      "points_per_million": 0.36802585947510835,
+      "appearance_probability": 0.5793459492109082
+    },
+    {
+      "element": 565,
+      "name": "M.Sangar\u00e9",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 5.4,
+      "expected_points": 1.8328209723877458,
+      "points_per_million": 0.33941129118291585,
+      "appearance_probability": 0.7987785995033233
+    },
+    {
+      "element": 371,
+      "name": "Gravenberch",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 5.8,
+      "expected_points": 1.8312564452573123,
+      "points_per_million": 0.3157338698719504,
+      "appearance_probability": 0.47759422300836285
+    },
+    {
+      "element": 34,
+      "name": "Pau",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.4,
+      "expected_points": 1.8116566085411223,
+      "points_per_million": 0.4117401383048005,
+      "appearance_probability": 0.5456859497413643
+    },
+    {
+      "element": 153,
+      "name": "Disasi",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.4,
+      "expected_points": 1.8095093131213371,
+      "points_per_million": 0.41125211661848565,
+      "appearance_probability": 0.43229615148581096
+    },
+    {
+      "element": 70,
+      "name": "Kluivert",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 5.9,
+      "expected_points": 1.8014436739917128,
+      "points_per_million": 0.3053294362697818,
+      "appearance_probability": 0.5530753008001388
+    },
+    {
+      "element": 7,
+      "name": "Lewis-Skelly",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 5.3,
+      "expected_points": 1.7984288985434438,
+      "points_per_million": 0.3393262072723479,
+      "appearance_probability": 0.52058225961466
+    },
+    {
+      "element": 33,
+      "name": "Mings",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.5,
+      "expected_points": 1.7750918908576567,
+      "points_per_million": 0.39446486463503483,
+      "appearance_probability": 0.5194320025281407
+    },
+    {
+      "element": 593,
+      "name": "Dedi\u0107",
+      "position": "DEF",
+      "team": "NEW",
+      "price_millions": 4.5,
+      "expected_points": 1.7647885105367287,
+      "points_per_million": 0.3921752245637175,
+      "appearance_probability": 0.4927642053679846
+    },
+    {
+      "element": 634,
+      "name": "Fernandez-Pardo",
+      "position": "FWD",
+      "team": "NEW",
+      "price_millions": 5.9,
+      "expected_points": 1.7638907083550408,
+      "points_per_million": 0.29896452683983743,
+      "appearance_probability": 0.3769626909203169
+    },
+    {
+      "element": 238,
+      "name": "Grealish",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 6.5,
+      "expected_points": 1.7519328105267455,
+      "points_per_million": 0.2695281246964224,
+      "appearance_probability": 0.584461938704971
+    },
+    {
+      "element": 446,
+      "name": "Sch\u00e4r",
+      "position": "DEF",
+      "team": "NEW",
+      "price_millions": 4.9,
+      "expected_points": 1.7484702706932966,
+      "points_per_million": 0.35683066748842784,
+      "appearance_probability": 0.5409703238551878
+    },
+    {
+      "element": 14,
+      "name": "Eze",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 6.2,
+      "expected_points": 1.7388810491960105,
+      "points_per_million": 0.2804646853541952,
+      "appearance_probability": 0.6151478399480245
+    },
+    {
+      "element": 457,
+      "name": "J.Murphy",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 5.9,
+      "expected_points": 1.7224691515537462,
+      "points_per_million": 0.29194392399216035,
+      "appearance_probability": 0.7537083680962064
+    },
+    {
+      "element": 445,
+      "name": "Thiaw",
+      "position": "DEF",
+      "team": "NEW",
+      "price_millions": 4.9,
+      "expected_points": 1.7213818146196387,
+      "points_per_million": 0.351302411146865,
+      "appearance_probability": 0.7687311595224359
+    },
+    {
+      "element": 562,
+      "name": "Maeda",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.3,
+      "expected_points": 1.7125157325029345,
+      "points_per_million": 0.3231161759439499,
+      "appearance_probability": 0.8390748753128239
+    },
+    {
+      "element": 97,
+      "name": "Jensen",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 5.4,
+      "expected_points": 1.700966687719807,
+      "points_per_million": 0.3149938310592235,
+      "appearance_probability": 0.7456426019875598
+    },
+    {
+      "element": 368,
+      "name": "Szoboszlai",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 6.7,
+      "expected_points": 1.6731465801859426,
+      "points_per_million": 0.24972337017700635,
+      "appearance_probability": 0.6533373882863847
+    },
+    {
+      "element": 131,
+      "name": "Baleba",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 4.9,
+      "expected_points": 1.6559308399095216,
+      "points_per_million": 0.3379450693692901,
+      "appearance_probability": 0.38749422331991923
+    },
+    {
+      "element": 173,
+      "name": "Thomas",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 4.0,
+      "expected_points": 1.6437095203910286,
+      "points_per_million": 0.41092738009775714,
+      "appearance_probability": 0.33222600663015006
+    },
+    {
+      "element": 209,
+      "name": "Johnson",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 5.8,
+      "expected_points": 1.639065504864772,
+      "points_per_million": 0.2825975008387538,
+      "appearance_probability": 0.9702588750910167
+    },
+    {
+      "element": 136,
+      "name": "Welbeck",
+      "position": "FWD",
+      "team": "CHE",
+      "price_millions": 5.8,
+      "expected_points": 1.6169472453583622,
+      "points_per_million": 0.2787840078204073,
+      "appearance_probability": 0.9581235852522965
+    },
+    {
+      "element": 71,
+      "name": "Cook",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 5.0,
+      "expected_points": 1.610956070950467,
+      "points_per_million": 0.3221912141900934,
+      "appearance_probability": 0.8058893037077123
+    },
+    {
+      "element": 616,
+      "name": "Bouaddi",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 5.5,
+      "expected_points": 1.6091434668236555,
+      "points_per_million": 0.2925715394224828,
+      "appearance_probability": 0.49404010904244666
+    },
+    {
+      "element": 581,
+      "name": "Diomande",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 5.3,
+      "expected_points": 1.6036927689993674,
+      "points_per_million": 0.30258354132063536,
+      "appearance_probability": 0.533066220520319
+    },
+    {
+      "element": 548,
+      "name": "Rigg",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 4.8,
+      "expected_points": 1.5957368111295653,
+      "points_per_million": 0.3324451689853261,
+      "appearance_probability": 0.51674411472795
+    },
+    {
+      "element": 52,
+      "name": "Alysson",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 4.9,
+      "expected_points": 1.5954629678955052,
+      "points_per_million": 0.32560468732561326,
+      "appearance_probability": 0.606363759242788
+    },
+    {
+      "element": 432,
+      "name": "Mainoo",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 5.5,
+      "expected_points": 1.589496302241492,
+      "points_per_million": 0.2889993276802713,
+      "appearance_probability": 0.5832622972833604
+    },
+    {
+      "element": 459,
+      "name": "L.Miley",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 5.5,
+      "expected_points": 1.5731348199209043,
+      "points_per_million": 0.2860245127128917,
+      "appearance_probability": 0.41067039334433786
+    },
+    {
+      "element": 560,
+      "name": "Penders",
+      "position": "GK",
+      "team": "CHE",
+      "price_millions": 4.4,
+      "expected_points": 1.5356626969719502,
+      "points_per_million": 0.34901424931180686,
+      "appearance_probability": 0.44032591899749823
+    },
+    {
+      "element": 539,
+      "name": "O'Nien",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 3.9,
+      "expected_points": 1.5034595077019637,
+      "points_per_million": 0.3855024378722984,
+      "appearance_probability": 0.4857402761838973
+    },
+    {
+      "element": 242,
+      "name": "George",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 5.5,
+      "expected_points": 1.4930507212057427,
+      "points_per_million": 0.2714637674919532,
+      "appearance_probability": 0.7695401938529571
+    },
+    {
+      "element": 102,
+      "name": "Yarmoliuk",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 4.7,
+      "expected_points": 1.489609071569517,
+      "points_per_million": 0.31693810033393977,
+      "appearance_probability": 0.616213943590269
+    },
+    {
+      "element": 576,
+      "name": "Stroud",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.9,
+      "expected_points": 1.4780641926349405,
+      "points_per_million": 0.30164575359896745,
+      "appearance_probability": 0.5522689968391458
+    },
+    {
+      "element": 585,
+      "name": "Herrington",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 4.0,
+      "expected_points": 1.4616609339624422,
+      "points_per_million": 0.36541523349061056,
+      "appearance_probability": 0.5263422793557482
+    },
+    {
+      "element": 260,
+      "name": "Wilson",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 6.2,
+      "expected_points": 1.4592431452177907,
+      "points_per_million": 0.2353617976157727,
+      "appearance_probability": 0.609309178204195
+    },
+    {
+      "element": 649,
+      "name": "Maitland-Niles",
+      "position": "DEF",
+      "team": "EVE",
+      "price_millions": 4.5,
+      "expected_points": 1.4515337958371184,
+      "points_per_million": 0.3225630657415819,
+      "appearance_probability": 0.4946430039165804
+    },
+    {
+      "element": 618,
+      "name": "Goretzka",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 5.9,
+      "expected_points": 1.3843610160486124,
+      "points_per_million": 0.23463746034722244,
+      "appearance_probability": 0.5360740384629328
+    },
+    {
+      "element": 644,
+      "name": "Timber",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 5.0,
+      "expected_points": 1.3785236254453594,
+      "points_per_million": 0.2757047250890719,
+      "appearance_probability": 0.3761337788817698
+    },
+    {
+      "element": 17,
+      "name": "Merino",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 5.7,
+      "expected_points": 1.3771605319235372,
+      "points_per_million": 0.24160711086377845,
+      "appearance_probability": 0.8136035661440698
+    },
+    {
+      "element": 586,
+      "name": "Mendy",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 4.1,
+      "expected_points": 1.3765802334509116,
+      "points_per_million": 0.33575127645144187,
+      "appearance_probability": 0.38787488682590154
+    },
+    {
+      "element": 313,
+      "name": "Clarke",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.3,
+      "expected_points": 1.353496139561102,
+      "points_per_million": 0.2553766301058683,
+      "appearance_probability": 0.8390748753128239
+    },
+    {
+      "element": 241,
+      "name": "McNeil",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 5.3,
+      "expected_points": 1.348049476067152,
+      "points_per_million": 0.25434895774851923,
+      "appearance_probability": 0.7636039736251395
+    },
+    {
+      "element": 198,
+      "name": "Henderson",
+      "position": "GK",
+      "team": "CRY",
+      "price_millions": 4.9,
+      "expected_points": 1.3429633673270278,
+      "points_per_million": 0.27407415659735257,
+      "appearance_probability": 0.34283987283184214
+    },
+    {
+      "element": 519,
+      "name": "Gallagher",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.3,
+      "expected_points": 1.3367793806691848,
+      "points_per_million": 0.2522225246545632,
+      "appearance_probability": 0.9250038888363744
+    },
+    {
+      "element": 152,
+      "name": "Palestra",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 5.3,
+      "expected_points": 1.3198101265760047,
+      "points_per_million": 0.24902077859924618,
+      "appearance_probability": 0.6659137564793589
+    },
+    {
+      "element": 186,
+      "name": "Mason-Clark",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 5.3,
+      "expected_points": 1.3050141554856187,
+      "points_per_million": 0.2462290859406828,
+      "appearance_probability": 0.7089762317486384
+    },
+    {
+      "element": 454,
+      "name": "Elanga",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 6.0,
+      "expected_points": 1.2873209484369788,
+      "points_per_million": 0.21455349140616312,
+      "appearance_probability": 0.4642204998971377
+    },
+    {
+      "element": 656,
+      "name": "Mfuni",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 4.0,
+      "expected_points": 1.2813733444943949,
+      "points_per_million": 0.3203433361235987,
+      "appearance_probability": 0.7380851651879272
+    },
+    {
+      "element": 340,
+      "name": "Gelhardt",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 5.0,
+      "expected_points": 1.2738844690574223,
+      "points_per_million": 0.25477689381148444,
+      "appearance_probability": 0.9259945756588803
+    },
+    {
+      "element": 157,
+      "name": "Est\u00eav\u00e3o",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 6.3,
+      "expected_points": 1.2688487647082314,
+      "points_per_million": 0.2014045658267034,
+      "appearance_probability": 0.7036397295181788
+    },
+    {
+      "element": 231,
+      "name": "Keane",
+      "position": "DEF",
+      "team": "EVE",
+      "price_millions": 4.7,
+      "expected_points": 1.2427469995536762,
+      "points_per_million": 0.26441425522418643,
+      "appearance_probability": 0.47065995036154046
+    },
+    {
+      "element": 164,
+      "name": "Quenda",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 5.2,
+      "expected_points": 1.2390877362876955,
+      "points_per_million": 0.23828610313224913,
+      "appearance_probability": 0.6484427285736565
+    },
+    {
+      "element": 327,
+      "name": "Bijol",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 5.0,
+      "expected_points": 1.2349478111544503,
+      "points_per_million": 0.24698956223089005,
+      "appearance_probability": 0.4479887923618414
+    },
+    {
+      "element": 188,
+      "name": "Torp",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 5.3,
+      "expected_points": 1.233215907875861,
+      "points_per_million": 0.2326822467690304,
+      "appearance_probability": 0.4232619460343527
+    },
+    {
+      "element": 583,
+      "name": "Chavarria",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 4.9,
+      "expected_points": 1.22844017131884,
+      "points_per_million": 0.2507020757793551,
+      "appearance_probability": 0.5068104838015822
+    },
+    {
+      "element": 430,
+      "name": "Mount",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 5.4,
+      "expected_points": 1.2084376257819014,
+      "points_per_million": 0.22378474551516692,
+      "appearance_probability": 0.6755023966201527
+    },
+    {
+      "element": 655,
+      "name": "Gboho",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 5.5,
+      "expected_points": 1.2079637502977065,
+      "points_per_million": 0.2196297727814012,
+      "appearance_probability": 0.2900515184706398
+    },
+    {
+      "element": 492,
+      "name": "Awoniyi",
+      "position": "FWD",
+      "team": "COV",
+      "price_millions": 5.4,
+      "expected_points": 1.2017629331603863,
+      "points_per_million": 0.22254869132599744,
+      "appearance_probability": 0.5661653615738058
+    },
+    {
+      "element": 161,
+      "name": "Lavia",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 5.0,
+      "expected_points": 1.1492547226790049,
+      "points_per_million": 0.22985094453580096,
+      "appearance_probability": 0.4743153595360065
+    },
+    {
+      "element": 6,
+      "name": "Saliba",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 5.9,
+      "expected_points": 1.1369220008908114,
+      "points_per_million": 0.19269864421878158,
+      "appearance_probability": 0.21655557099119274
+    },
+    {
+      "element": 515,
+      "name": "Maddison",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 6.2,
+      "expected_points": 1.1311294370070686,
+      "points_per_million": 0.18244023177533364,
+      "appearance_probability": 0.6371733364433714
+    },
+    {
+      "element": 553,
+      "name": "Isidor",
+      "position": "FWD",
+      "team": "SUN",
+      "price_millions": 5.4,
+      "expected_points": 1.1261317318112065,
+      "points_per_million": 0.20854291329837157,
+      "appearance_probability": 0.5456301537284948
+    },
+    {
+      "element": 381,
+      "name": "Koumas",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 5.0,
+      "expected_points": 1.1083844281083937,
+      "points_per_million": 0.22167688562167873,
+      "appearance_probability": 0.7777033479762407
+    },
+    {
+      "element": 119,
+      "name": "Costinha",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 4.5,
+      "expected_points": 1.106962821539757,
+      "points_per_million": 0.24599173811994599,
+      "appearance_probability": 0.6419050488963994
+    },
+    {
+      "element": 640,
+      "name": "Flemming",
+      "position": "FWD",
+      "team": "IPS",
+      "price_millions": 5.5,
+      "expected_points": 1.097109164541534,
+      "points_per_million": 0.1994743935530062,
+      "appearance_probability": 0.9579324670557848
+    },
+    {
+      "element": 429,
+      "name": "Rashford",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 6.8,
+      "expected_points": 1.070826239494864,
+      "points_per_million": 0.15747444698453883,
+      "appearance_probability": 0.2652037988154512
+    },
+    {
+      "element": 90,
+      "name": "Hickey",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.5,
+      "expected_points": 1.062532403485858,
+      "points_per_million": 0.23611831188574625,
+      "appearance_probability": 0.8091678288820133
+    },
+    {
+      "element": 631,
+      "name": "Mbaye",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 6.0,
+      "expected_points": 1.0609674011549164,
+      "points_per_million": 0.17682790019248606,
+      "appearance_probability": 0.8263544716181285
+    },
+    {
+      "element": 96,
+      "name": "Damsgaard",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 5.3,
+      "expected_points": 1.0544786866665508,
+      "points_per_million": 0.19895824276727372,
+      "appearance_probability": 0.7046414639393044
+    },
+    {
+      "element": 78,
+      "name": "Kroupi.Jr",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 7.3,
+      "expected_points": 1.0439169403701063,
+      "points_per_million": 0.1430023205986447,
+      "appearance_probability": 0.5192214782514476
+    },
+    {
+      "element": 337,
+      "name": "Aaronson",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 5.2,
+      "expected_points": 1.03492029014736,
+      "points_per_million": 0.19902313272064615,
+      "appearance_probability": 0.7671211872065581
+    },
+    {
+      "element": 501,
+      "name": "Danso",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 5.0,
+      "expected_points": 1.0213377242196844,
+      "points_per_million": 0.2042675448439369,
+      "appearance_probability": 0.5943349336555145
+    },
+    {
+      "element": 499,
+      "name": "Pedro Porro",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 5.3,
+      "expected_points": 1.020219560323597,
+      "points_per_million": 0.19249425666482964,
+      "appearance_probability": 0.640877019734077
+    },
+    {
+      "element": 256,
+      "name": "Tete",
+      "position": "DEF",
+      "team": "FUL",
+      "price_millions": 4.4,
+      "expected_points": 1.004593903348164,
+      "points_per_million": 0.22831679621549178,
+      "appearance_probability": 0.5500338093555578
+    },
+    {
+      "element": 213,
+      "name": "Lerma",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 4.8,
+      "expected_points": 1.0040058357089279,
+      "points_per_million": 0.20916788243936,
+      "appearance_probability": 0.7184713321552639
+    },
+    {
+      "element": 267,
+      "name": "Luki\u0107",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 4.9,
+      "expected_points": 0.9951862533004996,
+      "points_per_million": 0.2030992353674489,
+      "appearance_probability": 0.31146077696513225
+    },
+    {
+      "element": 123,
+      "name": "Hinshelwood",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 5.9,
+      "expected_points": 0.9891628233106035,
+      "points_per_million": 0.16765471581535651,
+      "appearance_probability": 0.6165860344694257
+    },
+    {
+      "element": 421,
+      "name": "Heaven",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.3,
+      "expected_points": 0.9850991949385557,
+      "points_per_million": 0.22909283603222227,
+      "appearance_probability": 0.4953090935748792
+    },
+    {
+      "element": 568,
+      "name": "Barco",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 5.3,
+      "expected_points": 0.983369841135457,
+      "points_per_million": 0.1855414794595202,
+      "appearance_probability": 0.36658727076283487
+    },
+    {
+      "element": 320,
+      "name": "Akpom",
+      "position": "FWD",
+      "team": "IPS",
+      "price_millions": 5.0,
+      "expected_points": 0.9752827946932957,
+      "points_per_million": 0.19505655893865914,
+      "appearance_probability": 0.7916829530840191
+    },
+    {
+      "element": 635,
+      "name": "Larsson",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.0,
+      "expected_points": 0.9661015043467874,
+      "points_per_million": 0.1932203008693575,
+      "appearance_probability": 0.6489981777116348
+    },
+    {
+      "element": 19,
+      "name": "Zubimendi",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 5.2,
+      "expected_points": 0.9629942563845545,
+      "points_per_million": 0.18519120315087587,
+      "appearance_probability": 0.4845516715539119
+    },
+    {
+      "element": 306,
+      "name": "Greaves",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 3.9,
+      "expected_points": 0.957621083729032,
+      "points_per_million": 0.24554386762282873,
+      "appearance_probability": 0.22106821597171614
+    },
+    {
+      "element": 516,
+      "name": "Bentancur",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.4,
+      "expected_points": 0.9380300772699849,
+      "points_per_million": 0.1737092735685157,
+      "appearance_probability": 0.4697740531675888
+    },
+    {
+      "element": 638,
+      "name": "Norton-Cuffy",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 3.9,
+      "expected_points": 0.9289834563052723,
+      "points_per_million": 0.23820088623212113,
+      "appearance_probability": 0.5220450971707024
+    },
+    {
+      "element": 637,
+      "name": "Vaz",
+      "position": "FWD",
+      "team": "HUL",
+      "price_millions": 5.0,
+      "expected_points": 0.928920163954482,
+      "points_per_million": 0.1857840327908964,
+      "appearance_probability": 0.6640004407321649
+    },
+    {
+      "element": 125,
+      "name": "Georginio",
+      "position": "FWD",
+      "team": "BHA",
+      "price_millions": 5.3,
+      "expected_points": 0.9174466948317573,
+      "points_per_million": 0.1731031499682561,
+      "appearance_probability": 0.845849729621013
+    },
+    {
+      "element": 490,
+      "name": "Wood",
+      "position": "FWD",
+      "team": "NFO",
+      "price_millions": 5.7,
+      "expected_points": 0.8730877801008354,
+      "points_per_million": 0.15317329475453254,
+      "appearance_probability": 0.7964815165930311
+    },
+    {
+      "element": 620,
+      "name": "Diouf",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.5,
+      "expected_points": 0.8702114850763099,
+      "points_per_million": 0.19338033001695776,
+      "appearance_probability": 0.7792315566996657
+    },
+    {
+      "element": 9,
+      "name": "Hincapie",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 5.2,
+      "expected_points": 0.8616451333783225,
+      "points_per_million": 0.16570098718813894,
+      "appearance_probability": 0.4246700231494817
+    },
+    {
+      "element": 93,
+      "name": "Schuster",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.5,
+      "expected_points": 0.8380716744756826,
+      "points_per_million": 0.18623814988348503,
+      "appearance_probability": 0.34927402189981144
+    },
+    {
+      "element": 487,
+      "name": "Dominguez",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 4.8,
+      "expected_points": 0.8281137459900929,
+      "points_per_million": 0.17252369708126936,
+      "appearance_probability": 0.19880008867762988
+    },
+    {
+      "element": 541,
+      "name": "Meunier",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 4.4,
+      "expected_points": 0.8271150842179226,
+      "points_per_million": 0.18798070095861874,
+      "appearance_probability": 0.4993299226365848
+    },
+    {
+      "element": 375,
+      "name": "Nyoni",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 4.8,
+      "expected_points": 0.8233575029273935,
+      "points_per_million": 0.17153281310987364,
+      "appearance_probability": 0.7392192958178454
+    },
+    {
+      "element": 269,
+      "name": "Sessegnon",
+      "position": "DEF",
+      "team": "FUL",
+      "price_millions": 4.3,
+      "expected_points": 0.8223594882078296,
+      "points_per_million": 0.191246392606472,
+      "appearance_probability": 0.40547140355669786
+    },
+    {
+      "element": 473,
+      "name": "Aina",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 4.2,
+      "expected_points": 0.815922785741147,
+      "points_per_million": 0.19426732993836832,
+      "appearance_probability": 0.3871944060540357
+    },
+    {
+      "element": 563,
+      "name": "Morita",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.9,
+      "expected_points": 0.8094623825181083,
+      "points_per_million": 0.1651964045955323,
+      "appearance_probability": 0.6951261396962886
+    },
+    {
+      "element": 310,
+      "name": "Matusiwa",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 4.9,
+      "expected_points": 0.801565667220046,
+      "points_per_million": 0.16358483004490731,
+      "appearance_probability": 0.5347983349135451
+    },
+    {
+      "element": 617,
+      "name": "Cho",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 5.0,
+      "expected_points": 0.7730587574171881,
+      "points_per_million": 0.15461175148343761,
+      "appearance_probability": 0.5570271964684766
+    },
+    {
+      "element": 253,
+      "name": "Andersen",
+      "position": "DEF",
+      "team": "FUL",
+      "price_millions": 5.0,
+      "expected_points": 0.766123885473635,
+      "points_per_million": 0.15322477709472698,
+      "appearance_probability": 0.35067638234737775
+    },
+    {
+      "element": 462,
+      "name": "Steur",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 4.8,
+      "expected_points": 0.7614676991846857,
+      "points_per_million": 0.15863910399680953,
+      "appearance_probability": 0.4916923107407696
+    },
+    {
+      "element": 84,
+      "name": "Collins",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 5.4,
+      "expected_points": 0.7548582673249176,
+      "points_per_million": 0.1397885680231329,
+      "appearance_probability": 0.22119276347944125
+    },
+    {
+      "element": 482,
+      "name": "Hudson-Odoi",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 5.7,
+      "expected_points": 0.752890538123349,
+      "points_per_million": 0.1320860593198858,
+      "appearance_probability": 0.5988101377155424
+    },
+    {
+      "element": 584,
+      "name": "Hamer",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 5.3,
+      "expected_points": 0.74928392067191,
+      "points_per_million": 0.14137432465507735,
+      "appearance_probability": 0.4232619460343527
+    },
+    {
+      "element": 461,
+      "name": "Tour\u00e9",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 5.7,
+      "expected_points": 0.7382263971941785,
+      "points_per_million": 0.12951340301652253,
+      "appearance_probability": 0.6692766531004419
+    },
+    {
+      "element": 271,
+      "name": "Muniz",
+      "position": "FWD",
+      "team": "FUL",
+      "price_millions": 5.3,
+      "expected_points": 0.7291635614978413,
+      "points_per_million": 0.13757803047129083,
+      "appearance_probability": 0.6606093486526206
+    },
+    {
+      "element": 440,
+      "name": "Zirkzee",
+      "position": "FWD",
+      "team": "MUN",
+      "price_millions": 5.3,
+      "expected_points": 0.7147032531749132,
+      "points_per_million": 0.134849670410361,
+      "appearance_probability": 0.6208669223850071
+    },
+    {
+      "element": 498,
+      "name": "Senesi",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 5.7,
+      "expected_points": 0.7140479883892248,
+      "points_per_million": 0.12527157691039031,
+      "appearance_probability": 0.2554652551231259
+    },
+    {
+      "element": 262,
+      "name": "Smith Rowe",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.2,
+      "expected_points": 0.7110219010056619,
+      "points_per_million": 0.1367349809626273,
+      "appearance_probability": 0.341369586703423
+    },
+    {
+      "element": 62,
+      "name": "Diakit\u00e9",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 4.9,
+      "expected_points": 0.7037510461501956,
+      "points_per_million": 0.14362266247963174,
+      "appearance_probability": 0.5532481918557571
+    },
+    {
+      "element": 108,
+      "name": "Wilson",
+      "position": "FWD",
+      "team": "BRE",
+      "price_millions": 5.4,
+      "expected_points": 0.7018108963104892,
+      "points_per_million": 0.12996498079823873,
+      "appearance_probability": 0.5727334230942766
+    },
+    {
+      "element": 628,
+      "name": "Allan",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 6.0,
+      "expected_points": 0.6829654123332769,
+      "points_per_million": 0.11382756872221282,
+      "appearance_probability": 0.3697517331547352
+    },
+    {
+      "element": 343,
+      "name": "James",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 4.9,
+      "expected_points": 0.6801686164854623,
+      "points_per_million": 0.138809921731727,
+      "appearance_probability": 0.36313556814599307
+    },
+    {
+      "element": 144,
+      "name": "Gusto",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 4.8,
+      "expected_points": 0.6784997476337016,
+      "points_per_million": 0.1413541140903545,
+      "appearance_probability": 0.4531208990429632
+    },
+    {
+      "element": 442,
+      "name": "Pope",
+      "position": "GK",
+      "team": "NEW",
+      "price_millions": 4.9,
+      "expected_points": 0.6735467605860456,
+      "points_per_million": 0.1374585225685807,
+      "appearance_probability": 0.14597333092593442
+    },
+    {
+      "element": 46,
+      "name": "Barkley",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 5.0,
+      "expected_points": 0.6609103457506481,
+      "points_per_million": 0.13218206915012962,
+      "appearance_probability": 0.778927172378835
+    },
+    {
+      "element": 488,
+      "name": "I.Sangar\u00e9",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 4.7,
+      "expected_points": 0.6547520869416167,
+      "points_per_million": 0.13930895466842907,
+      "appearance_probability": 0.5822878648366985
+    },
+    {
+      "element": 506,
+      "name": "Udogie",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 4.4,
+      "expected_points": 0.6547465743764099,
+      "points_per_million": 0.14880603963100225,
+      "appearance_probability": 0.38476793014192545
+    },
+    {
+      "element": 81,
+      "name": "Rodr\u00edguez",
+      "position": "FWD",
+      "team": "BOU",
+      "price_millions": 6.0,
+      "expected_points": 0.650590061523272,
+      "points_per_million": 0.10843167692054534,
+      "appearance_probability": 0.5087988921159693
+    },
+    {
+      "element": 543,
+      "name": "Diarra",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 5.3,
+      "expected_points": 0.649108336398015,
+      "points_per_million": 0.12247327101849341,
+      "appearance_probability": 0.3207189735859519
+    },
+    {
+      "element": 104,
+      "name": "Onyeka",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.8,
+      "expected_points": 0.6435656021284284,
+      "points_per_million": 0.13407616711008927,
+      "appearance_probability": 0.7394747942064034
+    },
+    {
+      "element": 122,
+      "name": "Minteh",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 5.8,
+      "expected_points": 0.6412247274272067,
+      "points_per_million": 0.11055598748744944,
+      "appearance_probability": 0.19860424134093663
+    },
+    {
+      "element": 347,
+      "name": "Nmecha",
+      "position": "FWD",
+      "team": "LEE",
+      "price_millions": 5.3,
+      "expected_points": 0.6341468493201593,
+      "points_per_million": 0.11965034892833194,
+      "appearance_probability": 0.7926278576127285
+    },
+    {
+      "element": 612,
+      "name": "Methalie",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 4.5,
+      "expected_points": 0.6265807930533206,
+      "points_per_million": 0.13924017623407126,
+      "appearance_probability": 0.3601299283863084
+    },
+    {
+      "element": 224,
+      "name": "Nketiah",
+      "position": "FWD",
+      "team": "CRY",
+      "price_millions": 5.4,
+      "expected_points": 0.6227133262112257,
+      "points_per_million": 0.11531728263170844,
+      "appearance_probability": 0.7456922016347374
+    },
+    {
+      "element": 493,
+      "name": "Kalimuendo",
+      "position": "FWD",
+      "team": "NFO",
+      "price_millions": 5.4,
+      "expected_points": 0.6224335682180353,
+      "points_per_million": 0.11526547559593246,
+      "appearance_probability": 0.47240862093954394
+    },
+    {
+      "element": 549,
+      "name": "Talbi",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 5.2,
+      "expected_points": 0.616389588156843,
+      "points_per_million": 0.11853645926093134,
+      "appearance_probability": 0.4401693659850215
+    },
+    {
+      "element": 521,
+      "name": "Kulusevski",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 6.5,
+      "expected_points": 0.5990962200283095,
+      "points_per_million": 0.09216864923512455,
+      "appearance_probability": 0.5036018554976462
+    },
+    {
+      "element": 570,
+      "name": "Palacios",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.3,
+      "expected_points": 0.5951586133682635,
+      "points_per_million": 0.11229407799401198,
+      "appearance_probability": 0.660963695902656
+    },
+    {
+      "element": 668,
+      "name": "Tutierov",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 5.0,
+      "expected_points": 0.5945732695426347,
+      "points_per_million": 0.11891465390852693,
+      "appearance_probability": 0.44525556565976965
+    },
+    {
+      "element": 130,
+      "name": "Wieffer",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 4.8,
+      "expected_points": 0.5796475307347421,
+      "points_per_million": 0.1207599022364046,
+      "appearance_probability": 0.29390544249884343
+    },
+    {
+      "element": 195,
+      "name": "Simms",
+      "position": "FWD",
+      "team": "COV",
+      "price_millions": 4.9,
+      "expected_points": 0.5617995508830912,
+      "points_per_million": 0.11465296956797778,
+      "appearance_probability": 0.36961460092326465
+    },
+    {
+      "element": 247,
+      "name": "Hackney",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 5.3,
+      "expected_points": 0.5510950351574527,
+      "points_per_million": 0.10398019531272694,
+      "appearance_probability": 0.6548883293570641
+    },
+    {
+      "element": 633,
+      "name": "Ahanor",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.5,
+      "expected_points": 0.5360160020710985,
+      "points_per_million": 0.11911466712691077,
+      "appearance_probability": 0.35266522593449745
+    },
+    {
+      "element": 266,
+      "name": "Cairney",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 4.9,
+      "expected_points": 0.5249889323271579,
+      "points_per_million": 0.10714059843411386,
+      "appearance_probability": 0.5238672841565443
+    },
+    {
+      "element": 646,
+      "name": "Fofana",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 5.4,
+      "expected_points": 0.5138455389180037,
+      "points_per_million": 0.09515658128111178,
+      "appearance_probability": 0.5259287046551371
+    },
+    {
+      "element": 245,
+      "name": "Dibling",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 5.3,
+      "expected_points": 0.510107911103233,
+      "points_per_million": 0.09624677567985528,
+      "appearance_probability": 0.5274549540566388
+    },
+    {
+      "element": 605,
+      "name": "Yalcouy\u00e9",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 4.5,
+      "expected_points": 0.5088998627346979,
+      "points_per_million": 0.11308885838548842,
+      "appearance_probability": 0.736574283224104
+    },
+    {
+      "element": 120,
+      "name": "Svoboda",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 5.0,
+      "expected_points": 0.5073975494569608,
+      "points_per_million": 0.10147950989139216,
+      "appearance_probability": 0.3756002130657739
+    },
+    {
+      "element": 263,
+      "name": "Kevin",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.2,
+      "expected_points": 0.5029696601593939,
+      "points_per_million": 0.09672493464603729,
+      "appearance_probability": 0.4243096453002694
+    },
+    {
+      "element": 614,
+      "name": "Hadjam",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 4.5,
+      "expected_points": 0.4999100671323146,
+      "points_per_million": 0.11109112602940324,
+      "appearance_probability": 0.49904790603925653
+    },
+    {
+      "element": 647,
+      "name": "Osorio",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 5.4,
+      "expected_points": 0.49566123884528945,
+      "points_per_million": 0.09178911830468323,
+      "appearance_probability": 0.3742700415237178
+    },
+    {
+      "element": 589,
+      "name": "Gourna-Douath",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.9,
+      "expected_points": 0.481195898679043,
+      "points_per_million": 0.09820324462837611,
+      "appearance_probability": 0.199916033343645
+    },
+    {
+      "element": 207,
+      "name": "Mingueza",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.3,
+      "expected_points": 0.47159928872617335,
+      "points_per_million": 0.10967425319213334,
+      "appearance_probability": 0.20313195756285038
+    },
+    {
+      "element": 645,
+      "name": "Mouzakitis",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 5.0,
+      "expected_points": 0.4672416191877809,
+      "points_per_million": 0.09344832383755618,
+      "appearance_probability": 0.12845576789704813
+    },
+    {
+      "element": 648,
+      "name": "Bahoya",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 4.9,
+      "expected_points": 0.4541200835120687,
+      "points_per_million": 0.09267756806368747,
+      "appearance_probability": 0.5004653475960178
+    },
+    {
+      "element": 359,
+      "name": "Gomez",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 4.9,
+      "expected_points": 0.4537284056913692,
+      "points_per_million": 0.09259763381456514,
+      "appearance_probability": 0.36692782714917405
+    },
+    {
+      "element": 406,
+      "name": "Kova\u010di\u0107",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 5.3,
+      "expected_points": 0.4536879770034077,
+      "points_per_million": 0.08560150509498259,
+      "appearance_probability": 0.16359483591498808
+    },
+    {
+      "element": 212,
+      "name": "Hughes",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 4.3,
+      "expected_points": 0.4386876815882773,
+      "points_per_million": 0.10202039106704124,
+      "appearance_probability": 0.40690221682592265
+    },
+    {
+      "element": 324,
+      "name": "Mehmeti",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 4.8,
+      "expected_points": 0.4294491194322031,
+      "points_per_million": 0.08946856654837565,
+      "appearance_probability": 0.10175929559139511
+    },
+    {
+      "element": 77,
+      "name": "Adli",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 4.8,
+      "expected_points": 0.4283359381496025,
+      "points_per_million": 0.0892366537811672,
+      "appearance_probability": 0.5338248040396584
+    },
+    {
+      "element": 179,
+      "name": "Latibeaudiere",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 3.9,
+      "expected_points": 0.4279304630702186,
+      "points_per_million": 0.10972575976159452,
+      "appearance_probability": 0.2316934319244283
+    },
+    {
+      "element": 177,
+      "name": "Kesler-Hayden",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 3.9,
+      "expected_points": 0.426678880720401,
+      "points_per_million": 0.10940484121035923,
+      "appearance_probability": 0.2316934319244283
+    },
+    {
+      "element": 292,
+      "name": "\u00d6m\u00fcr",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.8,
+      "expected_points": 0.4225125354334307,
+      "points_per_million": 0.08802344488196473,
+      "appearance_probability": 0.11898226761330541
+    },
+    {
+      "element": 369,
+      "name": "Ngumoha",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 5.7,
+      "expected_points": 0.4199032811552342,
+      "points_per_million": 0.07366724230793582,
+      "appearance_probability": 0.6216548223398342
+    },
+    {
+      "element": 11,
+      "name": "Mosquera",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 5.1,
+      "expected_points": 0.41983360708008066,
+      "points_per_million": 0.08232031511374131,
+      "appearance_probability": 0.09937743024303967
+    },
+    {
+      "element": 574,
+      "name": "Hjert\u00f8-Dahl",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.8,
+      "expected_points": 0.4182506228334919,
+      "points_per_million": 0.08713554642364416,
+      "appearance_probability": 0.11898226761330541
+    },
+    {
+      "element": 582,
+      "name": "Madjo",
+      "position": "FWD",
+      "team": "AVL",
+      "price_millions": 5.4,
+      "expected_points": 0.4089048993030427,
+      "points_per_million": 0.07572312950056345,
+      "appearance_probability": 0.20045548077982334
+    },
+    {
+      "element": 309,
+      "name": "N\u00fa\u00f1ez",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 4.8,
+      "expected_points": 0.40665246971597746,
+      "points_per_million": 0.08471926452416198,
+      "appearance_probability": 0.10175929559139511
+    },
+    {
+      "element": 321,
+      "name": "Walle Egeli",
+      "position": "FWD",
+      "team": "IPS",
+      "price_millions": 4.5,
+      "expected_points": 0.4061552211594019,
+      "points_per_million": 0.09025671581320042,
+      "appearance_probability": 0.20271733769690486
+    },
+    {
+      "element": 670,
+      "name": "Subuloye",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 4.0,
+      "expected_points": 0.400439787424804,
+      "points_per_million": 0.100109946856201,
+      "appearance_probability": 0.1135595586296163
+    },
+    {
+      "element": 56,
+      "name": "Abraham",
+      "position": "FWD",
+      "team": "AVL",
+      "price_millions": 5.5,
+      "expected_points": 0.3993873725347582,
+      "points_per_million": 0.07261588591541059,
+      "appearance_probability": 0.2055971918705641
+    },
+    {
+      "element": 339,
+      "name": "Longstaff",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 4.8,
+      "expected_points": 0.39501418677486094,
+      "points_per_million": 0.0822946222447627,
+      "appearance_probability": 0.4968485510820465
+    },
+    {
+      "element": 35,
+      "name": "Bogarde",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 4.9,
+      "expected_points": 0.38342453774793256,
+      "points_per_million": 0.07824990566284337,
+      "appearance_probability": 0.11147735605344646
+    },
+    {
+      "element": 72,
+      "name": "Gannon-Doak",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 4.8,
+      "expected_points": 0.38277136262474726,
+      "points_per_million": 0.07974403388015568,
+      "appearance_probability": 0.6092351602935351
+    },
+    {
+      "element": 422,
+      "name": "Mazraoui",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.3,
+      "expected_points": 0.380601144104869,
+      "points_per_million": 0.08851189397787651,
+      "appearance_probability": 0.21633421039075104
+    },
+    {
+      "element": 478,
+      "name": "Netz",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 4.4,
+      "expected_points": 0.379032043752888,
+      "points_per_million": 0.08614364630747454,
+      "appearance_probability": 0.35995257848311085
+    },
+    {
+      "element": 243,
+      "name": "Alcaraz",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 4.8,
+      "expected_points": 0.37165093589416504,
+      "points_per_million": 0.07742727831128439,
+      "appearance_probability": 0.3752784792233307
+    },
+    {
+      "element": 42,
+      "name": "Guessand",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 5.3,
+      "expected_points": 0.3653830824032084,
+      "points_per_million": 0.06894020422702045,
+      "appearance_probability": 0.11550391057288338
+    },
+    {
+      "element": 294,
+      "name": "Zambrano",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.5,
+      "expected_points": 0.3599209034257067,
+      "points_per_million": 0.07998242298349038,
+      "appearance_probability": 0.10519154869460487
+    },
+    {
+      "element": 172,
+      "name": "Wilson",
+      "position": "GK",
+      "team": "COV",
+      "price_millions": 4.4,
+      "expected_points": 0.3598290551216004,
+      "points_per_million": 0.08177933070945463,
+      "appearance_probability": 0.06793913254706148
+    },
+    {
+      "element": 344,
+      "name": "Gruev",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 5.0,
+      "expected_points": 0.3490163285975446,
+      "points_per_million": 0.06980326571950893,
+      "appearance_probability": 0.12786358131095982
+    },
+    {
+      "element": 284,
+      "name": "McCarthy",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 4.0,
+      "expected_points": 0.34340843977213364,
+      "points_per_million": 0.08585210994303341,
+      "appearance_probability": 0.0977708507843196
+    },
+    {
+      "element": 312,
+      "name": "Taylor",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 4.4,
+      "expected_points": 0.3433065748954143,
+      "points_per_million": 0.0780242215671396,
+      "appearance_probability": 0.08481717671479261
+    },
+    {
+      "element": 178,
+      "name": "Bidwell",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 4.0,
+      "expected_points": 0.34252849485561554,
+      "points_per_million": 0.08563212371390388,
+      "appearance_probability": 0.09302344183172866
+    },
+    {
+      "element": 370,
+      "name": "Chiesa",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 5.3,
+      "expected_points": 0.34179390275712934,
+      "points_per_million": 0.06448941561455271,
+      "appearance_probability": 0.21133936229608283
+    },
+    {
+      "element": 189,
+      "name": "Shepherd",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.4,
+      "expected_points": 0.3403619597178115,
+      "points_per_million": 0.07735499084495716,
+      "appearance_probability": 0.09592497295908645
+    },
+    {
+      "element": 288,
+      "name": "Dowell",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.4,
+      "expected_points": 0.34035198070356304,
+      "points_per_million": 0.07735272288717342,
+      "appearance_probability": 0.10074304160509802
+    },
+    {
+      "element": 303,
+      "name": "Kipr\u00e9",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 3.9,
+      "expected_points": 0.32366957233523946,
+      "points_per_million": 0.08299219803467679,
+      "appearance_probability": 0.07821107311457327
+    },
+    {
+      "element": 323,
+      "name": "McAteer",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 4.3,
+      "expected_points": 0.3218938283207848,
+      "points_per_million": 0.07485902984204297,
+      "appearance_probability": 0.0808444279774447
+    },
+    {
+      "element": 636,
+      "name": "\u00c1ngel",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 5.0,
+      "expected_points": 0.31822474089170005,
+      "points_per_million": 0.06364494817834002,
+      "appearance_probability": 0.2204267491402063
+    },
+    {
+      "element": 308,
+      "name": "Furlong",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 3.9,
+      "expected_points": 0.31752591701817956,
+      "points_per_million": 0.08141690179953322,
+      "appearance_probability": 0.07821107311457327
+    },
+    {
+      "element": 190,
+      "name": "Tchaouna",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 5.3,
+      "expected_points": 0.3164088739636343,
+      "points_per_million": 0.059699787540308365,
+      "appearance_probability": 0.24309932512485274
+    },
+    {
+      "element": 416,
+      "name": "De Ligt",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.9,
+      "expected_points": 0.31332439152239655,
+      "points_per_million": 0.06394375337191766,
+      "appearance_probability": 0.07071002012505798
+    },
+    {
+      "element": 285,
+      "name": "McNair",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 3.9,
+      "expected_points": 0.30778884455420497,
+      "points_per_million": 0.07892021655236026,
+      "appearance_probability": 0.09347366859927385
+    },
+    {
+      "element": 662,
+      "name": "Nicoll-Jazuli",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 4.5,
+      "expected_points": 0.30580655164735937,
+      "points_per_million": 0.06795701147719097,
+      "appearance_probability": 0.1962787233988883
+    },
+    {
+      "element": 594,
+      "name": "David",
+      "position": "FWD",
+      "team": "BHA",
+      "price_millions": 5.9,
+      "expected_points": 0.3045075660576891,
+      "points_per_million": 0.05161145187418459,
+      "appearance_probability": 0.08094125292638422
+    },
+    {
+      "element": 74,
+      "name": "Brooks",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 5.0,
+      "expected_points": 0.3040823274877768,
+      "points_per_million": 0.06081646549755536,
+      "appearance_probability": 0.38860687241602976
+    },
+    {
+      "element": 489,
+      "name": "Yates",
+      "position": "MID",
+      "team": "NFO",
+      "price_millions": 4.4,
+      "expected_points": 0.3010430652285841,
+      "points_per_million": 0.06841887846104183,
+      "appearance_probability": 0.21112840362609372
+    },
+    {
+      "element": 273,
+      "name": "Phillips",
+      "position": "GK",
+      "team": "HUL",
+      "price_millions": 4.0,
+      "expected_points": 0.2890034161756031,
+      "points_per_million": 0.07225085404390078,
+      "appearance_probability": 0.05833840800107187
+    },
+    {
+      "element": 364,
+      "name": "Tsimikas",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 4.9,
+      "expected_points": 0.28830952964329015,
+      "points_per_million": 0.0588386795190388,
+      "appearance_probability": 0.31354409169675473
+    },
+    {
+      "element": 559,
+      "name": "Bamba",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 4.8,
+      "expected_points": 0.2882941441070195,
+      "points_per_million": 0.06006128002229573,
+      "appearance_probability": 0.20597802502648385
+    },
+    {
+      "element": 274,
+      "name": "Butland",
+      "position": "GK",
+      "team": "HUL",
+      "price_millions": 4.4,
+      "expected_points": 0.27638754527878195,
+      "points_per_million": 0.06281535119972316,
+      "appearance_probability": 0.035941972701647874
+    },
+    {
+      "element": 255,
+      "name": "J.Cuenca",
+      "position": "DEF",
+      "team": "FUL",
+      "price_millions": 4.4,
+      "expected_points": 0.2756028253030257,
+      "points_per_million": 0.06263700575068766,
+      "appearance_probability": 0.08165303568300984
+    },
+    {
+      "element": 126,
+      "name": "O'Riley",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 5.4,
+      "expected_points": 0.2698003106878277,
+      "points_per_million": 0.04996302049774587,
+      "appearance_probability": 0.19763673534772952
+    },
+    {
+      "element": 301,
+      "name": "Palmer",
+      "position": "GK",
+      "team": "IPS",
+      "price_millions": 4.0,
+      "expected_points": 0.2665254736270263,
+      "points_per_million": 0.06663136840675657,
+      "appearance_probability": 0.047398288910571726
+    },
+    {
+      "element": 302,
+      "name": "Button",
+      "position": "GK",
+      "team": "IPS",
+      "price_millions": 4.0,
+      "expected_points": 0.2665254736270263,
+      "points_per_million": 0.06663136840675657,
+      "appearance_probability": 0.047398288910571726
+    },
+    {
+      "element": 508,
+      "name": "Davies",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 3.9,
+      "expected_points": 0.26418120426939024,
+      "points_per_million": 0.06773877032548467,
+      "appearance_probability": 0.3110402994259513
+    },
+    {
+      "element": 435,
+      "name": "Lacey",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 4.9,
+      "expected_points": 0.25372791430470776,
+      "points_per_million": 0.05178120700096076,
+      "appearance_probability": 0.17628633973754756
+    },
+    {
+      "element": 392,
+      "name": "A\u00eft-Nouri",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 5.2,
+      "expected_points": 0.25004917049649067,
+      "points_per_million": 0.04808637894163282,
+      "appearance_probability": 0.06172918866263545
+    },
+    {
+      "element": 608,
+      "name": "Jebbison",
+      "position": "FWD",
+      "team": "BOU",
+      "price_millions": 5.0,
+      "expected_points": 0.24421373653087142,
+      "points_per_million": 0.048842747306174286,
+      "appearance_probability": 0.1902143566925162
+    },
+    {
+      "element": 630,
+      "name": "Harwood-Bellis",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.5,
+      "expected_points": 0.23609392110264915,
+      "points_per_million": 0.0524653158005887,
+      "appearance_probability": 0.06477947364194185
+    },
+    {
+      "element": 573,
+      "name": "Sanchez",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 4.4,
+      "expected_points": 0.2339969985050349,
+      "points_per_million": 0.05318113602387156,
+      "appearance_probability": 0.2058004965498522
+    },
+    {
+      "element": 613,
+      "name": "Ahoka",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 4.4,
+      "expected_points": 0.23382963725044992,
+      "points_per_million": 0.05314309937510225,
+      "appearance_probability": 0.20235808717331608
+    },
+    {
+      "element": 651,
+      "name": "J.Angulo",
+      "position": "FWD",
+      "team": "SUN",
+      "price_millions": 4.5,
+      "expected_points": 0.22710238878758376,
+      "points_per_million": 0.05046719750835195,
+      "appearance_probability": 0.18334885408022328
+    },
+    {
+      "element": 51,
+      "name": "George Hemmings",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 4.4,
+      "expected_points": 0.22569965314797838,
+      "points_per_million": 0.05129537571544963,
+      "appearance_probability": 0.16812659846002292
+    },
+    {
+      "element": 351,
+      "name": "Mamardashvili",
+      "position": "GK",
+      "team": "LIV",
+      "price_millions": 4.8,
+      "expected_points": 0.2228834417513329,
+      "points_per_million": 0.04643405036486102,
+      "appearance_probability": 0.04965531756861263
+    },
+    {
+      "element": 600,
+      "name": "Osman",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 4.9,
+      "expected_points": 0.2219082380550322,
+      "points_per_million": 0.04528739552143514,
+      "appearance_probability": 0.07294095272586724
+    },
+    {
+      "element": 117,
+      "name": "Coppola",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 4.5,
+      "expected_points": 0.2118926543402808,
+      "points_per_million": 0.0470872565200624,
+      "appearance_probability": 0.06335166802426376
+    },
+    {
+      "element": 595,
+      "name": "Gozo",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 4.9,
+      "expected_points": 0.2109125479370409,
+      "points_per_million": 0.043043377130008345,
+      "appearance_probability": 0.06933184361867822
+    },
+    {
+      "element": 643,
+      "name": "Chilwell",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.4,
+      "expected_points": 0.20999833931519507,
+      "points_per_million": 0.047726895298907966,
+      "appearance_probability": 0.06355030897067944
+    },
+    {
+      "element": 160,
+      "name": "Garnacho",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 5.7,
+      "expected_points": 0.1954537311608825,
+      "points_per_million": 0.03429012827383903,
+      "appearance_probability": 0.21466596384353462
+    },
+    {
+      "element": 641,
+      "name": "Bard",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 4.5,
+      "expected_points": 0.18301796050302555,
+      "points_per_million": 0.04067065788956123,
+      "appearance_probability": 0.06945327263815897
+    },
+    {
+      "element": 587,
+      "name": "Rulli",
+      "position": "GK",
+      "team": "MCI",
+      "price_millions": 4.9,
+      "expected_points": 0.1779338050660831,
+      "points_per_million": 0.03631302144205777,
+      "appearance_probability": 0.031142901196198614
+    },
+    {
+      "element": 531,
+      "name": "Ellborg",
+      "position": "GK",
+      "team": "SUN",
+      "price_millions": 4.4,
+      "expected_points": 0.1777676585185892,
+      "points_per_million": 0.040401740572406634,
+      "appearance_probability": 0.04172927660000546
+    },
+    {
+      "element": 170,
+      "name": "Emegha",
+      "position": "FWD",
+      "team": "CHE",
+      "price_millions": 4.9,
+      "expected_points": 0.17097778609984723,
+      "points_per_million": 0.0348934257346627,
+      "appearance_probability": 0.04292623549116962
+    },
+    {
+      "element": 621,
+      "name": "McAidoo",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 4.4,
+      "expected_points": 0.16968861457321288,
+      "points_per_million": 0.038565594221184746,
+      "appearance_probability": 0.15534951617680232
+    },
+    {
+      "element": 550,
+      "name": "Jocelin.T",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 4.9,
+      "expected_points": 0.16442120156179574,
+      "points_per_million": 0.03355534725750933,
+      "appearance_probability": 0.17704200650648202
+    },
+    {
+      "element": 66,
+      "name": "Soler",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 4.0,
+      "expected_points": 0.16371010927881996,
+      "points_per_million": 0.04092752731970499,
+      "appearance_probability": 0.16986404147369452
+    },
+    {
+      "element": 658,
+      "name": "Ibrahim",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 4.5,
+      "expected_points": 0.16111969346672583,
+      "points_per_million": 0.03580437632593907,
+      "appearance_probability": 0.059251428334946545
+    },
+    {
+      "element": 374,
+      "name": "Endo",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 4.8,
+      "expected_points": 0.15978464798282263,
+      "points_per_million": 0.03328846832975472,
+      "appearance_probability": 0.05411908197080192
+    },
+    {
+      "element": 29,
+      "name": "M.Bizot",
+      "position": "GK",
+      "team": "AVL",
+      "price_millions": 4.5,
+      "expected_points": 0.15882511904690172,
+      "points_per_million": 0.035294470899311495,
+      "appearance_probability": 0.03440091125222274
+    },
+    {
+      "element": 659,
+      "name": "Miley",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 4.5,
+      "expected_points": 0.156790440273069,
+      "points_per_million": 0.034842320060682,
+      "appearance_probability": 0.05371877049989308
+    },
+    {
+      "element": 665,
+      "name": "Mills",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 4.5,
+      "expected_points": 0.156790440273069,
+      "points_per_million": 0.034842320060682,
+      "appearance_probability": 0.05371877049989308
+    },
+    {
+      "element": 666,
+      "name": "Thompson",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 4.5,
+      "expected_points": 0.156790440273069,
+      "points_per_million": 0.034842320060682,
+      "appearance_probability": 0.05371877049989308
+    },
+    {
+      "element": 626,
+      "name": "Zepa",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 4.4,
+      "expected_points": 0.14795302390971032,
+      "points_per_million": 0.03362568725220689,
+      "appearance_probability": 0.05686523078216973
+    },
+    {
+      "element": 615,
+      "name": "Di Gregorio",
+      "position": "GK",
+      "team": "BOU",
+      "price_millions": 4.5,
+      "expected_points": 0.14709530978617782,
+      "points_per_million": 0.032687846619150626,
+      "appearance_probability": 0.037070988169779655
+    },
+    {
+      "element": 21,
+      "name": "N\u00f8rgaard",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 4.8,
+      "expected_points": 0.13545958340289393,
+      "points_per_million": 0.02822074654226957,
+      "appearance_probability": 0.19314787438809453
+    },
+    {
+      "element": 395,
+      "name": "Lewis",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 4.3,
+      "expected_points": 0.13440689909221004,
+      "points_per_million": 0.03125741839353722,
+      "appearance_probability": 0.15892199707299132
+    },
+    {
+      "element": 653,
+      "name": "Samba",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 4.4,
+      "expected_points": 0.13270384381800043,
+      "points_per_million": 0.030159964504091006,
+      "appearance_probability": 0.035392118844072264
+    },
+    {
+      "element": 497,
+      "name": "Dubravka",
+      "position": "GK",
+      "team": "TOT",
+      "price_millions": 4.0,
+      "expected_points": 0.12489981819783552,
+      "points_per_million": 0.03122495454945888,
+      "appearance_probability": 0.046222202245644134
+    },
+    {
+      "element": 468,
+      "name": "John",
+      "position": "GK",
+      "team": "NFO",
+      "price_millions": 4.4,
+      "expected_points": 0.12458317094173439,
+      "points_per_million": 0.02831435703221236,
+      "appearance_probability": 0.030725146415876682
+    },
+    {
+      "element": 622,
+      "name": "Braithwaite",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 3.9,
+      "expected_points": 0.12311169430830977,
+      "points_per_million": 0.031567101104694816,
+      "appearance_probability": 0.03202195790873337
+    },
+    {
+      "element": 601,
+      "name": "Williams-Barnett",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 4.4,
+      "expected_points": 0.12251885317013098,
+      "points_per_million": 0.027845193902302494,
+      "appearance_probability": 0.16553115306861996
+    },
+    {
+      "element": 629,
+      "name": "Zetterer",
+      "position": "GK",
+      "team": "LEE",
+      "price_millions": 4.0,
+      "expected_points": 0.11372781628577934,
+      "points_per_million": 0.028431954071444835,
+      "appearance_probability": 0.02900623906254886
+    },
+    {
+      "element": 664,
+      "name": "Salia",
+      "position": "FWD",
+      "team": "NEW",
+      "price_millions": 4.5,
+      "expected_points": 0.11256352275889467,
+      "points_per_million": 0.02501411616864326,
+      "appearance_probability": 0.03417539600345865
+    },
+    {
+      "element": 355,
+      "name": "Davies",
+      "position": "GK",
+      "team": "LIV",
+      "price_millions": 4.0,
+      "expected_points": 0.10920103840586094,
+      "points_per_million": 0.027300259601465236,
+      "appearance_probability": 0.02349683938093127
+    },
+    {
+      "element": 434,
+      "name": "J.Fletcher",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 4.9,
+      "expected_points": 0.10773923538788711,
+      "points_per_million": 0.02198759905875247,
+      "appearance_probability": 0.030956202318364424
+    },
+    {
+      "element": 325,
+      "name": "Darlow",
+      "position": "GK",
+      "team": "MUN",
+      "price_millions": 4.5,
+      "expected_points": 0.10667286187050104,
+      "points_per_million": 0.023705080415666897,
+      "appearance_probability": 0.025134066303384116
+    },
+    {
+      "element": 50,
+      "name": "Burrowes",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 4.4,
+      "expected_points": 0.0925100461331908,
+      "points_per_million": 0.02102501048481609,
+      "appearance_probability": 0.02538828775929618
+    },
+    {
+      "element": 2,
+      "name": "Arrizabalaga",
+      "position": "GK",
+      "team": "ARS",
+      "price_millions": 4.9,
+      "expected_points": 0.08140074356202867,
+      "points_per_million": 0.016612396645311972,
+      "appearance_probability": 0.017327273488511864
+    },
+    {
+      "element": 221,
+      "name": "Drakes-Thomas",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 4.4,
+      "expected_points": 0.07678099497438524,
+      "points_per_million": 0.0174502261305421,
+      "appearance_probability": 0.022963043067030207
+    },
+    {
+      "element": 227,
+      "name": "Travers",
+      "position": "GK",
+      "team": "EVE",
+      "price_millions": 5.0,
+      "expected_points": 0.07632617649840209,
+      "points_per_million": 0.015265235299680418,
+      "appearance_probability": 0.018005341568717442
+    },
+    {
+      "element": 669,
+      "name": "Sharman-Lowe",
+      "position": "GK",
+      "team": "CHE",
+      "price_millions": 4.0,
+      "expected_points": 0.07452352262155673,
+      "points_per_million": 0.018630880655389183,
+      "appearance_probability": 0.015854073318016765
+    },
+    {
+      "element": 438,
+      "name": "Fletcher",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 4.4,
+      "expected_points": 0.0723170837507224,
+      "points_per_million": 0.01643570085243691,
+      "appearance_probability": 0.02111200156595584
+    },
+    {
+      "element": 218,
+      "name": "Doucour\u00e9",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 4.8,
+      "expected_points": 0.06676706535246486,
+      "points_per_million": 0.013909805281763514,
+      "appearance_probability": 0.025227832990473657
+    },
+    {
+      "element": 437,
+      "name": "Bendito Mantato",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 4.4,
+      "expected_points": 0.06600473169614471,
+      "points_per_million": 0.015001075385487433,
+      "appearance_probability": 0.019930886268501733
+    },
+    {
+      "element": 92,
+      "name": "Ji-soo",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.4,
+      "expected_points": 0.06591510872575966,
+      "points_per_million": 0.014980706528581739,
+      "appearance_probability": 0.022741627685883125
+    },
+    {
+      "element": 524,
+      "name": "Olusesi",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 4.4,
+      "expected_points": 0.06269626972563609,
+      "points_per_million": 0.014249152210371837,
+      "appearance_probability": 0.025958493174339622
+    },
+    {
+      "element": 396,
+      "name": "Vitor Reis",
+      "position": "DEF",
+      "team": "MCI",
+      "price_millions": 4.4,
+      "expected_points": 0.05865957020486559,
+      "points_per_million": 0.013331720501105815,
+      "appearance_probability": 0.015463916974706657
+    },
+    {
+      "element": 606,
+      "name": "Rowe",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.0,
+      "expected_points": 0.05722912912602668,
+      "points_per_million": 0.01430728228150667,
+      "appearance_probability": 0.018101392193278165
+    },
+    {
+      "element": 443,
+      "name": "Gillespie",
+      "position": "GK",
+      "team": "NEW",
+      "price_millions": 4.5,
+      "expected_points": 0.0555327981723004,
+      "points_per_million": 0.012340621816066755,
+      "appearance_probability": 0.012622045606896382
+    },
+    {
+      "element": 352,
+      "name": "Woodman",
+      "position": "GK",
+      "team": "LIV",
+      "price_millions": 4.0,
+      "expected_points": 0.05407246929549901,
+      "points_per_million": 0.013518117323874753,
+      "appearance_probability": 0.01545062371112146
+    },
+    {
+      "element": 228,
+      "name": "King",
+      "position": "GK",
+      "team": "EVE",
+      "price_millions": 4.5,
+      "expected_points": 0.052627000121681505,
+      "points_per_million": 0.011694888915929224,
+      "appearance_probability": 0.013080595426059907
+    },
+    {
+      "element": 657,
+      "name": "Nunes",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 4.5,
+      "expected_points": 0.051827492849037426,
+      "points_per_million": 0.011517220633119428,
+      "appearance_probability": 0.019668938769997774
+    },
+    {
+      "element": 663,
+      "name": "Pivas",
+      "position": "DEF",
+      "team": "NEW",
+      "price_millions": 4.0,
+      "expected_points": 0.049096589249236204,
+      "points_per_million": 0.012274147312309051,
+      "appearance_probability": 0.017903193413627918
+    },
+    {
+      "element": 424,
+      "name": "Amass",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.0,
+      "expected_points": 0.04864830498157944,
+      "points_per_million": 0.01216207624539486,
+      "appearance_probability": 0.015876882478075775
+    },
+    {
+      "element": 660,
+      "name": "Fredrick",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.0,
+      "expected_points": 0.04821984180773236,
+      "points_per_million": 0.01205496045193309,
+      "appearance_probability": 0.01769018608436412
+    },
+    {
+      "element": 83,
+      "name": "Valdimarsson",
+      "position": "GK",
+      "team": "BRE",
+      "price_millions": 4.4,
+      "expected_points": 0.04763042621214648,
+      "points_per_million": 0.010825096866396926,
+      "appearance_probability": 0.012673341131543071
+    },
+    {
+      "element": 169,
+      "name": "Mheuka",
+      "position": "FWD",
+      "team": "CHE",
+      "price_millions": 4.5,
+      "expected_points": 0.04651146588245563,
+      "points_per_million": 0.010335881307212363,
+      "appearance_probability": 0.009711308116289199
+    },
+    {
+      "element": 604,
+      "name": "Cresswell",
+      "position": "MID",
+      "team": "LEE",
+      "price_millions": 4.5,
+      "expected_points": 0.0464427628728883,
+      "points_per_million": 0.010320613971752955,
+      "appearance_probability": 0.021893811027867915
+    },
+    {
+      "element": 378,
+      "name": "McConnell",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 4.4,
+      "expected_points": 0.04643836589660932,
+      "points_per_million": 0.010554174067411208,
+      "appearance_probability": 0.016556827083715378
+    },
+    {
+      "element": 476,
+      "name": "O.Richards",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 3.9,
+      "expected_points": 0.044819489051018575,
+      "points_per_million": 0.011492176679748353,
+      "appearance_probability": 0.019294975354559284
+    },
+    {
+      "element": 272,
+      "name": "Kusi-Asare",
+      "position": "FWD",
+      "team": "FUL",
+      "price_millions": 4.4,
+      "expected_points": 0.04409229179541657,
+      "points_per_million": 0.01002097540804922,
+      "appearance_probability": 0.015812036978323205
+    },
+    {
+      "element": 603,
+      "name": "Lienou",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 4.0,
+      "expected_points": 0.04359521230929225,
+      "points_per_million": 0.010898803077323063,
+      "appearance_probability": 0.019707810223762008
+    },
+    {
+      "element": 654,
+      "name": "Graham",
+      "position": "MID",
+      "team": "EVE",
+      "price_millions": 4.4,
+      "expected_points": 0.043194012549877536,
+      "points_per_million": 0.009816821034063075,
+      "appearance_probability": 0.019352209091114663
+    },
+    {
+      "element": 361,
+      "name": "Lucky",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 3.9,
+      "expected_points": 0.04306802983045285,
+      "points_per_million": 0.011043084571910989,
+      "appearance_probability": 0.014873658302213651
+    },
+    {
+      "element": 667,
+      "name": "Wright",
+      "position": "GK",
+      "team": "AVL",
+      "price_millions": 4.0,
+      "expected_points": 0.04245856064451216,
+      "points_per_million": 0.01061464016112804,
+      "appearance_probability": 0.009223865948343927
+    },
+    {
+      "element": 386,
+      "name": "Bettinelli",
+      "position": "GK",
+      "team": "MCI",
+      "price_millions": 4.4,
+      "expected_points": 0.04101731082565355,
+      "points_per_million": 0.009322116096739441,
+      "appearance_probability": 0.007841992275959785
+    },
+    {
+      "element": 111,
+      "name": "Steele",
+      "position": "GK",
+      "team": "BHA",
+      "price_millions": 4.0,
+      "expected_points": 0.04088784419970334,
+      "points_per_million": 0.010221961049925834,
+      "appearance_probability": 0.010261991574406814
+    },
+    {
+      "element": 251,
+      "name": "Lecomte",
+      "position": "GK",
+      "team": "FUL",
+      "price_millions": 4.0,
+      "expected_points": 0.04074785750815961,
+      "points_per_million": 0.010186964377039903,
+      "appearance_probability": 0.010421125382873476
+    },
+    {
+      "element": 495,
+      "name": "Austin",
+      "position": "GK",
+      "team": "TOT",
+      "price_millions": 4.0,
+      "expected_points": 0.04025494499848798,
+      "points_per_million": 0.010063736249621995,
+      "appearance_probability": 0.011149373565256665
+    },
+    {
+      "element": 555,
+      "name": "Matthews",
+      "position": "GK",
+      "team": "CRY",
+      "price_millions": 4.0,
+      "expected_points": 0.0389315352260282,
+      "points_per_million": 0.00973288380650705,
+      "appearance_probability": 0.009614096138638551
+    },
+    {
+      "element": 661,
+      "name": "Balcombe",
+      "position": "GK",
+      "team": "BRE",
+      "price_millions": 4.0,
+      "expected_points": 0.037537386245366566,
+      "points_per_million": 0.009384346561341642,
+      "appearance_probability": 0.009007541073155307
+    },
+    {
+      "element": 625,
+      "name": "Cairns",
+      "position": "GK",
+      "team": "LEE",
+      "price_millions": 4.0,
+      "expected_points": 0.036799513021448294,
+      "points_per_million": 0.009199878255362073,
+      "appearance_probability": 0.010072094835793865
+    },
+    {
+      "element": 623,
+      "name": "Bentley",
+      "position": "GK",
+      "team": "COV",
+      "price_millions": 4.0,
+      "expected_points": 0.03633189707267131,
+      "points_per_million": 0.009082974268167827,
+      "appearance_probability": 0.009398819327111231
+    },
+    {
+      "element": 414,
+      "name": "Heaton",
+      "position": "GK",
+      "team": "MUN",
+      "price_millions": 4.0,
+      "expected_points": 0.03630402942143286,
+      "points_per_million": 0.009076007355358216,
+      "appearance_probability": 0.00805748213974725
+    },
+    {
+      "element": 564,
+      "name": "Scherpen",
+      "position": "GK",
+      "team": "IPS",
+      "price_millions": 4.4,
+      "expected_points": 0.0359762799792745,
+      "points_per_million": 0.008176427268016932,
+      "appearance_probability": 0.006174483265568972
+    },
+    {
+      "element": 382,
+      "name": "Danns",
+      "position": "FWD",
+      "team": "LIV",
+      "price_millions": 4.5,
+      "expected_points": 0.03423710168572862,
+      "points_per_million": 0.007608244819050804,
+      "appearance_probability": 0.010623009077859577
+    },
+    {
+      "element": 58,
+      "name": "Forster",
+      "position": "GK",
+      "team": "BOU",
+      "price_millions": 4.0,
+      "expected_points": 0.03310782434932643,
+      "points_per_million": 0.008276956087331607,
+      "appearance_probability": 0.009500245698253426
+    },
+    {
+      "element": 134,
+      "name": "Oriola",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 4.4,
+      "expected_points": 0.031146002285691077,
+      "points_per_million": 0.007078636883111608,
+      "appearance_probability": 0.008184667624578082
+    },
+    {
+      "element": 510,
+      "name": "Rowswell",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 4.0,
+      "expected_points": 0.030455429863389845,
+      "points_per_million": 0.007613857465847461,
+      "appearance_probability": 0.008543567560501742
+    },
+    {
+      "element": 509,
+      "name": "Byfield",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 4.0,
+      "expected_points": 0.030296609653844918,
+      "points_per_million": 0.0075741524134612295,
+      "appearance_probability": 0.008496360665659604
+    },
+    {
+      "element": 3,
+      "name": "Meslier",
+      "position": "GK",
+      "team": "ARS",
+      "price_millions": 4.9,
+      "expected_points": 0.015049658616547086,
+      "points_per_million": 0.00307135890133614,
+      "appearance_probability": 0.003437825108623046
+    },
+    {
+      "element": 590,
+      "name": "Benda",
+      "position": "GK",
+      "team": "NFO",
+      "price_millions": 4.5,
+      "expected_points": 0.013781747999589882,
+      "points_per_million": 0.0030626106665755295,
+      "appearance_probability": 0.004024691816049273
+    },
+    {
+      "element": 12,
+      "name": "Saka",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 9.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 20,
+      "name": "Dowman",
+      "position": "MID",
+      "team": "ARS",
+      "price_millions": 5.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 28,
+      "name": "Martinez",
+      "position": "GK",
+      "team": "CHE",
+      "price_millions": 4.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 32,
+      "name": "Cash",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 48,
+      "name": "Onana",
+      "position": "MID",
+      "team": "AVL",
+      "price_millions": 4.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 63,
+      "name": "Milosavljevi\u0107",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 4.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 65,
+      "name": "J.Araujo",
+      "position": "DEF",
+      "team": "BOU",
+      "price_millions": 4.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 69,
+      "name": "Scott",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 5.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 76,
+      "name": "T\u00f3th.A",
+      "position": "MID",
+      "team": "BOU",
+      "price_millions": 4.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 89,
+      "name": "Henry",
+      "position": "DEF",
+      "team": "BRE",
+      "price_millions": 4.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 99,
+      "name": "Milambo",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 5.0,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 100,
+      "name": "Carvalho",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 5.0,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 103,
+      "name": "Dasilva",
+      "position": "MID",
+      "team": "BRE",
+      "price_millions": 4.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 107,
+      "name": "Furo",
+      "position": "FWD",
+      "team": "BRE",
+      "price_millions": 4.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 121,
+      "name": "Mitoma",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 5.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 135,
+      "name": "Yohanna",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 4.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 137,
+      "name": "Tzimas",
+      "position": "FWD",
+      "team": "BHA",
+      "price_millions": 5.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 139,
+      "name": "Ferguson",
+      "position": "FWD",
+      "team": "BHA",
+      "price_millions": 4.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 142,
+      "name": "James",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 5.2,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 147,
+      "name": "Tosin",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 4.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 148,
+      "name": "Hato",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 4.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 158,
+      "name": "Gittens",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 5.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 165,
+      "name": "Jo\u00e3o Pedro",
+      "position": "FWD",
+      "team": "CHE",
+      "price_millions": 7.7,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 180,
+      "name": "Woolfenden",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 3.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 182,
+      "name": "Amenda",
+      "position": "DEF",
+      "team": "COV",
+      "price_millions": 3.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 187,
+      "name": "Eccles",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 193,
+      "name": "Wright",
+      "position": "FWD",
+      "team": "COV",
+      "price_millions": 5.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 200,
+      "name": "Lacroix",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 5.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 206,
+      "name": "Chadi Riad",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 208,
+      "name": "Sarr",
+      "position": "MID",
+      "team": "CRY",
+      "price_millions": 6.2,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 223,
+      "name": "Mateta",
+      "position": "FWD",
+      "team": "CRY",
+      "price_millions": 6.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 270,
+      "name": "Reed",
+      "position": "MID",
+      "team": "FUL",
+      "price_millions": 4.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.00344426457451646
+    },
+    {
+      "element": 278,
+      "name": "Hughes",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 3.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 289,
+      "name": "Crooks",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 291,
+      "name": "Matazo",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 297,
+      "name": "Gyabi",
+      "position": "MID",
+      "team": "HUL",
+      "price_millions": 4.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 328,
+      "name": "Struijk",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 4.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 329,
+      "name": "Rodon",
+      "position": "DEF",
+      "team": "LEE",
+      "price_millions": 4.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 349,
+      "name": "Mateo Joseph",
+      "position": "FWD",
+      "team": "LEE",
+      "price_millions": 4.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 354,
+      "name": "Jaros",
+      "position": "GK",
+      "team": "LIV",
+      "price_millions": 4.0,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 357,
+      "name": "Frimpong",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 5.2,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 360,
+      "name": "Bradley",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 4.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 363,
+      "name": "Leoni",
+      "position": "DEF",
+      "team": "LIV",
+      "price_millions": 3.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 380,
+      "name": "Ekitik\u00e9",
+      "position": "FWD",
+      "team": "LIV",
+      "price_millions": 7.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 397,
+      "name": "Semenyo",
+      "position": "MID",
+      "team": "MCI",
+      "price_millions": 8.2,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 403,
+      "name": "S\u00e1vio",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 6.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 415,
+      "name": "Dorgu",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 5.7,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 419,
+      "name": "Martinez",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 423,
+      "name": "Shaw",
+      "position": "DEF",
+      "team": "MUN",
+      "price_millions": 4.2,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 433,
+      "name": "Ugarte",
+      "position": "MID",
+      "team": "MUN",
+      "price_millions": 5.0,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 439,
+      "name": "\u0160e\u0161ko",
+      "position": "FWD",
+      "team": "MUN",
+      "price_millions": 6.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 444,
+      "name": "Jaouen",
+      "position": "GK",
+      "team": "NEW",
+      "price_millions": 4.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 450,
+      "name": "Livramento",
+      "position": "DEF",
+      "team": "NEW",
+      "price_millions": 4.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 456,
+      "name": "J.Ramsey",
+      "position": "MID",
+      "team": "NEW",
+      "price_millions": 4.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 475,
+      "name": "Savona",
+      "position": "DEF",
+      "team": "NFO",
+      "price_millions": 4.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 491,
+      "name": "Igor Jesus",
+      "position": "FWD",
+      "team": "NFO",
+      "price_millions": 5.6,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 513,
+      "name": "Xavi",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 517,
+      "name": "Odobert",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 520,
+      "name": "Bergvall",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 532,
+      "name": "Ballard",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 4.7,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 535,
+      "name": "Alderete",
+      "position": "DEF",
+      "team": "SUN",
+      "price_millions": 4.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 547,
+      "name": "Mundle",
+      "position": "MID",
+      "team": "SUN",
+      "price_millions": 4.8,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 556,
+      "name": "Targett",
+      "position": "DEF",
+      "team": "HUL",
+      "price_millions": 3.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 561,
+      "name": "Anselmino",
+      "position": "DEF",
+      "team": "CHE",
+      "price_millions": 4.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 577,
+      "name": "Tomiyasu",
+      "position": "DEF",
+      "team": "CRY",
+      "price_millions": 4.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 578,
+      "name": "Mudryk",
+      "position": "MID",
+      "team": "TOT",
+      "price_millions": 5.3,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 596,
+      "name": "Ruggeri",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.4,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 611,
+      "name": "Wan-Bissaka",
+      "position": "DEF",
+      "team": "AVL",
+      "price_millions": 4.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 632,
+      "name": "Ansah",
+      "position": "FWD",
+      "team": "HUL",
+      "price_millions": 4.9,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    },
+    {
+      "element": 652,
+      "name": "Azeez",
+      "position": "MID",
+      "team": "BHA",
+      "price_millions": 5.5,
+      "expected_points": 0.0,
+      "points_per_million": 0.0,
+      "appearance_probability": 0.0
+    }
+  ],
+  "top_players": [
+    {
+      "element": 411,
+      "name": "Haaland",
+      "position": "FWD",
+      "team": "MCI",
+      "price_millions": 15.8,
+      "expected_points": 7.355018273929301,
+      "points_per_million": 0.4655074856917279,
+      "appearance_probability": 0.9995276823729903
+    },
+    {
+      "element": 166,
+      "name": "N.Jackson",
+      "position": "FWD",
+      "team": "AVL",
+      "price_millions": 7.0,
+      "expected_points": 6.12941430721539,
+      "points_per_million": 0.8756306153164842,
+      "appearance_probability": 0.9247494558948656
+    },
+    {
+      "element": 379,
+      "name": "Isak",
+      "position": "FWD",
+      "team": "LIV",
+      "price_millions": 9.2,
+      "expected_points": 5.845289191339893,
+      "points_per_million": 0.6353575207978146,
+      "appearance_probability": 0.7810842382258011
+    },
+    {
+      "element": 4,
+      "name": "Gabriel",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 8.0,
+      "expected_points": 5.428860570759703,
+      "points_per_million": 0.6786075713449629,
+      "appearance_probability": 0.9725670055353289
+    },
+    {
+      "element": 627,
+      "name": "Barcola",
+      "position": "MID",
+      "team": "LIV",
+      "price_millions": 8.1,
+      "expected_points": 4.898573977849218,
+      "points_per_million": 0.6047622194875578,
+      "appearance_probability": 0.9138403869420665
+    },
+    {
+      "element": 154,
+      "name": "Palmer",
+      "position": "MID",
+      "team": "CHE",
+      "price_millions": 9.8,
+      "expected_points": 4.892789076514096,
+      "points_per_million": 0.4992641914810302,
+      "appearance_probability": 0.9851192151983538
+    },
+    {
+      "element": 106,
+      "name": "Thiago",
+      "position": "FWD",
+      "team": "BRE",
+      "price_millions": 7.8,
+      "expected_points": 4.878409297331262,
+      "points_per_million": 0.6254370894014439,
+      "appearance_probability": 0.9672787912387444
+    },
+    {
+      "element": 591,
+      "name": "Enciso",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.5,
+      "expected_points": 4.820808199811718,
+      "points_per_million": 0.8765105817839487,
+      "appearance_probability": 0.9271680278145866
+    },
+    {
+      "element": 295,
+      "name": "McBurnie",
+      "position": "FWD",
+      "team": "HUL",
+      "price_millions": 5.5,
+      "expected_points": 4.815548297061331,
+      "points_per_million": 0.8755542358293329,
+      "appearance_probability": 0.8291060089915533
+    },
+    {
+      "element": 79,
+      "name": "Evanilson",
+      "position": "FWD",
+      "team": "BOU",
+      "price_millions": 6.4,
+      "expected_points": 4.757642088305724,
+      "points_per_million": 0.7433815762977694,
+      "appearance_probability": 0.9396619175221469
+    }
+  ],
+  "top_by_position": {
+    "GK": [
+      {
+        "element": 1,
+        "name": "Raya",
+        "position": "GK",
+        "team": "ARS",
+        "price_millions": 6.2,
+        "expected_points": 4.601224121743692,
+        "points_per_million": 0.7421329228618857,
+        "appearance_probability": 0.9415763711492288
+      },
+      {
+        "element": 384,
+        "name": "Donnarumma",
+        "position": "GK",
+        "team": "MCI",
+        "price_millions": 5.5,
+        "expected_points": 3.997050114387318,
+        "points_per_million": 0.7267363844340579,
+        "appearance_probability": 0.9159720263621666
+      },
+      {
+        "element": 350,
+        "name": "A.Becker",
+        "position": "GK",
+        "team": "LIV",
+        "price_millions": 5.5,
+        "expected_points": 3.735146941348027,
+        "points_per_million": 0.6791176256996413,
+        "appearance_probability": 0.8637244656600309
+      },
+      {
+        "element": 109,
+        "name": "Verbruggen",
+        "position": "GK",
+        "team": "BHA",
+        "price_millions": 4.6,
+        "expected_points": 3.7050934387888703,
+        "points_per_million": 0.8054550953888849,
+        "appearance_probability": 0.9109993204334182
+      },
+      {
+        "element": 597,
+        "name": "Suzuki",
+        "position": "GK",
+        "team": "AVL",
+        "price_millions": 5.0,
+        "expected_points": 3.575753602839121,
+        "points_per_million": 0.7151507205678242,
+        "appearance_probability": 0.7624427729091124
+      }
+    ],
+    "DEF": [
+      {
+        "element": 4,
+        "name": "Gabriel",
+        "position": "DEF",
+        "team": "ARS",
+        "price_millions": 8.0,
+        "expected_points": 5.428860570759703,
+        "points_per_million": 0.6786075713449629,
+        "appearance_probability": 0.9725670055353289
+      },
+      {
+        "element": 504,
+        "name": "Vuskovic",
+        "position": "DEF",
+        "team": "BHA",
+        "price_millions": 5.2,
+        "expected_points": 4.725037434499049,
+        "points_per_million": 0.9086610450959709,
+        "appearance_probability": 0.9207360783511139
+      },
+      {
+        "element": 356,
+        "name": "Virgil",
+        "position": "DEF",
+        "team": "LIV",
+        "price_millions": 6.4,
+        "expected_points": 4.355669730380274,
+        "points_per_million": 0.6805733953719179,
+        "appearance_probability": 0.9673579682655885
+      },
+      {
+        "element": 31,
+        "name": "Konsa",
+        "position": "DEF",
+        "team": "ARS",
+        "price_millions": 4.8,
+        "expected_points": 4.237016430777915,
+        "points_per_million": 0.8827117564120657,
+        "appearance_probability": 0.9677710331265398
+      },
+      {
+        "element": 112,
+        "name": "Van Hecke",
+        "position": "DEF",
+        "team": "TOT",
+        "price_millions": 5.0,
+        "expected_points": 4.216317912958142,
+        "points_per_million": 0.8432635825916284,
+        "appearance_probability": 0.979454699883648
+      }
+    ],
+    "MID": [
+      {
+        "element": 627,
+        "name": "Barcola",
+        "position": "MID",
+        "team": "LIV",
+        "price_millions": 8.1,
+        "expected_points": 4.898573977849218,
+        "points_per_million": 0.6047622194875578,
+        "appearance_probability": 0.9138403869420665
+      },
+      {
+        "element": 154,
+        "name": "Palmer",
+        "position": "MID",
+        "team": "CHE",
+        "price_millions": 9.8,
+        "expected_points": 4.892789076514096,
+        "points_per_million": 0.4992641914810302,
+        "appearance_probability": 0.9851192151983538
+      },
+      {
+        "element": 591,
+        "name": "Enciso",
+        "position": "MID",
+        "team": "IPS",
+        "price_millions": 5.5,
+        "expected_points": 4.820808199811718,
+        "points_per_million": 0.8765105817839487,
+        "appearance_probability": 0.9271680278145866
+      },
+      {
+        "element": 427,
+        "name": "Mbeumo",
+        "position": "MID",
+        "team": "MUN",
+        "price_millions": 7.9,
+        "expected_points": 4.731533359920179,
+        "points_per_million": 0.5989282734076176,
+        "appearance_probability": 0.961447785494172
+      },
+      {
+        "element": 13,
+        "name": "Rice",
+        "position": "MID",
+        "team": "ARS",
+        "price_millions": 7.4,
+        "expected_points": 4.720657149786388,
+        "points_per_million": 0.6379266418630254,
+        "appearance_probability": 0.9538860981343392
+      }
+    ],
+    "FWD": [
+      {
+        "element": 411,
+        "name": "Haaland",
+        "position": "FWD",
+        "team": "MCI",
+        "price_millions": 15.8,
+        "expected_points": 7.355018273929301,
+        "points_per_million": 0.4655074856917279,
+        "appearance_probability": 0.9995276823729903
+      },
+      {
+        "element": 166,
+        "name": "N.Jackson",
+        "position": "FWD",
+        "team": "AVL",
+        "price_millions": 7.0,
+        "expected_points": 6.12941430721539,
+        "points_per_million": 0.8756306153164842,
+        "appearance_probability": 0.9247494558948656
+      },
+      {
+        "element": 379,
+        "name": "Isak",
+        "position": "FWD",
+        "team": "LIV",
+        "price_millions": 9.2,
+        "expected_points": 5.845289191339893,
+        "points_per_million": 0.6353575207978146,
+        "appearance_probability": 0.7810842382258011
+      },
+      {
+        "element": 106,
+        "name": "Thiago",
+        "position": "FWD",
+        "team": "BRE",
+        "price_millions": 7.8,
+        "expected_points": 4.878409297331262,
+        "points_per_million": 0.6254370894014439,
+        "appearance_probability": 0.9672787912387444
+      },
+      {
+        "element": 295,
+        "name": "McBurnie",
+        "position": "FWD",
+        "team": "HUL",
+        "price_millions": 5.5,
+        "expected_points": 4.815548297061331,
+        "points_per_million": 0.8755542358293329,
+        "appearance_probability": 0.8291060089915533
+      }
+    ]
+  },
+  "value_picks": [
+    {
+      "element": 504,
+      "name": "Vuskovic",
+      "position": "DEF",
+      "team": "BHA",
+      "price_millions": 5.2,
+      "expected_points": 4.725037434499049,
+      "points_per_million": 0.9086610450959709,
+      "appearance_probability": 0.9207360783511139
+    },
+    {
+      "element": 31,
+      "name": "Konsa",
+      "position": "DEF",
+      "team": "ARS",
+      "price_millions": 4.8,
+      "expected_points": 4.237016430777915,
+      "points_per_million": 0.8827117564120657,
+      "appearance_probability": 0.9677710331265398
+    },
+    {
+      "element": 591,
+      "name": "Enciso",
+      "position": "MID",
+      "team": "IPS",
+      "price_millions": 5.5,
+      "expected_points": 4.820808199811718,
+      "points_per_million": 0.8765105817839487,
+      "appearance_probability": 0.9271680278145866
+    },
+    {
+      "element": 166,
+      "name": "N.Jackson",
+      "position": "FWD",
+      "team": "AVL",
+      "price_millions": 7.0,
+      "expected_points": 6.12941430721539,
+      "points_per_million": 0.8756306153164842,
+      "appearance_probability": 0.9247494558948656
+    },
+    {
+      "element": 295,
+      "name": "McBurnie",
+      "position": "FWD",
+      "team": "HUL",
+      "price_millions": 5.5,
+      "expected_points": 4.815548297061331,
+      "points_per_million": 0.8755542358293329,
+      "appearance_probability": 0.8291060089915533
+    },
+    {
+      "element": 167,
+      "name": "Delap",
+      "position": "FWD",
+      "team": "NFO",
+      "price_millions": 5.4,
+      "expected_points": 4.5782836621060286,
+      "points_per_million": 0.8478303077974126,
+      "appearance_probability": 0.9446211414232185
+    },
+    {
+      "element": 112,
+      "name": "Van Hecke",
+      "position": "DEF",
+      "team": "TOT",
+      "price_millions": 5.0,
+      "expected_points": 4.216317912958142,
+      "points_per_million": 0.8432635825916284,
+      "appearance_probability": 0.979454699883648
+    },
+    {
+      "element": 183,
+      "name": "Rudoni",
+      "position": "MID",
+      "team": "COV",
+      "price_millions": 4.9,
+      "expected_points": 4.063736019442591,
+      "points_per_million": 0.8293338815188961,
+      "appearance_probability": 0.832770616262611
+    },
+    {
+      "element": 249,
+      "name": "Barry",
+      "position": "FWD",
+      "team": "EVE",
+      "price_millions": 5.6,
+      "expected_points": 4.628581550292537,
+      "points_per_million": 0.826532419695096,
+      "appearance_probability": 0.8802902395319615
+    },
+    {
+      "element": 305,
+      "name": "Davis",
+      "position": "DEF",
+      "team": "IPS",
+      "price_millions": 4.0,
+      "expected_points": 3.289109136122024,
+      "points_per_million": 0.822277284030506,
+      "appearance_probability": 0.7963919932682545
+    }
+  ],
+  "method": "One-gameweek squad from scratch; no owned squad, transfers, hits, or chips. Rankings use expected points, not realized outcomes. Value is points per \u00a3m, not a separate prediction. Availability is already included in forecasts.",
+  "review_method": "Score the published starting XI with double captain points and no autosubs or vice-captain fallback. This fixed-XI benchmark is not an official FPL entry score. Bench outcomes and minutes are reported separately.",
+  "provenance": {
+    "refresh_started_at_utc": "2026-11-04T23:39:44.254137+00:00",
+    "finalized_gameweeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "bootstrap_sha256": "129b1294ff7cb335b0cac9dd2337b34c11ba9b4e315bf8bf5206266d267a4883",
+    "source_sha256": {
+      "weekly_recommendations.py": "cfd9a6171c4fd0798ec5b7071c32ce9aa7933e32e09a0fc44eb42b3439cf4b28",
+      "run_fpl_pipeline.py": "0c5083061ab9610d3bdb20a852a79e461627ba55d819de9c9b67eeb675ec563c",
+      "train_gw1_prior.py": "1136885d2439ca64d0261fd46410a67622d280674e2620abd7eb763c19a602c4",
+      "train_inseason_model.py": "6413236b339906952862dcce89288fe3c5fdeb6e17cd7982ca9d5e33651ba025",
+      "blend_forecasts.py": "a112499d180bf1807462378c423ce0f86ee2d295b3883112aad702321d33237c",
+      "optimize_squad.py": "8d9da47585968e5b6efb075cc70a58e6f82304e227f620f39b2ce895afdd5beb"
+    }
+  }
+}
